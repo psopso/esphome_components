@@ -1,6 +1,6 @@
-# Rocka84's ESPHome Components
+# ElVit's ESPHome Components
 
 ## Available Components
 
-* [Jiecang Desk Controller](components/jiecang_desk_controller/)
+* [Maidsite Desk Controller](components/maidsite_desk_controller/)
 

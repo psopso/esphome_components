@@ -1,9 +1,9 @@
 esphome:
-  name: jiecang-desk-controller
-  friendly_name: Jiecang Desk Controller
+  name: maidsite-desk-controller
+  friendly_name: Maidsite Desk Controller
   on_boot:
     # This script is required to initialize the following sensors:
-    #    height_pct, height_min, height_max, position1 - position4
+    #    height_pct, height_min, height_max, position_m1 - position_m4
     # You can skip this if you don't use those.
     priority: 0 # when mostly everything else is done
     then:
@@ -16,69 +16,79 @@ esphome:
 external_components:
   - source:
       type: local
-      path: rocka84_esphome_components/components/
+      path: elvit_esphome_maidsite_desk/components/
       # type: git
-      # url: https://github.com/Rocka84/esphome_components/
-    components: [ jiecang_desk_controller ]
+      # url: https://github.com/ElVit/esphome_maidsite_desk/
+    components: [ maidsite_desk_controller ]
 
 uart:
-  id: uart_bus
-  tx_pin: TX
-  rx_pin: RX
-  baud_rate: 9600
+  - id: uart_bus
+    tx_pin: $pin_tx
+    rx_pin: $pin_rx
+    baud_rate: 9600
+    # debug:
+    #   direction: BOTH
+    #   after:
+    #     bytes: 9
+    #   sequence:
+    #     - lambda: UARTDebug::log_hex(direction, bytes, ',');
 
-logger:
-  baud_rate: 0 # disable logging over uart, required when using the RX/TX pins for the controller
-
-jiecang_desk_controller:
+maidsite_desk_controller:
   id: my_desk
+
   sensors:
-    height:
-      name: "Height"
+    height_abs:
+      name: "Height absolut"
+    height_pct:
+      name: "Height percent"
     height_min:
       name: "Height Min"
     height_max:
       name: "Height Max"
-    height_pct:
-      name: "Height Percent"
-    position1:
-      name: "Position 1"
-    position2:
-      name: "Position 2"
-    position3:
-      name: "Position 3"
-    position4:
-      name: "Position 4"
+    position_m1:
+      name: "Position M1"
+    position_m2:
+      name: "Position M2"
+    position_m3:
+      name: "Position M3"
+    position_m4:
+      name: "Position M4"
+
   buttons:
-    move_up:
-      name: "Move up"
-    move_down:
-      name: "Move down"
     stop:
       name: "Stop"
     step_up:
       name: "Step up"
     step_down:
       name: "Step down"
-    position1:
-      name: "Position 1"
-    position2:
-      name: "Position 2"
-    position3:
-      name: "Position 3"
-    position4:
-      name: "Position 4"
-    save_position:
-      name: "Save Position"
-    move_up:
-      name: "Move up"
-    move_down:
-      name: "Move down"
+    goto_max:
+      name: "Move to MAX"
+    goto_min:
+      name: "Move to MIN"
+    goto_m1:
+      name: "Move to M1"
+    goto_m2:
+      name: "Move to M2"
+    goto_m3:
+      name: "Move to M3"
+    goto_m4:
+      name: "Move to M4"
+    save_m1:
+      name: "Save M1"
+    save_m2:
+      name: "Save M2"
+    save_m3:
+      name: "Save M3"
+    save_m4:
+      name: "Save M4"
+
   numbers:
-    height:
-      name: "Height"
+    height_abs:
+      name: "Height absolut"
+      mode: SLIDER
     height_pct:
-      name: "Height Percent"
+      name: "Height percent"
+      mode: SLIDER
 
 ## lambda usage
 # button:
@@ -97,16 +107,15 @@ jiecang_desk_controller:
 #   - platform: template
 #     name: "Position 2"
 #     on_press:
-#       lambda: "id(my_desk).goto_position(2);"
+#       lambda: "id(my_desk).goto_mem_position(2);"
 #   - platform: template
 #     name: "Save Position 4"
 #     on_press:
-#       lambda: "id(my_desk).save_position(4);"
+#       lambda: "id(my_desk).save_mem_position(4);"
 #   - platform: template
 #     name: "Go to 100cm"
 #     on_press:
 #       lambda: "id(my_desk).goto_height(100);"
-
 
 # the usual stuff
 
@@ -126,3 +135,4 @@ api:
     key: !secret encryption_key
 ota:
 
+logger:
