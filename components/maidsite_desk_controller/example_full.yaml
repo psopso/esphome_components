@@ -18,7 +18,7 @@ external_components:
       type: local
       path: elvit_esphome_maidsite_desk/components/
       # type: git
-      # url: https://github.com/ElVit/esphome_maidsite_desk/
+      # url: https://github.com/ElVit/esphome_components/
     components: [ maidsite_desk_controller ]
 
 uart:
