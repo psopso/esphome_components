@@ -16,7 +16,7 @@ esphome:
 external_components:
   - source:
       type: local
-      path: elvit_esphome_maidsite_desk/components/
+      path: esphome_components/components/
       # type: git
       # url: https://github.com/ElVit/esphome_components/
     components: [ maidsite_desk_controller ]
