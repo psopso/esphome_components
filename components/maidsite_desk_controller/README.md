@@ -4,17 +4,12 @@
 
 ![](https://github.com/Rocka84/esphome_components/assets/2353088/b04d1fd7-d0ed-443d-87b7-87454757c0f0)
 
-Attention: I only have one [RJ12 model](https://community-assets.home-assistant.io/original/4X/f/5/f/f5fc22327830c83a9d3d856b56f9bfc04d5047e7.jpeg) to test this
-but it's likely that other Maidsite controllers are supported as their serial protocol should be compatible.
-
 ## Usage
 
 ### What you need
 
 * ESPHome compatible microcontroller
-* depending on your model of desk controller
-    * cable with RJ12 connector (phone cable, RJ11 may also work)
-    * cable with RJ45 connector (network cable)
+* cable with RJ12 connector (phone cable, RJ11 may also work)
 
 ### Wiring
 
@@ -31,42 +26,31 @@ pin | function
  5  | RX
  6  | NC (pulled up)
 
-#### RJ45
-
-**Untested** and only for reference!
-
-pin | function
-----|---------
- 1  | HS3 [^1]
- 2  | TX
- 3  | GND
- 4  | RX
- 5  | VCC
- 6  | HS2 [^1]
- 7  | HS1 [^1]
- 8  | HS0 [^1]
-
-[^1]: not used here
-
 #### microcontroller
 
-ESP | desk
-----|-----
-GND | GND
-5V  | VCC
-RX  | TX
-TX  | RX
+ESP    | desk
+-------|-----
+GND    | GND
+5V     | VCC
+GPIO3  | TX
+GPIO4  | RX
 
-![](https://github.com/Rocka84/esphome_components/assets/2353088/39e08774-a215-4e7e-8345-a2acafce28a2)
+![](https://community-assets.home-assistant.io/original/4X/c/e/7/ce7e6ffa58c8ca7ab54e1f4535908c1674b6e146.jpeg)
+
+Sometime the Desk Controller does not supply enough current, then simply disconnet the VCC pin and plug in a micro-usb/usb-c cable into your esp-board.  
 
 ## Usage
 
 ```yaml
+substitutions:
+  pin_tx: GPIO3
+  pin_rx: GPIO4
+
 esphome:
   ...
   on_boot:
     # This script is required to initialize the following sensors:
-    #    height_pct, height_min, height_max, position_m1 - position_m4
+    #    height_abs, height_pct, height_min, height_max, position_m1 - position_m4
     # You can skip this if you don't use those.
     priority: 0 # when mostly everything else is done
     then:
@@ -87,9 +71,6 @@ uart:
     tx_pin: $pin_tx
     rx_pin: $pin_rx
     baud_rate: 9600
-
-logger:
-  baud_rate: 0 # disable logging over uart, required when using the RX/TX pins for the controller
 
 maidsite_desk_controller:
   id: my_desk
@@ -118,12 +99,6 @@ maidsite_desk_controller:
       name: "Move to M3"
     goto_m4:
       name: "Move to M4"
-
-button:
-  - platform: template
-    name: "Step down"
-    on_press:
-      lambda: "id(my_desk).goto_height(84.0);"
 ```
 
 ### Examples
@@ -190,8 +165,13 @@ lambda method                         | description
 
 You can find a 3D-printable case in the [stl folder](stl/) or on [onshape](https://cad.onshape.com/documents/9619b6e4e11b26a3e9d82630/w/ca8259951d8b6bb3513992f7/e/2aa1144a31e5b4c252a13681?renderMode=0&uiState=665987de1c1f4a6c5d2d97a4).
 
+## Dev Notes
+
+[Jarvis reverse engineering notes](https://docs.google.com/spreadsheets/d/1GKZfDFljVX4eQBMawq0-Rc8t0x8V6gjQ5BgAYngPYTo/edit?pli=1&gid=1438530487#gid=1438530487)
+
 ## Sources
 
+Thanks to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
 Thanks to [Rocka84](https://github.com/Rocka84/esphome_components) for doing the main work, I've just fored :)  
 Thanks to [phord/Jarvis](https://github.com/phord/Jarvis) for reverse engineering the UART interface and most control messages!  
 Thanks to [OkhammahkO](https://github.com/OkhammahkO) for collecting the scattered information at [pimp-my-desk/desk-control](https://gitlab.com/pimp-my-desk/desk-control) and for his work in the home assistant community!
