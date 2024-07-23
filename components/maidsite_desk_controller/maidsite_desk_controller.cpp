@@ -175,11 +175,6 @@ namespace esphome
       }
     }
 
-    void MaidsiteDeskController::add_button(button::Button *btn, int action)
-    {
-      btn->add_on_press_callback([this, action]() { this->button_press_action(action); });
-    }
-
     // Write message:
     // format: 0xF1 0xF1 [command] [param_count] [[param] ...] [checksum] 0x7E
     // checksum: sum of [command], [param_count] and all [param]s
@@ -284,6 +279,11 @@ namespace esphome
     void MaidsiteDeskController::goto_min_position()
     {
       goto_height(limit_min);
+    }
+
+    void MaidsiteDeskController::add_button(button::Button *btn, int action)
+    {
+      btn->add_on_press_callback([this, action]() { this->button_press_action(action); });
     }
 
     void MaidsiteDeskController::button_press_action(int action)
