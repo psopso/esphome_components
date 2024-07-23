@@ -2,7 +2,7 @@
 
 [ESPHome](https://esphome.io/) component for controlling Maidsite desk controllers via their serial protocol.
 
-![](https://github.com/ElVit/esphome_components/assets/2353088/b04d1fd7-d0ed-443d-87b7-87454757c0f0)
+![](https://github.com/Rocka84/esphome_components/assets/2353088/b04d1fd7-d0ed-443d-87b7-87454757c0f0)
 
 Attention: I only have one [RJ12 model](https://community-assets.home-assistant.io/original/4X/f/5/f/f5fc22327830c83a9d3d856b56f9bfc04d5047e7.jpeg) to test this
 but it's likely that other Maidsite controllers are supported as their serial protocol should be compatible.
