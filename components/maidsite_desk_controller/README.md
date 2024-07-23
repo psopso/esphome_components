@@ -2,8 +2,6 @@
 
 [ESPHome](https://esphome.io/) component for controlling Maidsite desk controllers via their serial protocol.
 
-![](https://github.com/Rocka84/esphome_components/assets/2353088/b04d1fd7-d0ed-443d-87b7-87454757c0f0)
-
 ## Usage
 
 ### What you need
@@ -35,7 +33,7 @@ GND    | GND
 GPIO3  | TX
 GPIO4  | RX
 
-![](https://community-assets.home-assistant.io/original/4X/c/e/7/ce7e6ffa58c8ca7ab54e1f4535908c1674b6e146.jpeg)
+![IMG_1256](https://github.com/user-attachments/assets/229f52bb-5cdd-454c-b72b-e84979ee5976)
 
 Sometime the Desk Controller does not supply enough current, then simply disconnet the VCC pin and plug in a micro-usb/usb-c cable into your esp-board.  
 
@@ -161,10 +159,6 @@ lambda method                         | description
 `id(my_desk).save_mem_position(pos)`  | save current height to position `pos`
 `id(my_desk).goto_height(height)`     | move to specified height
 
-## Case
-
-You can find a 3D-printable case in the [stl folder](stl/) or on [onshape](https://cad.onshape.com/documents/9619b6e4e11b26a3e9d82630/w/ca8259951d8b6bb3513992f7/e/2aa1144a31e5b4c252a13681?renderMode=0&uiState=665987de1c1f4a6c5d2d97a4).
-
 ## Dev Notes
 
 [Jarvis reverse engineering notes](https://docs.google.com/spreadsheets/d/1GKZfDFljVX4eQBMawq0-Rc8t0x8V6gjQ5BgAYngPYTo/edit?pli=1&gid=1438530487#gid=1438530487)
@@ -172,7 +166,7 @@ You can find a 3D-printable case in the [stl folder](stl/) or on [onshape](https
 ## Sources
 
 Thanks to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
-Thanks to [Rocka84](https://github.com/Rocka84/esphome_components) for doing the main work, I've just fored :)  
+Thanks to [Rocka84](https://github.com/Rocka84/esphome_components) for doing the main work, I've just forked this repo and modified some parts.  
 Thanks to [phord/Jarvis](https://github.com/phord/Jarvis) for reverse engineering the UART interface and most control messages!  
 Thanks to [OkhammahkO](https://github.com/OkhammahkO) for collecting the scattered information at [pimp-my-desk/desk-control](https://gitlab.com/pimp-my-desk/desk-control) and for his work in the home assistant community!
 
