@@ -205,6 +205,15 @@ button:
           return out;
 ```
 
+To be able to use the regex command the file "common_includes.h" must be created in the directory "components". 
+The content of the "common_includes.h" must be:
+
+```
+#include <iostream>
+#include <regex>
+#include <string.h>
+```
+
 ## Sources
 
 Thanks to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
