@@ -163,6 +163,48 @@ lambda method                         | description
 
 [Jarvis reverse engineering notes](https://docs.google.com/spreadsheets/d/1GKZfDFljVX4eQBMawq0-Rc8t0x8V6gjQ5BgAYngPYTo/edit?pli=1&gid=1438530487#gid=1438530487)
 
+To see and send custom UART messages the following esphome code can be used:
+
+```
+esphome:
+  ...
+  includes: components/common_includes.h
+
+uart:
+  - id: uart_bus
+    tx_pin: $pin_tx
+    rx_pin: $pin_rx
+    baud_rate: 9600
+    debug:
+      direction: BOTH
+      after:
+        bytes: 9
+      sequence:
+        - lambda: UARTDebug::log_hex(direction, bytes, ',');
+
+text:
+  - platform: template
+    name: "UART message"
+    id: uart_msg
+    optimistic: true
+    min_length: 0
+    max_length: 100
+    mode: text
+    initial_value: "f1,f1,01,00,01,7e"
+
+button:
+  - platform: template
+    name: "Send UART message"
+    on_press:
+      - uart.write: !lambda |-
+          auto str = id(uart_msg).state;
+          str = std::regex_replace(str, std::regex("0x"), "");
+          str = std::regex_replace(str, std::regex(",| "), "");
+          std::vector<uint8_t> out;
+          auto ret = parse_hex(str.c_str(), out, str.length() / 2);
+          return out;
+```
+
 ## Sources
 
 Thanks to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
