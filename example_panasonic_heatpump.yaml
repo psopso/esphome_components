@@ -1,0 +1,431 @@
+substitutions:
+  mdns_name: panasonic-heatpump
+  device_name: Panasonic Heatpump
+
+  pin_rx_hp: GPIO4  # heatpump reads data (RX) on this pin
+  pin_tx_hp: GPIO3  # heatpump sends data (TX) on this pin
+  pin_tx_cz: GPIO1  # WiFi module sends data (TX) on this pin
+  pin_rx_cz: GPIO0  # WiFi module reads data (RX) on this pin
+
+  # CN-CNT Pinout (from top to bottom)
+  # 1 - +5V (250mA)
+  # 2 - 0-5V TX (from heatpump)
+  # 3 - 0-5V RX (to heatpump)
+  # 4 - +12V (250mA)
+  # 5 - GND
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: ESP32C3
+  framework:
+    type: arduino
+
+esphome:
+  name: $mdns_name
+  friendly_name: $device_name
+
+ota:
+  platform: esphome
+  password: !secret ota_password
+  id: ota_pass
+
+api:
+  encryption:
+    key: !secret ha_api_key
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "${device_name} Fallback"
+    password: !secret fallback_password
+
+web_server:
+  port: 80
+  auth:
+    username: !secret webserver_username
+    password: !secret webserver_password
+
+captive_portal:
+
+improv_serial:
+
+logger:
+
+uart:
+  - id: uart_heat
+    tx_pin: $pin_rx_hp
+    rx_pin: $pin_tx_hp
+    baud_rate: 9600
+    data_bits: 8
+    parity: EVEN
+    stop_bits: 1
+  - id: uart_wifi
+    tx_pin: $pin_rx_cz
+    rx_pin: $pin_tx_cz
+    baud_rate: 9600
+    data_bits: 8
+    parity: EVEN
+    stop_bits: 1
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/ElVit/esphome_components/
+    components: [ panasonic_heatpump ]
+
+panasonic_heatpump:
+  uart_hp: uart_heat
+  uart_wm: uart_wifi
+
+sensor:
+  - platform: panasonic_heatpump
+    top1:
+      name: "Pump Flow"
+      unit_of_measurement: l/min"
+    top5:
+      name: "Main Inlet Temp"
+      unit_of_measurement: °C"
+    top6:
+      name: "Main Outlet Temp"
+      unit_of_measurement: °C"
+    top7:
+      name: "Main Target Temp"
+      unit_of_measurement: °C"
+    top8:
+      name: "Compressor Freq"
+      unit_of_measurement: Hz"
+    top9:
+      name: "DHW Target Temp"
+      unit_of_measurement: °C"
+    top10:
+      name: "DHW Temp"
+      unit_of_measurement: °C"
+    top11:
+      name: "Operations Hours"
+      unit_of_measurement: h"
+    top12:
+      name: "Operations Counter"
+    top14:
+      name: "Outside Temp"
+      unit_of_measurement: °C"
+    top15:
+      name: "Heat Power Production"
+      unit_of_measurement: W"
+    top16:
+      name: "Heat Power Consumption"
+      unit_of_measurement: W"
+    top21:
+      name: "Outside Pipe Temp"
+      unit_of_measurement: °C"
+    top22:
+      name: "DHW Heat Delta"
+      unit_of_measurement: K"
+    top23:
+      name: "Heat Delta"
+      unit_of_measurement: K"
+    top24:
+      name: "Cool Delta"
+      unit_of_measurement: K"
+    top25:
+      name: "DHW Holiday Shift Temp"
+      unit_of_measurement: K"
+    top27:
+      name: "Z1 Heat Request Temp"
+      unit_of_measurement: °C"
+    top28:
+      name: "Z1 Cool Request Temp"
+      unit_of_measurement: °C"
+    top29:
+      name: "Z1 Heat Curve Target High Temp"
+      unit_of_measurement: °C"
+    top30:
+      name: "Z1 Heat Curve Target Low Temp"
+      unit_of_measurement: °C"
+    top31:
+      name: "Z1 Heat Curve Outside High Temp"
+      unit_of_measurement: °C"
+    top32:
+      name: "Z1 Heat Curve Outside Low Temp"
+      unit_of_measurement: °C"
+    top33:
+      name: "Room Thermostat Temp"
+      unit_of_measurement: °C"
+    top34:
+      name: "Z2 Heat Request Temp"
+      unit_of_measurement: °C"
+    top35:
+      name: "Z2 Cool Request Temp"
+      unit_of_measurement: °C"
+    top36:
+      name: "Z1 Water Temp"
+      unit_of_measurement: °C"
+    top37:
+      name: "Z2 Water Temp"
+      unit_of_measurement: °C"
+    top38:
+      name: "Cool Power Production"
+      unit_of_measurement: W"
+    top39:
+      name: "Cool Power Consumption"
+      unit_of_measurement: W"
+    top40:
+      name: "DHW Power Production"
+      unit_of_measurement: W"
+    top41:
+      name: "DHW Power Consumption"
+      unit_of_measurement: W"
+    top42:
+      name: "Z1 Water Target Temp"
+      unit_of_measurement: °C"
+    top43:
+      name: "Z2 Water Target Temp"
+      unit_of_measurement: °C"
+    top45:
+      name: "Room Holiday Shift Temp"
+      unit_of_measurement: K"
+    top46:
+      name: "Buffer Temp"
+      unit_of_measurement: °C"
+    top47:
+      name: "Solar Temp"
+      unit_of_measurement: °C"
+    top48:
+      name: "Pool Temp"
+      unit_of_measurement: °C"
+    top49:
+      name: "Main Hex Outlet Temp"
+      unit_of_measurement: °C"
+    top50:
+      name: "Discharge Temp"
+      unit_of_measurement: °C"
+    top51:
+      name: "Inside Pipe Temp"
+      unit_of_measurement: °C"
+    top52:
+      name: "Defrost Temp"
+      unit_of_measurement: °C"
+    top53:
+      name: "Eva Outlet Temp"
+      unit_of_measurement: °C"
+    top54:
+      name: "Bypass Outlet Temp"
+      unit_of_measurement: °C"
+    top55:
+      name: "Ipm Temp"
+      unit_of_measurement: °C"
+    top56:
+      name: "Z1 Temp"
+      unit_of_measurement: °C"
+    top57:
+      name: "Z2 Temp"
+      unit_of_measurement: °C"
+    top62:
+      name: "Fan1 Motor Speed"
+      unit_of_measurement: r/min"
+    top63:
+      name: "Fan2 Motor Speed"
+      unit_of_measurement: r/min"
+    top64:
+      name: "High Pressure"
+      unit_of_measurement: kgf/cm²"
+    top65:
+      name: "Pump Speed"
+      unit_of_measurement: r/min"
+    top66:
+      name: "Low Pressure"
+      unit_of_measurement: kgf/cm²"
+    top67:
+      name: "Compressor Current"
+      unit_of_measurement: A"
+    top70:
+      name: "Sterilization Temp"
+      unit_of_measurement: °C"
+    top71:
+      name: "Sterilization Max Time"
+      unit_of_measurement: min"
+    top72:
+      name: "Z1 Cool Curve Target High Temp"
+      unit_of_measurement: °C"
+    top73:
+      name: "Z1 Cool Curve Target Low Temp"
+      unit_of_measurement: °C"
+    top74:
+      name: "Z1 Cool Curve Outside High Temp"
+      unit_of_measurement: °C"
+    top75:
+      name: "Z1 Cool Curve Outside Low Temp"
+      unit_of_measurement: °C"
+    top77:
+      name: "Heating Off Outdoor Temp"
+      unit_of_measurement: °C"
+    top78:
+      name: "Heater On Outdoor Temp"
+      unit_of_measurement: °C"
+    top79:
+      name: "Heat To Cool Temp"
+      unit_of_measurement: °C"
+    top80:
+      name: "Cool To Heat Temp"
+      unit_of_measurement: °C"
+    top82:
+      name: "Z2 Heat Curve Target High Temp"
+      unit_of_measurement: °C"
+    top83:
+      name: "Z2 Heat Curve Target Low Temp"
+      unit_of_measurement: °C"
+    top84:
+      name: "Z2 Heat Curve Outside High Temp"
+      unit_of_measurement: °C"
+    top85:
+      name: "Z2 Heat Curve Outside Low Temp"
+      unit_of_measurement: °C"
+    top86:
+      name: "Z2 Cool Curve Target High Temp"
+      unit_of_measurement: °C"
+    top87:
+      name: "Z2 Cool Curve Target Low Temp"
+      unit_of_measurement: °C"
+    top88:
+      name: "Z2 Cool Curve Outside High Temp"
+      unit_of_measurement: °C"
+    top89:
+      name: "Z2 Cool Curve Outside Low Temp"
+      unit_of_measurement: °C"
+    top90:
+      name: "Room Heater Operations Hours"
+      unit_of_measurement: h"
+    top91:
+      name: "DHW Heater Operations Hours"
+      unit_of_measurement: h"
+    top93:
+      name: "Pump Duty"
+    top95:
+      name: "Max Pump Duty"
+    top96:
+      name: "Heater Delay Time"
+      unit_of_measurement: min"
+    top97:
+      name: "Heater Start Delta"
+      unit_of_measurement: K"
+    top98:
+      name: "Heater Stop Delta"
+      unit_of_measurement: K"
+    top102:
+      name: "Solar On Delta"
+      unit_of_measurement: K"
+    top103:
+      name: "Solar Off Delta"
+      unit_of_measurement: K"
+    top104:
+      name: "Solar Frost Protection"
+      unit_of_measurement: °C"
+    top105:
+      name: "Solar High Limit"
+      unit_of_measurement: °C"
+    top113:
+      name: "Buffer Tank Delta"
+      unit_of_measurement: K"
+    top115:
+      name: "Water Pressure"
+      unit_of_measurement: bar"
+    top116:
+      name: "Second Inlet Temp"
+      unit_of_measurement: °C"
+    top117:
+      name: "Economizer Outlet Temp"
+      unit_of_measurement: °C"
+    top118:
+      name: "Second Room Thermostat Temp"
+      unit_of_measurement: °C"
+    top119:
+      name: "Bivalent Heating Start Temperature"
+      unit_of_measurement: °C"
+    top120:
+      name: "Bivalent Heating Parallel Adv Starttemp"
+      unit_of_measurement: °C"
+    top121:
+      name: "Bivalent Heating Parallel Adv Stoptemp"
+      unit_of_measurement: °C"
+    top122:
+      name: "Bivalent Heating Parallel Adv Start Delay"
+      unit_of_measurement: min"
+    top123:
+      name: "Bivalent Heating Parallel Adv Stop Delay"
+      unit_of_measurement: min"
+    top125:
+      name: "2 Zone mixing valve 1 opening"
+    top126:
+      name: "2 Zone mixing valve 2 opening"
+
+binary_sensor:
+  - platform: panasonic_heatpump
+    top0:
+      name: "Heatpump State"
+    top2:
+      name: "Force DHW State"
+    top3:
+      name: "Quiet Mode Schedule"
+    top13:
+      name: "Main Schedule State"
+    top26:
+      name: "Defrosting State"
+    top60:
+      name: "Internal Heater State"
+    top61:
+      name: "External Heater State"
+    top68:
+      name: "Force Heater State"
+    top69:
+      name: "Sterilization State"
+    top99:
+      name: "Buffer Installed"
+    top100:
+      name: "DHW Installed"
+    top108:
+      name: "Alt External Sensor"
+    top109:
+      name: "Anti Freeze Mode"
+    top110:
+      name: "Optional PCB"
+
+text_sensor:
+  - platform: panasonic_heatpump
+    top4:
+      name: "Operating Mode State"
+    top17:
+      name: "Powerful Mode Time"
+    top18:
+      name: "Quiet Mode Level"
+    top19:
+      name: "Holiday Mode State"
+    top20:
+      name: "ThreeWay Valve State"
+    top44:
+      name: "Error"
+    top58:
+      name: "DHW Heater State"
+    top59:
+      name: "Room Heater State"
+    top76:
+      name: "Heating Mode"
+    top81:
+      name: "Cooling Mode"
+    top92:
+      name: "Heat Pump Model"
+    top94:
+      name: "Zones State"
+    top101:
+      name: "Solar Mode"
+    top106:
+      name: "Pump Flowrate Mode"
+    top107:
+      name: "Liquid Type"
+    top111:
+      name: "Z1 Sensor Settings"
+    top112:
+      name: "Z2 Sensor Settings"
+    top114:
+      name: "External Pad Heater"
+    top124:
+      name: "Bivalent Heating Setting"
