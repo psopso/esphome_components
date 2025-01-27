@@ -9,6 +9,16 @@ from esphome.const import (
   UNIT_KELVIN,
   UNIT_MINUTE,
   UNIT_WATT,
+  UNIT_EMPTY,
+  DEVICE_CLASS_TEMPERATURE,
+  DEVICE_CLASS_DURATION,
+  DEVICE_CLASS_FREQUENCY,
+  DEVICE_CLASS_POWER,
+  DEVICE_CLASS_PRESSURE,
+  DEVICE_CLASS_CURRENT,
+  STATE_CLASS_MEASUREMENT,
+  STATE_CLASS_TOTAL_INCREASING,
+  ICON_COUNTER,
 )
 from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
 
@@ -215,277 +225,456 @@ CONFIG_SCHEMA = cv.All(
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
       cv.Optional(CONF_SENS_TOP1): sensor.sensor_schema(
-        unit_of_measurement = UNIT_LITRE_PER_MINUTE
+        unit_of_measurement = UNIT_LITRE_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP5): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP6): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP7): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP8): sensor.sensor_schema(
-        unit_of_measurement = UNIT_HERTZ
+        device_class=DEVICE_CLASS_FREQUENCY,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_HERTZ,
       ),
       cv.Optional(CONF_SENS_TOP9): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP10): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP11): sensor.sensor_schema(
-        unit_of_measurement = UNIT_HOUR
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
+        unit_of_measurement = UNIT_HOUR,
       ),
-      cv.Optional(CONF_SENS_TOP12): sensor.sensor_schema(),
+      cv.Optional(CONF_SENS_TOP12): sensor.sensor_schema(
+        unit_of_measurement=UNIT_EMPTY,
+        icon=ICON_COUNTER,
+      ),
       cv.Optional(CONF_SENS_TOP14): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP15): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP16): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP21): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP22): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP23): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP24): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP25): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP27): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP28): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP29): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP30): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP31): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP32): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP33): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP34): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP35): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP36): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP37): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP38): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP39): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP40): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP41): sensor.sensor_schema(
-        unit_of_measurement = UNIT_WATT
+        device_class=DEVICE_CLASS_POWER,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_SENS_TOP42): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP43): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP45): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP46): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP47): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP48): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP49): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP50): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP51): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP52): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP53): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP54): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP55): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP56): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP57): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP62): sensor.sensor_schema(
-        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE
+        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP63): sensor.sensor_schema(
-        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE
+        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP64): sensor.sensor_schema(
-        unit_of_measurement = UNIT_PRESSURE_KGFCM2
+        device_class=DEVICE_CLASS_PRESSURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_PRESSURE_KGFCM2,
       ),
       cv.Optional(CONF_SENS_TOP65): sensor.sensor_schema(
-        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE
+        unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP66): sensor.sensor_schema(
-        unit_of_measurement = UNIT_PRESSURE_KGFCM2
+        device_class=DEVICE_CLASS_PRESSURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_PRESSURE_KGFCM2,
       ),
       cv.Optional(CONF_SENS_TOP67): sensor.sensor_schema(
-        unit_of_measurement = UNIT_AMPERE
+        device_class=DEVICE_CLASS_CURRENT,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_AMPERE,
       ),
       cv.Optional(CONF_SENS_TOP70): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP71): sensor.sensor_schema(
-        unit_of_measurement = UNIT_MINUTE
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP72): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP73): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP74): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP75): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP77): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP78): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP79): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP80): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP82): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP83): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP84): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP85): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP86): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP87): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP88): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP89): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP90): sensor.sensor_schema(
-        unit_of_measurement = UNIT_HOUR
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
+        unit_of_measurement = UNIT_HOUR,
       ),
       cv.Optional(CONF_SENS_TOP91): sensor.sensor_schema(
-        unit_of_measurement = UNIT_HOUR
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
+        unit_of_measurement = UNIT_HOUR,
       ),
       cv.Optional(CONF_SENS_TOP93): sensor.sensor_schema(),
       cv.Optional(CONF_SENS_TOP95): sensor.sensor_schema(),
       cv.Optional(CONF_SENS_TOP96): sensor.sensor_schema(
-        unit_of_measurement = UNIT_MINUTE
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP97): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP98): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP102): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP103): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP104): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP105): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP113): sensor.sensor_schema(
-        unit_of_measurement = UNIT_KELVIN
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_SENS_TOP115): sensor.sensor_schema(
-        unit_of_measurement = UNIT_BAR
+        device_class=DEVICE_CLASS_PRESSURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_BAR,
       ),
       cv.Optional(CONF_SENS_TOP116): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP117): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP118): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP119): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP120): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP121): sensor.sensor_schema(
-        unit_of_measurement = UNIT_CELSIUS
+        device_class=DEVICE_CLASS_TEMPERATURE,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP122): sensor.sensor_schema(
-        unit_of_measurement = UNIT_MINUTE
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP123): sensor.sensor_schema(
-        unit_of_measurement = UNIT_MINUTE
+        device_class=DEVICE_CLASS_DURATION,
+        state_class=STATE_CLASS_MEASUREMENT,
+        unit_of_measurement = UNIT_MINUTE,
       ),
-      cv.Optional(CONF_SENS_TOP125): sensor.sensor_schema(),
-      cv.Optional(CONF_SENS_TOP126): sensor.sensor_schema(),
+      cv.Optional(CONF_SENS_TOP125): sensor.sensor_schema(
+        unit_of_measurement=UNIT_EMPTY,
+        icon=ICON_COUNTER,
+      ),
+      cv.Optional(CONF_SENS_TOP126): sensor.sensor_schema(
+        unit_of_measurement=UNIT_EMPTY,
+        icon=ICON_COUNTER,
+      ),
     }
   ).extend(cv.COMPONENT_SCHEMA)
 )
