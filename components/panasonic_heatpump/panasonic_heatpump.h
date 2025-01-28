@@ -151,7 +151,7 @@ namespace esphome
       SUB_TEXT_SENSOR(top59);
       SUB_TEXT_SENSOR(top76);
       SUB_TEXT_SENSOR(top81);
-      // SUB_TEXT_SENSOR(top92);
+      SUB_TEXT_SENSOR(top92);
       SUB_TEXT_SENSOR(top94);
       SUB_TEXT_SENSOR(top101);
       SUB_TEXT_SENSOR(top106);

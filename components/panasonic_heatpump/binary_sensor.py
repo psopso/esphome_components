@@ -2,7 +2,7 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
 from esphome.const import (
-  DEVICE_CLASS_HEAT,
+  DEVICE_CLASS_RUNNING,
 )
 from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
 
@@ -43,20 +43,44 @@ CONFIG_SCHEMA = cv.All(
     {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-      cv.Optional(CONF_BIN_SENS_TOP0): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP2): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP3): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP13): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP26): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP60): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP61): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP68): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP69): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP99): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP100): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP108): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP109): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_BIN_SENS_TOP110): binary_sensor.binary_sensor_schema(),
+      cv.Optional(CONF_BIN_SENS_TOP0): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP2): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP3): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP13): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP26): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP60): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP61): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP68): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP69): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP99): binary_sensor.binary_sensor_schema(
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP100): binary_sensor.binary_sensor_schema(
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP108): binary_sensor.binary_sensor_schema(
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP109): binary_sensor.binary_sensor_schema(
+        device_class = DEVICE_CLASS_RUNNING,
+      ),
+      cv.Optional(CONF_BIN_SENS_TOP110): binary_sensor.binary_sensor_schema(
+      ),
     }
   ).extend(cv.COMPONENT_SCHEMA)
 )

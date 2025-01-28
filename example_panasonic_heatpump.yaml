@@ -322,8 +322,8 @@ text_sensor:
       name: "Heating Mode"
     top81:
       name: "Cooling Mode"
-    #top92:
-      #name: "Heat Pump Model"
+    top92:
+      name: "Heat Pump Model"
     top94:
       name: "Zones State"
     top101:

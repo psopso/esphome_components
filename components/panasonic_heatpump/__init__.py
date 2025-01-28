@@ -18,7 +18,7 @@ CONFIG_SCHEMA = (
   cv.Schema(
     {
       cv.GenerateID(): cv.declare_id(PanasonicHeatpumpComponent),
-      
+
       cv.Required(CONF_UART_HP): cv.use_id(uart.UARTComponent),
       cv.Required(CONF_UART_WM): cv.use_id(uart.UARTComponent),
     }

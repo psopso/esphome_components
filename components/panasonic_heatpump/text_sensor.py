@@ -6,6 +6,22 @@ from esphome.const import (
 )
 from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
 
+ICON_OPERATING_MODE = "mdi:thermostat"
+ICON_POWERFUL_MODE = "mdi:arm-flex"
+ICON_QUIET_MODE = "mdi:sleep"
+ICON_HOLIDAY_MODE = "mdi:palm-tree"
+ICON_ERROR = "mdi:close-circle"
+ICON_BLOCKED = "mdi:cancel"
+ICON_HEATING_MODE = "mdi:fire"
+ICON_COOLING_MODE = "mdi:snowflake"
+ICON_ZONE = "mdi:texture-box"
+ICON_MODEL = "mdi:heat-pump"
+ICON_SOLAR_MODE = "mdi:solar-power-variant"
+ICON_LIQUID = "mdi:water"
+ICON_VALVE = "mdi:pipe-valve"
+ICON_PUMP = "mdi:pump"
+ICON_EXTERNAL_PAD_HEATER = "mdi:radiator"
+
 CONF_TEXT_SENS_TOP4 = "top4"
 CONF_TEXT_SENS_TOP17 = "top17"
 CONF_TEXT_SENS_TOP18 = "top18"
@@ -53,24 +69,56 @@ CONFIG_SCHEMA = cv.All(
     {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-      cv.Optional(CONF_TEXT_SENS_TOP4): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP17): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP18): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP19): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP20): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP44): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP58): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP59): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP76): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP81): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP92): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP94): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP101): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP106): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP107): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TEXT_SENS_TOP4): text_sensor.text_sensor_schema(
+        icon=ICON_OPERATING_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP17): text_sensor.text_sensor_schema(
+        icon=ICON_POWERFUL_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP18): text_sensor.text_sensor_schema(
+        icon=ICON_QUIET_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP19): text_sensor.text_sensor_schema(
+        icon=ICON_HOLIDAY_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP20): text_sensor.text_sensor_schema(
+        icon=ICON_VALVE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP44): text_sensor.text_sensor_schema(
+        icon=ICON_ERROR,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP58): text_sensor.text_sensor_schema(
+        icon=ICON_BLOCKED,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP59): text_sensor.text_sensor_schema(
+        icon=ICON_BLOCKED,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP76): text_sensor.text_sensor_schema(
+        icon=ICON_HEATING_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP81): text_sensor.text_sensor_schema(
+        icon=ICON_COOLING_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP92): text_sensor.text_sensor_schema(
+        icon=ICON_MODEL,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP94): text_sensor.text_sensor_schema(
+        icon=ICON_ZONE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP101): text_sensor.text_sensor_schema(
+        icon=ICON_SOLAR_MODE,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP106): text_sensor.text_sensor_schema(
+        icon=ICON_PUMP,
+      ),
+      cv.Optional(CONF_TEXT_SENS_TOP107): text_sensor.text_sensor_schema(
+        icon=ICON_LIQUID,
+      ),
       cv.Optional(CONF_TEXT_SENS_TOP111): text_sensor.text_sensor_schema(),
       cv.Optional(CONF_TEXT_SENS_TOP112): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP114): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TEXT_SENS_TOP114): text_sensor.text_sensor_schema(
+        icon=ICON_EXTERNAL_PAD_HEATER,
+      ),
       cv.Optional(CONF_TEXT_SENS_TOP124): text_sensor.text_sensor_schema(),
     }
   ).extend(cv.COMPONENT_SCHEMA)

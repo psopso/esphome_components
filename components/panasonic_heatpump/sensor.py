@@ -16,16 +16,19 @@ from esphome.const import (
   DEVICE_CLASS_POWER,
   DEVICE_CLASS_PRESSURE,
   DEVICE_CLASS_CURRENT,
+  DEVICE_CLASS_VOLUME_FLOW_RATE,
   STATE_CLASS_MEASUREMENT,
   STATE_CLASS_TOTAL_INCREASING,
   ICON_COUNTER,
 )
 from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
 
-UNIT_LITRE_PER_MINUTE = "l/min"
+UNIT_LITRE_PER_MINUTE = "L/min"
 UNIT_ROTATIONS_PER_MINUTE = "r/min"
 UNIT_PRESSURE_KGFCM2 = "kgf/cm²"
 UNIT_BAR = "bar"
+
+ICON_FAN_SPEED = "mdi:fan"
 
 CONF_SENS_TOP1 = "top1"
 CONF_SENS_TOP5 = "top5"
@@ -225,6 +228,8 @@ CONFIG_SCHEMA = cv.All(
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
       cv.Optional(CONF_SENS_TOP1): sensor.sensor_schema(
+        device_class=DEVICE_CLASS_VOLUME_FLOW_RATE,
+        state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_LITRE_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP5): sensor.sensor_schema(
@@ -457,9 +462,11 @@ CONFIG_SCHEMA = cv.All(
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_SENS_TOP62): sensor.sensor_schema(
+        icon=ICON_FAN_SPEED,
         unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP63): sensor.sensor_schema(
+        icon=ICON_FAN_SPEED,
         unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_SENS_TOP64): sensor.sensor_schema(
