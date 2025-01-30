@@ -686,12 +686,12 @@ CONFIG_SCHEMA = cv.All(
   ).extend(cv.COMPONENT_SCHEMA)
 )
 
-async def setup_conf(config, key, hub):
-    if sensor_config := config.get(key):
-        sens = await sensor.new_sensor(sensor_config)
-        cg.add(getattr(hub, f"set_{key}_sensor")(sens))
-
 async def to_code(config):
-    hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
-    for key in TYPES:
-        await setup_conf(config, key, hub)
+  hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
+  for key in TYPES:
+    await setup_conf(config, key, hub)
+
+async def setup_conf(parent_config, key, hub):
+  if child_config := parent_config.get(key):
+    var = await sensor.new_sensor(child_config)
+    cg.add(getattr(hub, f"set_{key}_sensor")(var))
