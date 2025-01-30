@@ -97,7 +97,7 @@ button:
 
 #### sensors entities
 
-sensor       | description
+entity       | description
 -------------|----------------------------
 height_abs   | current height of the desk
 height_pct   | height in percent
@@ -110,16 +110,14 @@ position_m4  | 4th stored height
 
 #### number entities
 
-Hold current values read from the desk and set values to desk when changed.
-
-sensor      | description
+entity      | description
 ------------|----------------------------
 height_abs  | current height of the desk
 height_pct  | height in percent
 
 #### buttons entities
 
-button     | description
+entity     | description
 -----------|---------------------------
 step_up    | move up desk by one step (~14mm)
 step_down  | move down desk by one step (~14mm)
@@ -137,7 +135,7 @@ save_m4    | save current height to 4th position
 
 #### lambda methods
 
-lambda method                         | description
+method                                | description
 --------------------------------------|---------------------------
 `id(my_desk).step_up()`               | step_up desk by one step (~14mm)
 `id(my_desk).step_down()`             | step_down desk by one step (~14mm)
