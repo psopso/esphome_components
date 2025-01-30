@@ -1,21 +1,12 @@
 esphome:
-  name: maidsite-desk-controller # change this!
-  friendly_name: Maidsite Desk Controller # change this!
-  on_boot:
-    # don't touch if you don't know what you're doing!
-    priority: 0 # when mostly everything else is done
-    then:
-      - lambda: "id(my_desk).request_physical_limits();"
-      - delay: 0.1s # give controller a chance to handle the response before sending the next command
-      - lambda: "id(my_desk).request_limits();"
-      - delay: 0.1s
-      - lambda: "id(my_desk).request_settings();"
+  name: maidsite-desk
+  friendly_name: Maidsite Desk
 
 external_components:
   - source:
       type: git
       url: https://github.com/ElVit/esphome_components/
-    components: [ maidsite_desk_controller ]
+    components: [ maidsite_desk ]
 
 uart:
   - id: uart_bus
@@ -23,15 +14,16 @@ uart:
     rx_pin: $pin_rx
     baud_rate: 9600
 
-# see full example for more options: https://github.com/Rocka84/esphome_components/blob/master/components/maidsite_desk_controller/example_full.yaml
 maidsite_desk_controller:
   id: my_desk
 
-  sensors:
+sensor:
+  - platform: maidsite_desk
     height_abs:
       name: "Height"
 
-  buttons:
+button:
+  - platform: maidsite_desk
     stop:
       name: "Stop"
     step_up:
@@ -51,7 +43,8 @@ maidsite_desk_controller:
     goto_m4:
       name: "Move to M4"
 
-  numbers:
+number:
+  - platform: maidsite_desk
     height_abs:
       name: "Height"
       mode: SLIDER
