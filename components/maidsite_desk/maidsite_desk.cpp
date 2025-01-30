@@ -119,20 +119,15 @@ namespace esphome
     void MaidsiteDeskComponent::log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator)
     {
       std::string logStr;
-      logStr = "[" + std::to_string(bytes.size()) + "]";
-      ESP_LOGD(TAG, "%s %s", prefix.c_str(), logStr.c_str());
-      delay(10);
-
-      logStr = "";
       char buffer[5];
+      size_t chunkSize = 90;
+
       for (size_t i = 0; i < bytes.size(); i++)
       {
         if (i > 0) logStr += separator;
         sprintf(buffer, "%02X", bytes[i]);
         logStr += buffer;
       }
-
-      size_t chunkSize = 90;
       for (size_t i = 0; i < logStr.length(); i += chunkSize)
       {
         ESP_LOGD(TAG, "%s %s", prefix.c_str(), logStr.substr(i, chunkSize).c_str());
@@ -147,7 +142,7 @@ namespace esphome
       switch (message[2])
       {
       case 0x01:
-        ESP_LOGD(TAG, "set height 0x%0X%0X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set height to 0x%0X%0X", message[4], message[5]);
         delay(10);
 
         float new_height;
@@ -167,7 +162,7 @@ namespace esphome
         break;
 
       case 0x20:
-        ESP_LOGD(TAG, "set limits 0x%0X  max %i min %i", message[4], (message[5] & 1), (message[4] >> 4));
+        ESP_LOGD(TAG, "Set limits to 0x%0X max=%i min=%i", message[4], (message[5] & 1), (message[4] >> 4));
         delay(10);
 
         if ((message[4] & 1) == 0)
@@ -189,7 +184,7 @@ namespace esphome
         break;
 
       case 0x07:
-        ESP_LOGD(TAG, "set physical limits 0x%02X%02X 0x%02X%02X", message[4], message[5], message[6], message[7]);
+        ESP_LOGD(TAG, "Set physical limits to min=0x%02X%02X max=0x%02X%02X", message[4], message[5], message[6], message[7]);
         delay(10);
 
         this->physical_max_ = this->byte2float(message[4], message[5]);
@@ -197,7 +192,7 @@ namespace esphome
         break;
 
       case 0x21:
-        ESP_LOGD(TAG, "set height max 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set max. height to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         this->limit_max_ = this->byte2float(message[4], message[5]);
@@ -208,7 +203,7 @@ namespace esphome
         break;
 
       case 0x22:
-        ESP_LOGD(TAG, "set height min 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set min. height to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         this->limit_min_ = this->byte2float(message[4], message[5]);
@@ -219,7 +214,7 @@ namespace esphome
         break;
 
       case 0x25:
-        ESP_LOGD(TAG, "set position m1 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set position m1 to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         if (this->position_m1_sensor_ != nullptr)
@@ -227,7 +222,7 @@ namespace esphome
         break;
 
       case 0x26:
-        ESP_LOGD(TAG, "set position m2 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set position m2 to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         if (this->position_m2_sensor_ != nullptr)
@@ -235,7 +230,7 @@ namespace esphome
         break;
 
       case 0x27:
-        ESP_LOGD(TAG, "set position m3 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set position m3 to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         if (this->position_m3_sensor_ != nullptr)
@@ -243,7 +238,7 @@ namespace esphome
         break;
 
       case 0x28:
-        ESP_LOGD(TAG, "set position m4 0x%02X%02X", message[4], message[5]);
+        ESP_LOGD(TAG, "Set position m4 to 0x%02X%02X", message[4], message[5]);
         delay(10);
 
         if (this->position_m4_sensor_ != nullptr)
@@ -281,6 +276,8 @@ namespace esphome
 
     void MaidsiteDeskComponent::send_2byte_command(unsigned char cmd, unsigned char high_byte, unsigned char low_byte)
     {
+      // ToDo: make one function of send_simple_command and send_2byte_command
+
       unsigned char checksum = cmd + 2 + high_byte + low_byte;
       this->request_message_.clear();
       this->request_message_.insert(this->request_message_.end(), { 0xF1, 0xF1, cmd, 0x02, high_byte, low_byte, checksum, 0x7E });
@@ -383,9 +380,6 @@ namespace esphome
 
     void MaidsiteDeskComponent::button_press_action(button::Button* object)
     {
-      ESP_LOGD(TAG, "button %s pressed", object->get_name());
-      delay(10);
-
       if (object == step_up_button_)
         this->step_up();
       else if (object == step_down_button_)
@@ -428,9 +422,6 @@ namespace esphome
 
     void MaidsiteDeskComponent::number_control(number::Number* object, float value)
     {
-      ESP_LOGD(TAG, "number %s controlled", object->get_name());
-      delay(10);
-
       if (object == height_abs_number_)
         this->goto_height(value);
       else if (object == height_pct_number_)
