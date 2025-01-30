@@ -1,5 +1,4 @@
 #include "panasonic_heatpump.h"
-#include "esphome/core/log.h"
 
 
 namespace esphome
@@ -14,6 +13,139 @@ namespace esphome
     void PanasonicHeatpumpComponent::dump_config()
     {
       ESP_LOGCONFIG(TAG, "Panasonic Heatpump");
+#ifdef USE_SENSOR
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top1_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top5_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top6_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top7_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top8_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top9_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top10_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top11_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top12_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top14_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top15_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top16_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top21_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top22_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top23_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top24_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top25_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top27_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top28_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top29_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top30_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top31_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top32_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top33_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top34_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top35_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top36_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top37_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top38_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top39_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top40_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top41_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top42_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top43_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top45_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top46_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top47_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top48_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top49_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top50_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top51_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top52_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top53_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top54_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top55_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top56_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top57_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top62_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top63_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top64_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top65_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top66_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top67_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top70_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top71_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top72_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top73_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top74_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top75_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top77_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top78_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top79_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top80_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top82_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top83_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top84_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top85_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top86_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top87_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top88_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top89_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top90_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top91_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top93_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top95_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top96_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top97_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top98_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top102_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top103_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top104_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top105_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top113_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top115_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top116_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top117_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top118_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top119_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top120_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top121_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top122_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top123_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top125_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top126_sensor_);
+#endif
+#ifdef USE_BINARY_SENSOR
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top0_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top2_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top3_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top13_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top26_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top60_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top61_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top68_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top69_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top99_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top100_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top108_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top109_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top110_binary_sensor_);
+#endif
+#ifdef USE_TEXT_SENSOR
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top4_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top17_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top18_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top19_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top20_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top44_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top58_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top59_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top76_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top81_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top92_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top94_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top101_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top106_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top107_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top111_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top112_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top114_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top124_text_sensor_);
+#endif
     }
 
     void PanasonicHeatpumpComponent::loop()
@@ -26,15 +158,16 @@ namespace esphome
         this->uart_hp_->read_byte(&byte_hp);
         this->uart_wm_->write_byte(byte_hp);
 
+        // Message shall start with 0x71, if not skip this byte
         if (!this->response_receiving_)
         {
-          // Message shall start with 0x71, if not skip this byte
           if (byte_hp != 0x71)
             continue;
           this->response_receiving_ = true;
         }
         // Add current byte to message buffer
         this->response_data_.push_back(byte_hp);
+
         // 2. bytes contains the payload size
         if (this->response_data_.size() == 2)
           this->response_payload_length_ = byte_hp;
@@ -49,11 +182,12 @@ namespace esphome
           this->response_receiving_ = false;
           continue;
         }
+
         // Decode message if message is complete
         if (this->response_data_.size() > 2 && this->response_data_.size() == this->response_payload_length_ + 3)
         {
           this->log_uart_hex("<<<", this->response_data_, ',');
-          this->decode_response_(this->response_data_);
+          this->decode_response(this->response_data_);
           this->response_data_.clear();
           this->response_receiving_ = false;
         }
@@ -64,15 +198,16 @@ namespace esphome
         this->uart_wm_->read_byte(&byte_wm);
         this->uart_hp_->write_byte(byte_wm);
 
+        // Message shall start with 0x71, if not skip this byte
         if (!this->request_receiving_)
         {
-          // Message shall start with 0x71, if not skip this byte
           if (byte_wm != 0x71)
             continue;
           this->request_receiving_ = true;
         }
         // Add current byte to message buffer
         this->request_data_.push_back(byte_wm);
+
         // 2. bytes contains the payload size
         if (this->request_data_.size() == 2)
           this->request_payload_length_ = byte_wm;
@@ -87,6 +222,7 @@ namespace esphome
           this->request_receiving_ = false;
           continue;
         }
+
         // Decode message if message is complete
         if (this->request_data_.size() > 2 && this->request_data_.size() == this->request_payload_length_ + 3)
         {
@@ -97,7 +233,7 @@ namespace esphome
       }
     }
 
-    void PanasonicHeatpumpComponent::decode_response_(std::vector<uint8_t> bytes)
+    void PanasonicHeatpumpComponent::decode_response(std::vector<uint8_t> bytes)
     {
       // Read response message:
       // format:          0x71 [payload_length] 0x01 0x10 [[TOP0 - TOP114] ...] 0x00 [checksum]
@@ -220,7 +356,6 @@ namespace esphome
       if (this->top125_sensor_) this->top125_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[177]));
       if (this->top126_sensor_) this->top126_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[178]));
 #endif
-
 #ifdef USE_BINARY_SENSOR
       if (this->top0_binary_sensor_) this->top0_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[4])));
       if (this->top2_binary_sensor_) this->top2_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[4])));
@@ -237,7 +372,6 @@ namespace esphome
       if (this->top109_binary_sensor_) this->top109_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[20])));
       if (this->top110_binary_sensor_) this->top110_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[20])));
 #endif
-
 #ifdef USE_TEXT_SENSOR
       if (this->top4_text_sensor_) this->top4_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
       if (this->top17_text_sensor_) this->top17_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Powerfulmode, PanasonicDecode::getRight3bits(bytes[7])));
@@ -261,7 +395,7 @@ namespace esphome
 #endif
     }
 
-    void PanasonicHeatpumpComponent::send_request_()
+    void PanasonicHeatpumpComponent::send_request()
     {
 
     }

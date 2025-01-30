@@ -2,6 +2,7 @@
 
 #include "esphome/core/component.h"
 #include "esphome/core/defines.h"
+#include "esphome/core/log.h"
 #include "esphome/components/uart/uart.h"
 #ifdef USE_SENSOR
 #include "esphome/components/sensor/sensor.h"
@@ -24,8 +25,6 @@ namespace esphome
     class PanasonicHeatpumpComponent : public Component
     {
     public:
-      PanasonicHeatpumpComponent() = default;
-
 #ifdef USE_SENSOR
       SUB_SENSOR(top1);
       SUB_SENSOR(top5);
@@ -122,7 +121,6 @@ namespace esphome
       SUB_SENSOR(top125);
       SUB_SENSOR(top126);
 #endif
-
 #ifdef USE_BINARY_SENSOR
       SUB_BINARY_SENSOR(top0);
       SUB_BINARY_SENSOR(top2);
@@ -139,7 +137,6 @@ namespace esphome
       SUB_BINARY_SENSOR(top109);
       SUB_BINARY_SENSOR(top110);
 #endif
-
 #ifdef USE_TEXT_SENSOR
       SUB_TEXT_SENSOR(top4);
       SUB_TEXT_SENSOR(top17);
@@ -162,9 +159,10 @@ namespace esphome
       SUB_TEXT_SENSOR(top124);
 #endif
 
+      PanasonicHeatpumpComponent() = default;
       float get_setup_priority() const override { return setup_priority::LATE; }
-      void loop() override;
       void dump_config() override;
+      void loop() override;
 
       void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
       void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
@@ -174,14 +172,14 @@ namespace esphome
       uart::UARTComponent *uart_wm_;
 
       std::vector<uint8_t> response_data_;
-      uint8_t response_payload_length_;
-      bool response_receiving_{false};
       std::vector<uint8_t> request_data_;
+      uint8_t response_payload_length_;
       uint8_t request_payload_length_;
+      bool response_receiving_{false};
       bool request_receiving_{false};
 
-      void decode_response_(std::vector<uint8_t> data);
-      void send_request_();
+      void decode_response(std::vector<uint8_t> data);
+      void send_request();
       void log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator);
     };
   }  // namespace panasonic_heatpump
