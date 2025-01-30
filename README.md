@@ -2,6 +2,6 @@
 
 ## Available Components
 
-* [Maidsite Desk Controller](components/maidsite_desk_controller/)
+* [Maidsite Desk](components/maidsite_desk/)
 
-* [Panasonic Heatpump](components/panasonich_heatpump/)
+* [Panasonic Heatpump](components/panasonic_heatpump/)
