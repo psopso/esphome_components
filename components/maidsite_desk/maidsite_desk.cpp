@@ -1,23 +1,5 @@
 #include "maidsite_desk.h"
 
-#define BUTTON_UNIT       "unit"
-#define BUTTON_STEP_UP    "step_up"
-#define BUTTON_STEP_DOWN  "step_down"
-#define BUTTON_STOP       "stop"
-#define BUTTON_GOTO_MAX   "goto_max"
-#define BUTTON_GOTO_MIN   "goto_min"
-#define BUTTON_GOTO_M1    "goto_m1"
-#define BUTTON_GOTO_M2    "goto_m2"
-#define BUTTON_GOTO_M3    "goto_m3"
-#define BUTTON_GOTO_M4    "goto_m4"
-#define BUTTON_SAVE_M1    "save_m1"
-#define BUTTON_SAVE_M2    "save_m2"
-#define BUTTON_SAVE_M3    "save_m3"
-#define BUTTON_SAVE_M4    "save_m4"
-
-#define NUMBER_HEIGHT_ABS "height_abs"
-#define NUMBER_HEIGHT_PCT "height_pct"
-
 
 namespace esphome
 {

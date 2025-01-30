@@ -64,10 +64,20 @@ namespace esphome
 
       void button_press_action(button::Button* object);
       void number_control(number::Number* object, float value);
+
       void request_physical_limits();
       void request_limits();
       void request_settings();
       void request_move_to();
+
+      void step_up();
+      void step_down();
+      void stop();
+      void goto_height(float height);
+      void goto_min_position();
+      void goto_max_position();
+      void goto_mem_position(int pos);
+      void save_mem_position(int pos);
 
     protected:
       void decode_response(std::vector<uint8_t> message);
@@ -75,15 +85,6 @@ namespace esphome
       void send_2byte_command(unsigned char cmd, unsigned char high_byte, unsigned char low_byte);
       float byte2float(int high, int low);
       void log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator);
-
-      void step_up();
-      void step_down();
-      void stop();
-      void goto_mem_position(int pos);
-      void save_mem_position(int pos);
-      void goto_height(float height);
-      void goto_max_position();
-      void goto_min_position();
 
     private:
       std::vector<uint8_t> response_message_;
