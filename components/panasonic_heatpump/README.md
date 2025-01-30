@@ -13,7 +13,7 @@
 ![wiring.jpeg](../../prototypes/panasonic_heatpump/wiring.jpeg)
 
 You may also connect the +5V pin of the heatpump to the +5V pin of the ESP board.  
-But for me the current provided by the heatpump was quite unstable so I powered my ESP board through an USB cable.  
+But for me the current (mA) provided by the heatpump was quite unstable so I powered my ESP board through an USB cable.  
 
 ### CN-CNT Pinout (from top to bottom)
 
