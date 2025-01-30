@@ -40,55 +40,44 @@ Sometime the Desk Controller does not supply enough current, then simply disconn
 ## Usage
 
 ```yaml
-substitutions:
-  pin_tx: GPIO3
-  pin_rx: GPIO4
-
-esphome:
-  ...
-  on_boot:
-    # This script is required to initialize the following sensors:
-    #    height_abs, height_pct, height_min, height_max, position_m1 - position_m4
-    # You can skip this if you don't use those.
-    priority: 0 # when mostly everything else is done
-    then:
-      - lambda: "id(my_desk).request_physical_limits();"
-      - delay: 0.1s
-      - lambda: "id(my_desk).request_limits();"
-      - delay: 0.1s
-      - lambda: "id(my_desk).request_settings();"
-
 external_components:
   - source:
       type: git
-      url: https://github.com/ElVit/esphome_maidsite_desk/
-    components: [ maidsite_desk_controller ]
+      url: https://github.com/ElVit/esphome_components/
+    components: [ maidsite_desk ]
 
 uart:
   - id: uart_bus
-    tx_pin: $pin_tx
-    rx_pin: $pin_rx
+    tx_pin: GPIO3
+    rx_pin: GPIO4
     baud_rate: 9600
 
-maidsite_desk_controller:
+maidsite_desk:
   id: my_desk
 
-  sensors:
+sensorsensor:
+  - platform: maidsite_desk
     height_abs:
       name: "Height"
 
-  numbers:
+number:
+  - platform: maidsite_desk
     height_abs:
       name: "Height"
       mode: SLIDER
 
-  buttons:
+button:
+  - platform: maidsite_desk
     stop:
       name: "Stop"
     step_up:
       name: "Step up"
     step_down:
       name: "Step down"
+    goto_max:
+      name: "Move to MAX"
+    goto_min:
+      name: "Move to MIN"
     goto_m1:
       name: "Move to M1"
     goto_m2:
@@ -172,8 +161,8 @@ esphome:
 
 uart:
   - id: uart_bus
-    tx_pin: $pin_tx
-    rx_pin: $pin_rx
+    tx_pin: GPIO3
+    rx_pin: GPIO4
     baud_rate: 9600
     debug:
       direction: BOTH
@@ -205,7 +194,7 @@ button:
           return out;
 ```
 
-To be able to use the regex command the file "common_includes.h" must be created in the directory "components". 
+To be able to use the regex command the file "common_includes.h" must be created in the directory "components".  
 The content of the "common_includes.h" must be:
 
 ```
