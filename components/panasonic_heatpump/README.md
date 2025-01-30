@@ -31,8 +31,8 @@ pin | function
 substitutions:
   pin_rx_hp: GPIO4  # heatpump reads data (RX) on this pin
   pin_tx_hp: GPIO3  # heatpump sends data (TX) on this pin
-  pin_tx_cz: GPIO1  # WiFi module sends data (TX) on this pin
-  pin_rx_cz: GPIO0  # WiFi module reads data (RX) on this pin
+  pin_tx_wm: GPIO1  # WiFi module sends data (TX) on this pin
+  pin_rx_wm: GPIO0  # WiFi module reads data (RX) on this pin
 
 external_components:
   - source:
@@ -41,24 +41,24 @@ external_components:
     components: [ panasonic_heatpump ]
 
 uart:
-  - id: uart_heat
+  - id: uart_heatpump
     tx_pin: $pin_rx_hp
     rx_pin: $pin_tx_hp
     baud_rate: 9600
     data_bits: 8
     parity: EVEN
     stop_bits: 1
-  - id: uart_wifi
-    tx_pin: $pin_rx_cz
-    rx_pin: $pin_tx_cz
+  - id: uart_cz_taw1
+    tx_pin: $pin_rx_wm
+    rx_pin: $pin_tx_wm
     baud_rate: 9600
     data_bits: 8
     parity: EVEN
     stop_bits: 1
 
 panasonic_heatpump:
-  uart_hp: uart_heat
-  uart_wm: uart_wifi
+  uart_hp: uart_heatpump
+  uart_wm: uart_cz_taw1
 
 sensor:
   - platform: panasonic_heatpump
