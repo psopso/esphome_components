@@ -205,8 +205,8 @@ The content of the "common_includes.h" must be:
 
 ## Sources
 
-Thanks to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
-Thanks to [Rocka84](https://github.com/Rocka84/esphome_components) for doing the main work, I've just forked this repo and modified some parts.  
-Thanks to [phord/Jarvis](https://github.com/phord/Jarvis) for reverse engineering the UART interface and most control messages!  
-Thanks to [OkhammahkO](https://github.com/OkhammahkO) for collecting the scattered information at [pimp-my-desk/desk-control](https://gitlab.com/pimp-my-desk/desk-control) and for his work in the home assistant community!
-
+:heart: A big THANKS to [Rocka84](https://github.com/Rocka84/esphome_components) for doing the main work, I've just forked this repo and modified some parts.  
+:heart: A big THANKS  to [shades66](https://github.com/shades66/Maidesite-standing-desk/tree/main) for the minimal and easy to setup esphome config.  
+:heart: A big THANKS  to [phord/Jarvis](https://github.com/phord/Jarvis) for reverse engineering the UART interface and most control messages!  
+:heart: A big THANKS  to [OkhammahkO](https://github.com/OkhammahkO) for collecting the scattered information at [pimp-my-desk/desk-control](https://gitlab.com/pimp-my-desk/desk-control)!  
+:heart: Thanks to the whole home assistant community for sharing their knowlege and helping me to create this ESPHome component!  
