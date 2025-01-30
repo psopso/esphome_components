@@ -1,4 +1,4 @@
-# ESPHome Maidsite Desk Controller
+# ESPHome Maidsite Desk Component
 
 [ESPHome](https://esphome.io/) component for controlling Maidsite desk controllers via their serial protocol.
 
