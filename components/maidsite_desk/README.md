@@ -6,12 +6,12 @@
 
 ### What you need
 
-* ESPHome compatible microcontroller
-* cable with RJ12 connector (phone cable, RJ11 may also work)
+* ESPHome compatible microcontroller (e.g. ESP8266, ESP32, ESP32-S2, ESP32-C3, ...)
+* RJ12 cable (phone cable, RJ11 may also work)
 
 ### Wiring
 
-#### RJ12
+#### RJ12 connector pinning
 
 Please double check this for your specific model!
 
@@ -24,7 +24,7 @@ pin | function
  5  | RX
  6  | NC (pulled up)
 
-#### microcontroller
+#### Microcontroller pinning
 
 ESP    | desk
 -------|-----
@@ -35,9 +35,9 @@ GPIO4  | RX
 
 ![IMG_1256](https://github.com/user-attachments/assets/229f52bb-5cdd-454c-b72b-e84979ee5976)
 
-Sometime the Desk Controller does not supply enough current, then simply disconnet the VCC pin and plug in a micro-usb/usb-c cable into your esp-board.  
+Sometimes the desk controller does not supply enough current, then simply disconnet the VCC pin and plug in a micro-usb/usb-c cable into your ESP board.  
 
-## Usage
+### ESPHome yaml code
 
 ```yaml
 external_components:
@@ -55,7 +55,7 @@ uart:
 maidsite_desk:
   id: my_desk
 
-sensorsensor:
+sensor:
   - platform: maidsite_desk
     height_abs:
       name: "Height"
@@ -95,7 +95,7 @@ button:
 
 ### Features
 
-#### sensors
+#### sensors entities
 
 sensor       | description
 -------------|----------------------------
@@ -108,7 +108,7 @@ position_m2  | 2nd stored height
 position_m3  | 3rd stored height
 position_m4  | 4th stored height
 
-####  number entities
+#### number entities
 
 Hold current values read from the desk and set values to desk when changed.
 
@@ -117,7 +117,7 @@ sensor      | description
 height_abs  | current height of the desk
 height_pct  | height in percent
 
-####  buttons
+#### buttons entities
 
 button     | description
 -----------|---------------------------
@@ -154,7 +154,7 @@ lambda method                         | description
 
 To see and send custom UART messages the following esphome code can be used:
 
-```
+``` yaml
 esphome:
   ...
   includes: components/common_includes.h
@@ -197,7 +197,7 @@ button:
 To be able to use the regex command the file "common_includes.h" must be created in the directory "components".  
 The content of the "common_includes.h" must be:
 
-```
+``` c++
 #include <iostream>
 #include <regex>
 #include <string.h>
