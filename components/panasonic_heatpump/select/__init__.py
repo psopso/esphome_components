@@ -7,13 +7,13 @@ from esphome.const import (
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET_QUIET_MODE = "set_quiet_mode"
-CONF_SET_POWERFUL_MODE = "set_powerful_mode"
-CONF_SET_OPERATION_MODE = "set_operation_mode"
-CONF_SET_ZONES = "set_zones"
-CONF_SET_EXTERNAL_PAD_HEATER = "set_external_pad_heater"
-CONF_SET_POWERFUL_MODE = "set_powerful_mode"
-CONF_SET_BIVALENT_MODE = "set_bivalent_mode"
+CONF_SET_QUIET_MODE = "quiet_mode"
+CONF_SET_POWERFUL_MODE = "powerful_mode"
+CONF_SET_OPERATION_MODE = "operation_mode"
+CONF_SET_ZONES = "zones"
+CONF_SET_EXTERNAL_PAD_HEATER = "external_pad_heater"
+CONF_SET_POWERFUL_MODE2 = "powerful_mode2"
+CONF_SET_BIVALENT_MODE = "bivalent_mode"
 
 TYPES = [
   CONF_SET_QUIET_MODE,
@@ -21,7 +21,7 @@ TYPES = [
   CONF_SET_OPERATION_MODE,
   CONF_SET_ZONES,
   CONF_SET_EXTERNAL_PAD_HEATER,
-  CONF_SET_POWERFUL_MODE,
+  CONF_SET_POWERFUL_MODE2,
   CONF_SET_BIVALENT_MODE,
 ]
 
@@ -46,7 +46,7 @@ CONFIG_SCHEMA = cv.Schema(
     cv.Optional(CONF_SET_EXTERNAL_PAD_HEATER): select.select_schema(
       PanasonicHeatpumpSelect,
     ),
-    cv.Optional(CONF_SET_POWERFUL_MODE): select.select_schema(
+    cv.Optional(CONF_SET_POWERFUL_MODE2): select.select_schema(
       PanasonicHeatpumpSelect,
     ),
     cv.Optional(CONF_SET_BIVALENT_MODE): select.select_schema(

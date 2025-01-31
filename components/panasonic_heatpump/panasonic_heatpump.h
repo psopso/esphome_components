@@ -13,6 +13,9 @@
 #ifdef USE_TEXT_SENSOR
 #include "esphome/components/text_sensor/text_sensor.h"
 #endif
+#ifdef USE_BUTTON
+#include "esphome/components/button/button.h"
+#endif
 #ifdef USE_NUMBER
 #include "esphome/components/number/number.h"
 #endif
@@ -23,6 +26,7 @@
 #include "esphome/components/switch/switch.h"
 #endif
 #include "decode.h"
+#include "commands.h"
 #include <vector>
 #include <string>
 
@@ -167,14 +171,62 @@ namespace esphome
       SUB_TEXT_SENSOR(top114);
       SUB_TEXT_SENSOR(top124);
 #endif
+#ifdef USE_BUTTON
+      SUB_BUTTON(reset);
+#endif
 #ifdef USE_NUMBER
-      // SUB_NUMBER(top0);
+      SUB_NUMBER(z1_heat_request_temperature);
+      SUB_NUMBER(z1_cool_request_temperature);
+      SUB_NUMBER(z2_heat_request_temperature);
+      SUB_NUMBER(z2_cool_request_temperature);
+      SUB_NUMBER(dhw_temp);
+      SUB_NUMBER(max_pump_duty);
+      SUB_NUMBER(zone1_heat_target_high);
+      SUB_NUMBER(zone1_heat_target_low);
+      SUB_NUMBER(zone1_heat_outside_low);
+      SUB_NUMBER(zone1_heat_outside_high);
+      SUB_NUMBER(zone2_heat_target_high);
+      SUB_NUMBER(zone2_heat_target_low);
+      SUB_NUMBER(zone2_heat_outside_low);
+      SUB_NUMBER(zone2_heat_outside_high);
+      SUB_NUMBER(zone1_cool_target_high);
+      SUB_NUMBER(zone1_cool_target_low);
+      SUB_NUMBER(zone1_cool_outside_low);
+      SUB_NUMBER(zone1_cool_outside_high);
+      SUB_NUMBER(zone2_cool_target_high);
+      SUB_NUMBER(zone2_cool_target_low);
+      SUB_NUMBER(zone2_cool_outside_low);
+      SUB_NUMBER(zone2_cool_outside_high);
+      SUB_NUMBER(floor_heat_delta);
+      SUB_NUMBER(floor_cool_delta);
+      SUB_NUMBER(dhw_heat_delta);
+      SUB_NUMBER(heater_delay_time);
+      SUB_NUMBER(heater_start_delta);
+      SUB_NUMBER(heater_stop_delta);
+      SUB_NUMBER(buffer_delta);
+      SUB_NUMBER(heatingoffoutdoortemp);
+      SUB_NUMBER(bivalent_start_temperature);
+      SUB_NUMBER(bivalent_stop_temperature);
 #endif
 #ifdef USE_SELECT
-      // SUB_SELECT(top1);
+      SUB_SELECT(quiet_mode);
+      SUB_SELECT(powerful_mode);
+      SUB_SELECT(operation_mode);
+      SUB_SELECT(zones);
+      SUB_SELECT(external_pad_heater);
+      SUB_SELECT(powerful_mode2);
+      SUB_SELECT(bivalent_mode);
 #endif
 #ifdef USE_SWITCH
-      // SUB_SWITCH(top2);
+      SUB_SWITCH(heatpump_state);
+      SUB_SWITCH(holiday_mode);
+      SUB_SWITCH(force_dhw);
+      SUB_SWITCH(force_defrost);
+      SUB_SWITCH(force_sterilization);
+      SUB_SWITCH(pump);
+      SUB_SWITCH(main_schedule);
+      SUB_SWITCH(alt_external_sensor);
+      SUB_SWITCH(buffer);
 #endif
 
       PanasonicHeatpumpComponent() = default;
@@ -184,6 +236,10 @@ namespace esphome
 
       void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
       void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
+
+#ifdef USE_BUTTON
+      void button_press_action(button::Button* object);
+#endif
 #ifdef USE_NUMBER
       void number_control(number::Number* object, float value);
 #endif
@@ -198,15 +254,19 @@ namespace esphome
       uart::UARTComponent *uart_hp_;
       uart::UARTComponent *uart_wm_;
 
-      std::vector<uint8_t> response_data_;
-      std::vector<uint8_t> request_data_;
+      std::vector<uint8_t> response_message_;
+      std::vector<uint8_t> request_message_;
+      std::vector<uint8_t> command_message_;
       uint8_t response_payload_length_;
       uint8_t request_payload_length_;
       bool response_receiving_{false};
       bool request_receiving_{false};
+      bool forward_requests_{true};
 
       void decode_response(std::vector<uint8_t> data);
-      void send_request();
+      void send_initial_message();
+      void send_periodical_message();
+      void send_command_message(uint8_t value, uint8_t index);
       void log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator);
     };
   }  // namespace panasonic_heatpump

@@ -1,84 +1,20 @@
 #include "commands.h"
 
-#define REQUEST_DATA_SIZE 111
-#define REQUEST_INITIAL_SIZE 8
-#define REQUEST_OPTIONAL_SIZE 20
-
-#define OPTIONALPCBQUERYTIME 1000   // send optional pcb query each second
-#define OPTIONALPCBSAVETIME 300     // save each 5 minutes the current optional pcb state into flash to have valid values during reboot
-
 
 namespace esphome
 {
   namespace panasonic_heatpump
   {
-    // ToDo: Use vector<unit8_t> instead of byte[]
-    static uint8_t temp_command[REQUEST_DATA_SIZE] = { 0 };
-    static uint8_t temp_command_optional[REQUEST_OPTIONAL_SIZE] = {
-      0xF1, 0x11, 0x01, 0x50, 0x00, 0x00, 0x40, 0xFF, 0xFF, 0xE5, 0xFF, 0xFF, 0x00, 0xFF, 0xEB,
-      0xFF, 0xFF, 0x00, 0x00, 0x00
-    };
-
-    static const uint8_t InitialRequest[REQUEST_INITIAL_SIZE] = {
-      0x31, 0x05, 0x10, 0x01, 0x00, 0x00, 0x00, 0xB9
-    };
-    static const uint8_t PeriodicalRequest[REQUEST_DATA_SIZE] = {
-      0x71, 0x6C, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x12
-    };
-    static const uint8_t CommandRequest[REQUEST_DATA_SIZE] = {
-      0xF1, 0x6C, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x92
-    };
-
-
-    std::vector<uint8_t> PanasonicCommand::setCommand(uint8_t index, uint8_t newValue)
+    uint8_t PanasonicCommand::calcChecksum(std::vector<uint8_t>& data, int length)
     {
-      // initialize the command
-      memcpy(temp_command, CommandRequest, sizeof(CommandRequest));
-      // set command byte
-      temp_command[index] = newValue;
-      // calculate and set set checksum
-      temp_command[REQUEST_DATA_SIZE - 1] = calcChecksum(temp_command, REQUEST_DATA_SIZE - 1);
-
-      // convert to vector and return
-      return std::vector<uint8_t>(temp_command, temp_command + REQUEST_DATA_SIZE);
-    }
-
-    std::vector<uint8_t> PanasonicCommand::setOptionalCommand(uint8_t index, uint8_t newValue)
-    {
-      // set command byte
-      temp_command_optional[index] = newValue;
-      // calculate and set set checksum
-      temp_command_optional[REQUEST_OPTIONAL_SIZE - 1] = calcChecksum(temp_command_optional, REQUEST_OPTIONAL_SIZE - 1);
-
-      // convert to vector and return
-      return std::vector<uint8_t>(temp_command_optional, temp_command_optional + REQUEST_OPTIONAL_SIZE);
-    }
-
-    uint8_t PanasonicCommand::calcChecksum(uint8_t *command, int length)
-    {
-      uint8_t chk = 0;
+      uint8_t checksum = 0;
       for (int i = 0; i < length; i++)
       {
-        chk += command[i];
+        checksum += data[i];
       }
-      chk = (chk ^ 0xFF) + 01;
-      return chk;
+      checksum = (checksum ^ 0xFF) + 01;
+      return checksum;
     }
-
 
     uint8_t PanasonicCommand::setMultiply2(unsigned int input)
     {
@@ -182,9 +118,9 @@ namespace esphome
       return hextemp;
     }
 
-    uint8_t PanasonicCommand::setByte6(int val, int base, int bit)
+    uint8_t PanasonicCommand::setByte6(uint8_t byte6, int val, int base, int bit)
     {
-      return (temp_command_optional[6] & ~(base << bit)) | (val << bit);
+      return (byte6 & ~(base << bit)) | (val << bit);
     }
 
     uint8_t PanasonicCommand::setDemandControl(unsigned int input)
@@ -198,21 +134,6 @@ namespace esphome
         case 4: return 0x2B;
       }
       return 0;
-    }
-
-    std::string PanasonicCommand::toHexString(std::vector<uint8_t> &data)
-    {
-      char cmdArr[400];
-
-      //ESP_LOGD("custom", "############ CMD: %s", to_hex_string(vec, REQUEST_DATA_SIZE));
-      for (int i = 0; i < 10; i++)
-      {
-        if (i == 0) sprintf(cmdArr, "0x");
-        if (i > 0) sprintf(cmdArr, "%s-", cmdArr);
-        sprintf(cmdArr, "%s-%02X", cmdArr, data[i]);
-      }
-      std::string cmdStr = cmdArr;
-      return cmdStr;
     }
   }  // namespace panasonic_heatpump
 }  // namespace esphome

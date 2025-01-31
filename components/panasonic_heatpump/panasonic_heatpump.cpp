@@ -1,7 +1,7 @@
 #include "panasonic_heatpump.h"
 
-#define RESPONSE_DATA_SIZE 203
-#define REQUEST_DATA_SIZE 111
+#define response_message_SIZE 203
+#define request_message_SIZE 111
 
 
 namespace esphome
@@ -146,6 +146,63 @@ namespace esphome
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top114_text_sensor_);
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top124_text_sensor_);
 #endif
+#ifdef USE_BUTTON
+      LOG_BUTTON("", "Panasonic Heatpump Button", this->reset_button_);
+#endif
+#ifdef USE_NUMBER
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->z1_heat_request_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->z1_cool_request_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->z2_heat_request_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->z2_cool_request_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->dhw_temp_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->max_pump_duty_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_target_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_target_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_outside_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_outside_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_target_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_target_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_outside_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_outside_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_target_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_target_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_outside_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_outside_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_target_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_target_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_outside_low_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_outside_high_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->floor_heat_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->floor_cool_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->dhw_heat_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_delay_time_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_start_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_stop_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->buffer_delta_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->heatingoffoutdoortemp_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->bivalent_start_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->bivalent_stop_temperature_number_);
+#endif
+#ifdef USE_SELECT
+      LOG_SELECT("", "Panasonic Heatpump Select", this->quiet_mode_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->powerful_mode_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->operation_mode_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->zones_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->external_pad_heater_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->powerful_mode2_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->bivalent_mode_select_);
+#endif
+#ifdef USE_SWITCH
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->heatpump_state_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->holiday_mode_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_dhw_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_defrost_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_sterilization_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->pump_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->main_schedule_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->alt_external_sensor_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->buffer_switch_);
+#endif
     }
 
     void PanasonicHeatpumpComponent::loop()
@@ -166,35 +223,39 @@ namespace esphome
           this->response_receiving_ = true;
         }
         // Add current byte to message buffer
-        this->response_data_.push_back(byte_hp);
+        this->response_message_.push_back(byte_hp);
 
         // 2. bytes contains the payload size
-        if (this->response_data_.size() == 2)
+        if (this->response_message_.size() == 2)
           this->response_payload_length_ = byte_hp;
         // Discard message if 3. and 4. byte are not as expected
-        if (this->response_data_.size() == 3 && byte_hp != 0x01 ||
-            this->response_data_.size() == 4 && byte_hp != 0x10)
+        if (this->response_message_.size() == 3 && byte_hp != 0x01 ||
+            this->response_message_.size() == 4 && byte_hp != 0x10)
         {
           ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x%02X",
-            response_data_.size(), byte_hp, response_data_.size() == 3 ? "01" : "10");
+            response_message_.size(), byte_hp, response_message_.size() == 3 ? "01" : "10");
           delay(10);
-          this->response_data_.clear();
+          this->response_message_.clear();
           this->response_receiving_ = false;
           continue;
         }
 
         // Decode message if message is complete
-        if (this->response_data_.size() > 2 && this->response_data_.size() == this->response_payload_length_ + 3)
+        if (this->response_message_.size() > 2 && this->response_message_.size() == this->response_payload_length_ + 3)
         {
-          this->log_uart_hex("<<<", this->response_data_, ',');
-          this->decode_response(this->response_data_);
-          this->response_data_.clear();
+          this->log_uart_hex("<<<", this->response_message_, ',');
+          this->decode_response(this->response_message_);
+          this->response_message_.clear();
           this->response_receiving_ = false;
         }
       }
 
       while (this->uart_wm_->available())
       {
+        // stop forwording messages if no message is currently processing
+        if (!this->forward_requests_ && !this->request_receiving_)
+          continue;
+
         this->uart_wm_->read_byte(&byte_wm);
         this->uart_hp_->write_byte(byte_wm);
 
@@ -206,28 +267,28 @@ namespace esphome
           this->request_receiving_ = true;
         }
         // Add current byte to message buffer
-        this->request_data_.push_back(byte_wm);
+        this->request_message_.push_back(byte_wm);
 
         // 2. bytes contains the payload size
-        if (this->request_data_.size() == 2)
+        if (this->request_message_.size() == 2)
           this->request_payload_length_ = byte_wm;
         // Discard message if 3. and 4. byte are not as expected
-        if (this->request_data_.size() == 3 && byte_wm != 0x01 ||
-            this->request_data_.size() == 4 && byte_wm != 0x10)
+        if (this->request_message_.size() == 3 && byte_wm != 0x01 ||
+            this->request_message_.size() == 4 && byte_wm != 0x10)
         {
           ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x%02X",
-            request_data_.size(), byte_wm, request_data_.size() == 3 ? "01" : "10");
+            request_message_.size(), byte_wm, request_message_.size() == 3 ? "01" : "10");
           delay(10);
-          this->request_data_.clear();
+          this->request_message_.clear();
           this->request_receiving_ = false;
           continue;
         }
 
         // Decode message if message is complete
-        if (this->request_data_.size() > 2 && this->request_data_.size() == this->request_payload_length_ + 3)
+        if (this->request_message_.size() > 2 && this->request_message_.size() == this->request_payload_length_ + 3)
         {
-          this->log_uart_hex(">>>", this->request_data_, ',');
-          this->request_data_.clear();
+          this->log_uart_hex(">>>", this->request_message_, ',');
+          this->request_message_.clear();
           this->request_receiving_ = false;
         }
       }
@@ -240,9 +301,9 @@ namespace esphome
       // payload_length:  payload_length + 3 = packet_length
       // checksum:        if (sum(all bytes) & 0xFF == 0) ==> valid packet
 
-      if (bytes.size() != RESPONSE_DATA_SIZE)
+      if (bytes.size() != response_message_SIZE)
       {
-        ESP_LOGW(TAG, "Invalid response message length: recieved %d - expected %d", bytes.size(), RESPONSE_DATA_SIZE);
+        ESP_LOGW(TAG, "Invalid response message length: recieved %d - expected %d", bytes.size(), response_message_SIZE);
         delay(10);
         return;
       }
@@ -395,9 +456,36 @@ namespace esphome
 #endif
     }
 
-    void PanasonicHeatpumpComponent::send_request()
+    void PanasonicHeatpumpComponent::send_initial_message()
     {
+      // send command
+      this->uart_hp_->write_array(PanasonicCommand::InitialMessage, REQUEST_INITIAL_SIZE);
+      this->log_uart_hex(">>>", this->command_message_, ',');
+      delay(100);  // NOLINT
+    }
 
+    void PanasonicHeatpumpComponent::send_periodical_message()
+    {
+      // send command
+      this->uart_hp_->write_array(PanasonicCommand::PeriodicalMessage, REQUEST_DATA_SIZE);
+      this->log_uart_hex(">>>", this->command_message_, ',');
+      delay(100);  // NOLINT
+    }
+
+    void PanasonicHeatpumpComponent::send_command_message(uint8_t value, uint8_t index)
+    {
+      // initialize the command
+      command_message_.clear();
+      command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
+        PanasonicCommand::CommandMessage + REQUEST_DATA_SIZE);
+      // set command byte
+      command_message_[index] = value;
+      // calculate and set set checksum (last element)
+      command_message_.back() = PanasonicCommand::calcChecksum(command_message_, command_message_.size() - 1);
+      // send command
+      this->uart_hp_->write_array(this->command_message_);
+      this->log_uart_hex(">>>", this->command_message_, ',');
+      delay(100);  // NOLINT
     }
 
     void PanasonicHeatpumpComponent::log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator)
@@ -424,25 +512,77 @@ namespace esphome
       }
     }
 
+#ifdef USE_BUTTON
+    void PanasonicHeatpumpComponent::button_press_action(button::Button* object)
+    {
+      // if (object == this->reset_button_)
+      //   this->send_request(value, index);
+    }
+#endif
 #ifdef USE_NUMBER
     void PanasonicHeatpumpComponent::number_control(number::Number* object, float value)
     {
-      // if (object == top0_number_)
-      //   this->send_request(value);
+      // if (object == this->z1_heat_request_temperature_number_)
+      //   this->send_request(value, index);
+      // else if (object == this->z1_cool_request_temperature_number_)
+      // else if (object == this->z2_heat_request_temperature_number_)
+      // else if (object == this->z2_cool_request_temperature_number_)
+      // else if (object == this->dhw_temp_number_)
+      // else if (object == this->max_pump_duty_number_)
+      // else if (object == this->zone1_heat_target_high_number_)
+      // else if (object == this->zone1_heat_target_low_number_)
+      // else if (object == this->zone1_heat_outside_low_number_)
+      // else if (object == this->zone1_heat_outside_high_number_)
+      // else if (object == this->zone2_heat_target_high_number_)
+      // else if (object == this->zone2_heat_target_low_number_)
+      // else if (object == this->zone2_heat_outside_low_number_)
+      // else if (object == this->zone2_heat_outside_high_number_)
+      // else if (object == this->zone1_cool_target_high_number_)
+      // else if (object == this->zone1_cool_target_low_number_)
+      // else if (object == this->zone1_cool_outside_low_number_)
+      // else if (object == this->zone1_cool_outside_high_number_)
+      // else if (object == this->zone2_cool_target_high_number_)
+      // else if (object == this->zone2_cool_target_low_number_)
+      // else if (object == this->zone2_cool_outside_low_number_)
+      // else if (object == this->zone2_cool_outside_high_number_)
+      // else if (object == this->floor_heat_delta_number_)
+      // else if (object == this->floor_cool_delta_number_)
+      // else if (object == this->dhw_heat_delta_number_)
+      // else if (object == this->heater_delay_time_number_)
+      // else if (object == this->heater_start_delta_number_)
+      // else if (object == this->heater_stop_delta_number_)
+      // else if (object == this->buffer_delta_number_)
+      // else if (object == this->heatingoffoutdoortemp_number_)
+      // else if (object == this->bivalent_start_temperature_number_)
+      // else if (object == this->bivalent_stop_temperature_number_)
     }
 #endif
 #ifdef USE_SELECT
     void PanasonicHeatpumpComponent::select_control(select::Select* object, const std::string &value)
     {
-      // if (object == top1_select_)
-      //   this->send_request(value);
+      // if (object == this->quiet_mode_select_)
+      //   this->send_request(value, index);
+      // else if (object == this->powerful_mode_select_)
+      // else if (object == this->operation_mode_select_)
+      // else if (object == this->zones_select_)
+      // else if (object == this->external_pad_heater_select_)
+      // else if (object == this->powerful_mode2_select_)
+      // else if (object == this->bivalent_mode_select_)
     }
 #endif
 #ifdef USE_SWITCH
     void PanasonicHeatpumpComponent::switch_control(switch::Switch* object, bool state)
     {
-      // if (object == top2_switch_)
-      //   this->send_request(value);
+      // if (object == this->heatpump_state_switch_)
+      //   this->send_request(value, index);
+      // else if (object == this->holiday_mode_switch_)
+      // else if (object == this->force_dhw_switch_)
+      // else if (object == this->force_defrost_switch_)
+      // else if (object == this->force_sterilization_switch_)
+      // else if (object == this->pump_switch_)
+      // else if (object == this->main_schedule_switch_)
+      // else if (object == this->alt_external_sensor_switch_)
+      // else if (object == this->buffer_switch_)
     }
 #endif
   }  // namespace panasonic_heatpump
