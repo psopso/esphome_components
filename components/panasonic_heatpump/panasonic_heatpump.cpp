@@ -1,14 +1,14 @@
 #include "panasonic_heatpump.h"
 
+#define RESPONSE_DATA_SIZE 203
+#define REQUEST_DATA_SIZE 111
+
 
 namespace esphome
 {
   namespace panasonic_heatpump
   {
     static const char *const TAG = "panasonic_heatpump";
-
-    static const uint8_t RESPONSE_DATA_SIZE = 203;
-    static const uint8_t REQUEST_DATA_SIZE = 111;
 
     void PanasonicHeatpumpComponent::dump_config()
     {
@@ -423,5 +423,27 @@ namespace esphome
         delay(10);
       }
     }
+
+#ifdef USE_NUMBER
+    void PanasonicHeatpumpComponent::number_control(number::Number* object, float value)
+    {
+      // if (object == top0_number_)
+      //   this->send_request(value);
+    }
+#endif
+#ifdef USE_SELECT
+    void PanasonicHeatpumpComponent::select_control(select::Select* object, const std::string &value)
+    {
+      // if (object == top1_select_)
+      //   this->send_request(value);
+    }
+#endif
+#ifdef USE_SWITCH
+    void PanasonicHeatpumpComponent::switch_control(switch::Switch* object, bool state)
+    {
+      // if (object == top2_switch_)
+      //   this->send_request(value);
+    }
+#endif
   }  // namespace panasonic_heatpump
 }  // namespace esphome

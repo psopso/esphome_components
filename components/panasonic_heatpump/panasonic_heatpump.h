@@ -13,6 +13,15 @@
 #ifdef USE_TEXT_SENSOR
 #include "esphome/components/text_sensor/text_sensor.h"
 #endif
+#ifdef USE_NUMBER
+#include "esphome/components/number/number.h"
+#endif
+#ifdef USE_SELECT
+#include "esphome/components/select/select.h"
+#endif
+#ifdef USE_SWITCH
+#include "esphome/components/switch/switch.h"
+#endif
 #include "decode.h"
 #include <vector>
 #include <string>
@@ -158,6 +167,15 @@ namespace esphome
       SUB_TEXT_SENSOR(top114);
       SUB_TEXT_SENSOR(top124);
 #endif
+#ifdef USE_NUMBER
+      // SUB_NUMBER(top0);
+#endif
+#ifdef USE_SELECT
+      // SUB_SELECT(top1);
+#endif
+#ifdef USE_SWITCH
+      // SUB_SWITCH(top2);
+#endif
 
       PanasonicHeatpumpComponent() = default;
       float get_setup_priority() const override { return setup_priority::LATE; }
@@ -166,6 +184,15 @@ namespace esphome
 
       void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
       void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
+#ifdef USE_NUMBER
+      void number_control(number::Number* object, float value);
+#endif
+#ifdef USE_SELECT
+      void select_control(select::Select* object, const std::string &value);
+#endif
+#ifdef USE_SWITCH
+      void switch_control(switch::Switch* object, bool state);
+#endif
 
     protected:
       uart::UARTComponent *uart_hp_;
