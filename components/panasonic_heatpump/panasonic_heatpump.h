@@ -126,13 +126,14 @@ namespace esphome
       SUB_SENSOR(top116);
       SUB_SENSOR(top117);
       SUB_SENSOR(top118);
-      SUB_SENSOR(top119);
-      SUB_SENSOR(top120);
-      SUB_SENSOR(top121);
-      SUB_SENSOR(top122);
-      SUB_SENSOR(top123);
-      SUB_SENSOR(top125);
-      SUB_SENSOR(top126);
+      SUB_SENSOR(top127);
+      SUB_SENSOR(top128);
+      SUB_SENSOR(top131);
+      SUB_SENSOR(top134);
+      SUB_SENSOR(top135);
+      SUB_SENSOR(top136);
+      SUB_SENSOR(top137);
+      SUB_SENSOR(top138);
 #endif
 #ifdef USE_BINARY_SENSOR
       SUB_BINARY_SENSOR(top0);
@@ -149,6 +150,15 @@ namespace esphome
       SUB_BINARY_SENSOR(top108);
       SUB_BINARY_SENSOR(top109);
       SUB_BINARY_SENSOR(top110);
+      SUB_BINARY_SENSOR(top119);
+      SUB_BINARY_SENSOR(top120);
+      SUB_BINARY_SENSOR(top121);
+      SUB_BINARY_SENSOR(top122);
+      SUB_BINARY_SENSOR(top123);
+      SUB_BINARY_SENSOR(top124);
+      SUB_BINARY_SENSOR(top129);
+      SUB_BINARY_SENSOR(top132);
+      SUB_BINARY_SENSOR(top133);
 #endif
 #ifdef USE_TEXT_SENSOR
       SUB_TEXT_SENSOR(top4);
@@ -169,10 +179,14 @@ namespace esphome
       SUB_TEXT_SENSOR(top111);
       SUB_TEXT_SENSOR(top112);
       SUB_TEXT_SENSOR(top114);
-      SUB_TEXT_SENSOR(top124);
+      SUB_TEXT_SENSOR(top125);
+      SUB_TEXT_SENSOR(top126);
+      SUB_TEXT_SENSOR(top130);
 #endif
 #ifdef USE_BUTTON
       SUB_BUTTON(reset);
+
+      void button_press_action(button::Button* object);
 #endif
 #ifdef USE_NUMBER
       SUB_NUMBER(z1_heat_request_temperature);
@@ -207,6 +221,8 @@ namespace esphome
       SUB_NUMBER(heatingoffoutdoortemp);
       SUB_NUMBER(bivalent_start_temperature);
       SUB_NUMBER(bivalent_stop_temperature);
+
+      void number_control(number::Number* object, float value);
 #endif
 #ifdef USE_SELECT
       SUB_SELECT(quiet_mode);
@@ -216,6 +232,8 @@ namespace esphome
       SUB_SELECT(external_pad_heater);
       SUB_SELECT(powerful_mode2);
       SUB_SELECT(bivalent_mode);
+
+      void select_control(select::Select* object, const std::string &value);
 #endif
 #ifdef USE_SWITCH
       SUB_SWITCH(heatpump_state);
@@ -227,6 +245,8 @@ namespace esphome
       SUB_SWITCH(main_schedule);
       SUB_SWITCH(alt_external_sensor);
       SUB_SWITCH(buffer);
+
+      void switch_control(switch::Switch* object, bool state);
 #endif
 
       PanasonicHeatpumpComponent() = default;
@@ -236,23 +256,14 @@ namespace esphome
 
       void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
       void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
-
-#ifdef USE_BUTTON
-      void button_press_action(button::Button* object);
-#endif
-#ifdef USE_NUMBER
-      void number_control(number::Number* object, float value);
-#endif
-#ifdef USE_SELECT
-      void select_control(select::Select* object, const std::string &value);
-#endif
-#ifdef USE_SWITCH
-      void switch_control(switch::Switch* object, bool state);
-#endif
+      void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
+      void set_polling_time(uint32_t time_sec) { this->polling_time_ = time_sec; }
 
     protected:
       uart::UARTComponent *uart_hp_;
       uart::UARTComponent *uart_wm_;
+      bool log_uart_msg_{false};
+      uint32_t polling_time_{1};
 
       std::vector<uint8_t> response_message_;
       std::vector<uint8_t> request_message_;

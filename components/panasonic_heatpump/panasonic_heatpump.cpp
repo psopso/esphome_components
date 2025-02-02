@@ -101,13 +101,14 @@ namespace esphome
       LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top116_sensor_);
       LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top117_sensor_);
       LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top118_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top119_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top120_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top121_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top122_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top123_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top125_sensor_);
-      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top126_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top127_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top128_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top131_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top134_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top135_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top136_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top137_sensor_);
+      LOG_SENSOR("", "Panasonic Heatpump Sensor", this->top138_sensor_);
 #endif
 #ifdef USE_BINARY_SENSOR
       LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top0_binary_sensor_);
@@ -124,6 +125,15 @@ namespace esphome
       LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top108_binary_sensor_);
       LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top109_binary_sensor_);
       LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top110_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top119_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top120_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top121_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top122_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top123_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top124_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top129_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top132_binary_sensor_);
+      LOG_BINARY_SENSOR("", "Panasonic Heatpump BinarySensor", this->top133_binary_sensor_);
 #endif
 #ifdef USE_TEXT_SENSOR
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top4_text_sensor_);
@@ -144,7 +154,9 @@ namespace esphome
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top111_text_sensor_);
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top112_text_sensor_);
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top114_text_sensor_);
-      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top124_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top125_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top126_text_sensor_);
+      LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top130_text_sensor_);
 #endif
 #ifdef USE_BUTTON
       LOG_BUTTON("", "Panasonic Heatpump Button", this->reset_button_);
@@ -294,6 +306,32 @@ namespace esphome
       }
     }
 
+    void PanasonicHeatpumpComponent::log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator)
+    {
+      if (this->log_uart_msg_ == false) return;
+      
+      std::string logStr;
+      logStr = "[" + std::to_string(bytes.size()) + "]";
+      ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.c_str());
+      delay(10);
+
+      logStr = "";
+      char buffer[5];
+      for (size_t i = 0; i < bytes.size(); i++)
+      {
+        if (i > 0) logStr += separator;
+        sprintf(buffer, "%02X", bytes[i]);
+        logStr += buffer;
+      }
+
+      size_t chunkSize = 90;
+      for (size_t i = 0; i < logStr.length(); i += chunkSize)
+      {
+        ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.substr(i, chunkSize).c_str());
+        delay(10);
+      }
+    }
+
     void PanasonicHeatpumpComponent::decode_response(std::vector<uint8_t> bytes)
     {
       // Read response message:
@@ -409,13 +447,14 @@ namespace esphome
       if (this->top116_sensor_) this->top116_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[126]));
       if (this->top117_sensor_) this->top117_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[127]));
       if (this->top118_sensor_) this->top118_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[128]));
-      if (this->top119_sensor_) this->top119_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[65]));
-      if (this->top120_sensor_) this->top120_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[66]));
-      if (this->top121_sensor_) this->top121_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[68]));
-      if (this->top122_sensor_) this->top122_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[67]));
-      if (this->top123_sensor_) this->top123_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[69]));
-      if (this->top125_sensor_) this->top125_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[177]));
-      if (this->top126_sensor_) this->top126_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[178]));
+      if (this->top127_sensor_) this->top127_sensor_->publish_state(PanasonicDecode::getValvePID(bytes[177]));
+      if (this->top128_sensor_) this->top128_sensor_->publish_state(PanasonicDecode::getValvePID(bytes[178]));
+      if (this->top131_sensor_) this->top131_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[65]));
+      if (this->top134_sensor_) this->top134_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[66]));
+      if (this->top135_sensor_) this->top135_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[68]));
+      if (this->top136_sensor_) this->top136_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[67]));
+      if (this->top137_sensor_) this->top137_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[69]));
+      if (this->top138_sensor_) this->top138_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[70]));
 #endif
 #ifdef USE_BINARY_SENSOR
       if (this->top0_binary_sensor_) this->top0_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[4])));
@@ -432,6 +471,15 @@ namespace esphome
       if (this->top108_binary_sensor_) this->top108_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[20])));
       if (this->top109_binary_sensor_) this->top109_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[20])));
       if (this->top110_binary_sensor_) this->top110_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[20])));
+      if (this->top119_binary_sensor_) this->top119_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[23])));
+      if (this->top120_binary_sensor_) this->top120_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[23])));
+      if (this->top121_binary_sensor_) this->top121_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[23])));
+      if (this->top122_binary_sensor_) this->top122_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[23])));
+      if (this->top123_binary_sensor_) this->top123_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[116])));
+      if (this->top124_binary_sensor_) this->top124_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[116])));
+      if (this->top129_binary_sensor_) this->top129_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[26])));
+      if (this->top132_binary_sensor_) this->top132_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[26])));
+      if (this->top133_binary_sensor_) this->top133_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[26])));
 #endif
 #ifdef USE_TEXT_SENSOR
       if (this->top4_text_sensor_) this->top4_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
@@ -452,7 +500,9 @@ namespace esphome
       if (this->top111_text_sensor_) this->top111_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getSecondByte(bytes[22])));
       if (this->top112_text_sensor_) this->top112_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getFirstByte(bytes[22])));
       if (this->top114_text_sensor_) this->top114_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ExtPadHeaterType, PanasonicDecode::getBit3and4(bytes[25])));
-      if (this->top124_text_sensor_) this->top124_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBivalent(bytes[26])));
+      if (this->top125_text_sensor_) this->top125_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Valve2, PanasonicDecode::getBit5and6(bytes[116])));
+      if (this->top126_text_sensor_) this->top126_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Valve, PanasonicDecode::getBit7and8(bytes[116])));
+      if (this->top130_text_sensor_) this->top130_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBit5and6(bytes[26])));
 #endif
     }
 
@@ -486,30 +536,6 @@ namespace esphome
       this->uart_hp_->write_array(this->command_message_);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
-    }
-
-    void PanasonicHeatpumpComponent::log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator)
-    {
-      std::string logStr;
-      logStr = "[" + std::to_string(bytes.size()) + "]";
-      ESP_LOGD(TAG, "%s %s", prefix.c_str(), logStr.c_str());
-      delay(10);
-
-      logStr = "";
-      char buffer[5];
-      for (size_t i = 0; i < bytes.size(); i++)
-      {
-        if (i > 0) logStr += separator;
-        sprintf(buffer, "%02X", bytes[i]);
-        logStr += buffer;
-      }
-
-      size_t chunkSize = 90;
-      for (size_t i = 0; i < logStr.length(); i += chunkSize)
-      {
-        ESP_LOGD(TAG, "%s %s", prefix.c_str(), logStr.substr(i, chunkSize).c_str());
-        delay(10);
-      }
     }
 
 #ifdef USE_BUTTON

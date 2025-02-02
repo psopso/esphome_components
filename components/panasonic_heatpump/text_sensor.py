@@ -22,46 +22,51 @@ ICON_VALVE = "mdi:pipe-valve"
 ICON_PUMP = "mdi:pump"
 ICON_EXTERNAL_PAD_HEATER = "mdi:radiator"
 
-CONF_TEXT_SENS_TOP4 = "top4"
-CONF_TEXT_SENS_TOP17 = "top17"
-CONF_TEXT_SENS_TOP18 = "top18"
-CONF_TEXT_SENS_TOP19 = "top19"
-CONF_TEXT_SENS_TOP20 = "top20"
-CONF_TEXT_SENS_TOP44 = "top44"
-CONF_TEXT_SENS_TOP58 = "top58"
-CONF_TEXT_SENS_TOP59 = "top59"
-CONF_TEXT_SENS_TOP76 = "top76"
-CONF_TEXT_SENS_TOP81 = "top81"
-CONF_TEXT_SENS_TOP92 = "top92"
-CONF_TEXT_SENS_TOP94 = "top94"
-CONF_TEXT_SENS_TOP101 = "top101"
-CONF_TEXT_SENS_TOP106 = "top106"
-CONF_TEXT_SENS_TOP107 = "top107"
-CONF_TEXT_SENS_TOP111 = "top111"
-CONF_TEXT_SENS_TOP112 = "top112"
-CONF_TEXT_SENS_TOP114 = "top114"
-CONF_TEXT_SENS_TOP124 = "top124"
+CONF_TOP4 = "top4"
+CONF_TOP17 = "top17"
+CONF_TOP18 = "top18"
+CONF_TOP19 = "top19"
+CONF_TOP20 = "top20"
+CONF_TOP44 = "top44"
+CONF_TOP58 = "top58"
+CONF_TOP59 = "top59"
+CONF_TOP76 = "top76"
+CONF_TOP81 = "top81"
+CONF_TOP92 = "top92"
+CONF_TOP94 = "top94"
+CONF_TOP101 = "top101"
+CONF_TOP106 = "top106"
+CONF_TOP107 = "top107"
+CONF_TOP111 = "top111"
+CONF_TOP112 = "top112"
+CONF_TOP114 = "top114"
+CONF_TOP125 = "top125"
+CONF_TOP126 = "top126"
+CONF_TOP130 = "top130"
+
 
 TYPES = [
-  CONF_TEXT_SENS_TOP4,
-  CONF_TEXT_SENS_TOP17,
-  CONF_TEXT_SENS_TOP18,
-  CONF_TEXT_SENS_TOP19,
-  CONF_TEXT_SENS_TOP20,
-  CONF_TEXT_SENS_TOP44,
-  CONF_TEXT_SENS_TOP58,
-  CONF_TEXT_SENS_TOP59,
-  CONF_TEXT_SENS_TOP76,
-  CONF_TEXT_SENS_TOP81,
-  CONF_TEXT_SENS_TOP92,
-  CONF_TEXT_SENS_TOP94,
-  CONF_TEXT_SENS_TOP101,
-  CONF_TEXT_SENS_TOP106,
-  CONF_TEXT_SENS_TOP107,
-  CONF_TEXT_SENS_TOP111,
-  CONF_TEXT_SENS_TOP112,
-  CONF_TEXT_SENS_TOP114,
-  CONF_TEXT_SENS_TOP124,
+  CONF_TOP4,
+  CONF_TOP17,
+  CONF_TOP18,
+  CONF_TOP19,
+  CONF_TOP20,
+  CONF_TOP44,
+  CONF_TOP58,
+  CONF_TOP59,
+  CONF_TOP76,
+  CONF_TOP81,
+  CONF_TOP92,
+  CONF_TOP94,
+  CONF_TOP101,
+  CONF_TOP106,
+  CONF_TOP107,
+  CONF_TOP111,
+  CONF_TOP112,
+  CONF_TOP114,
+  CONF_TOP125,
+  CONF_TOP126,
+  CONF_TOP130,
 ]
 
 CONFIG_SCHEMA = cv.All(
@@ -69,57 +74,59 @@ CONFIG_SCHEMA = cv.All(
     {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-      cv.Optional(CONF_TEXT_SENS_TOP4): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP4): text_sensor.text_sensor_schema(
         icon=ICON_OPERATING_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP17): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP17): text_sensor.text_sensor_schema(
         icon=ICON_POWERFUL_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP18): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP18): text_sensor.text_sensor_schema(
         icon=ICON_QUIET_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP19): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP19): text_sensor.text_sensor_schema(
         icon=ICON_HOLIDAY_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP20): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP20): text_sensor.text_sensor_schema(
         icon=ICON_VALVE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP44): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP44): text_sensor.text_sensor_schema(
         icon=ICON_ERROR,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP58): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP58): text_sensor.text_sensor_schema(
         icon=ICON_BLOCKED,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP59): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP59): text_sensor.text_sensor_schema(
         icon=ICON_BLOCKED,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP76): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP76): text_sensor.text_sensor_schema(
         icon=ICON_HEATING_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP81): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP81): text_sensor.text_sensor_schema(
         icon=ICON_COOLING_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP92): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP92): text_sensor.text_sensor_schema(
         icon=ICON_MODEL,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP94): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP94): text_sensor.text_sensor_schema(
         icon=ICON_ZONE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP101): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP101): text_sensor.text_sensor_schema(
         icon=ICON_SOLAR_MODE,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP106): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP106): text_sensor.text_sensor_schema(
         icon=ICON_PUMP,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP107): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP107): text_sensor.text_sensor_schema(
         icon=ICON_LIQUID,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP111): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP112): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TEXT_SENS_TOP114): text_sensor.text_sensor_schema(
+      cv.Optional(CONF_TOP111): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP112): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP114): text_sensor.text_sensor_schema(
         icon=ICON_EXTERNAL_PAD_HEATER,
       ),
-      cv.Optional(CONF_TEXT_SENS_TOP124): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(),
     }
   ).extend(cv.COMPONENT_SCHEMA)
 )
