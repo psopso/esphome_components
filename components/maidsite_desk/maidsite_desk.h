@@ -50,10 +50,14 @@ namespace esphome
       SUB_BUTTON(save_m2);
       SUB_BUTTON(save_m3);
       SUB_BUTTON(save_m4);
+
+      void button_press_action(button::Button* object);
 #endif
 #ifdef USE_NUMBER
       SUB_NUMBER(height_abs);
       SUB_NUMBER(height_pct);
+
+      void number_control(number::Number* object, float value);
 #endif
 
       MaidsiteDeskComponent() = default;
@@ -62,14 +66,12 @@ namespace esphome
       void setup() override;
       void loop() override;
 
-      void button_press_action(button::Button* object);
-      void number_control(number::Number* object, float value);
+      void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
 
       void request_physical_limits();
       void request_limits();
       void request_settings();
       void request_move_to();
-
       void step_up();
       void step_down();
       void stop();
@@ -87,6 +89,8 @@ namespace esphome
       void log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator);
 
     private:
+      bool log_uart_msg_{false};
+
       std::vector<uint8_t> response_message_;
       std::vector<uint8_t> request_message_;
       uint8_t response_payload_length_;
