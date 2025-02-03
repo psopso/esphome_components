@@ -24,7 +24,7 @@ CONFIG_SCHEMA = (
       cv.Required(CONF_UART_HP): cv.use_id(uart.UARTComponent),
       cv.Required(CONF_UART_WM): cv.use_id(uart.UARTComponent),
       cv.Optional(CONF_LOG_UART_MSG, default=False): cv.boolean,
-      cv.Optional(CONF_POLLING_TIME_SEC, default=1): cv.int_range(min=1),
+      cv.Optional(CONF_POLLING_TIME_SEC, default=2): cv.int_range(min=1),
     }
   )
   .extend(cv.COMPONENT_SCHEMA)

@@ -307,7 +307,7 @@ namespace esphome
       return error_string;
     }
 
-    bool PanasonicDecode::getBoolState(uint8_t input)
+    bool PanasonicDecode::getBinaryState(uint8_t input)
     {
       return input != 0;
     }

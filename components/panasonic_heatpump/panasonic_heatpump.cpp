@@ -459,29 +459,29 @@ namespace esphome
       if (this->top138_sensor_) this->top138_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[70]));
 #endif
 #ifdef USE_BINARY_SENSOR
-      if (this->top0_binary_sensor_) this->top0_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[4])));
-      if (this->top2_binary_sensor_) this->top2_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[4])));
-      if (this->top3_binary_sensor_) this->top3_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[7])));
-      if (this->top13_binary_sensor_) this->top13_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[5])));
-      if (this->top26_binary_sensor_) this->top26_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[111])));
-      if (this->top60_binary_sensor_) this->top60_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[112])));
-      if (this->top61_binary_sensor_) this->top61_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[112])));
-      if (this->top68_binary_sensor_) this->top68_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[5])));
-      if (this->top69_binary_sensor_) this->top69_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[117])));
-      if (this->top99_binary_sensor_) this->top99_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[24])));
-      if (this->top100_binary_sensor_) this->top100_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[24])));
-      if (this->top108_binary_sensor_) this->top108_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[20])));
-      if (this->top109_binary_sensor_) this->top109_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[20])));
-      if (this->top110_binary_sensor_) this->top110_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[20])));
-      if (this->top119_binary_sensor_) this->top119_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[23])));
-      if (this->top120_binary_sensor_) this->top120_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit5and6(bytes[23])));
-      if (this->top121_binary_sensor_) this->top121_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[23])));
-      if (this->top122_binary_sensor_) this->top122_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[23])));
-      if (this->top123_binary_sensor_) this->top123_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[116])));
-      if (this->top124_binary_sensor_) this->top124_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[116])));
-      if (this->top129_binary_sensor_) this->top129_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit7and8(bytes[26])));
-      if (this->top132_binary_sensor_) this->top132_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit3and4(bytes[26])));
-      if (this->top133_binary_sensor_) this->top133_binary_sensor_->publish_state(PanasonicDecode::getBoolState(PanasonicDecode::getBit1and2(bytes[26])));
+      if (this->top0_binary_sensor_) this->top0_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[4])));
+      if (this->top2_binary_sensor_) this->top2_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[4])));
+      if (this->top3_binary_sensor_) this->top3_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[7])));
+      if (this->top13_binary_sensor_) this->top13_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[5])));
+      if (this->top26_binary_sensor_) this->top26_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[111])));
+      if (this->top60_binary_sensor_) this->top60_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[112])));
+      if (this->top61_binary_sensor_) this->top61_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[112])));
+      if (this->top68_binary_sensor_) this->top68_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[5])));
+      if (this->top69_binary_sensor_) this->top69_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[117])));
+      if (this->top99_binary_sensor_) this->top99_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[24])));
+      if (this->top100_binary_sensor_) this->top100_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[24])));
+      if (this->top108_binary_sensor_) this->top108_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[20])));
+      if (this->top109_binary_sensor_) this->top109_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[20])));
+      if (this->top110_binary_sensor_) this->top110_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[20])));
+      if (this->top119_binary_sensor_) this->top119_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[23])));
+      if (this->top120_binary_sensor_) this->top120_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[23])));
+      if (this->top121_binary_sensor_) this->top121_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[23])));
+      if (this->top122_binary_sensor_) this->top122_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[23])));
+      if (this->top123_binary_sensor_) this->top123_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[116])));
+      if (this->top124_binary_sensor_) this->top124_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[116])));
+      if (this->top129_binary_sensor_) this->top129_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[26])));
+      if (this->top132_binary_sensor_) this->top132_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[26])));
+      if (this->top133_binary_sensor_) this->top133_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[26])));
 #endif
 #ifdef USE_TEXT_SENSOR
       if (this->top4_text_sensor_) this->top4_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
@@ -590,7 +590,7 @@ namespace esphome
     }
 #endif
 #ifdef USE_SWITCH
-    void PanasonicHeatpumpComponent::switch_control(switch::Switch* object, bool state)
+    void PanasonicHeatpumpComponent::switch_control(switch_::Switch* object, size_t value)
     {
       if (object == this->set1_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 4);
       else if (object == this->set2_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 5);
@@ -606,7 +606,6 @@ namespace esphome
       else if (object == this->set32_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 23);
       else if (object == this->set33_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply4(value), 23);
       else if (object == this->set34_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 26);
-
     }
 #endif
   }  // namespace panasonic_heatpump

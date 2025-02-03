@@ -43,7 +43,7 @@ namespace esphome
       static float getFractional(uint8_t input, uint8_t shift);
       static std::string getErrorInfo(uint8_t errorType, uint8_t errorNumber);
 
-      static bool getBoolState(uint8_t input);
+      static bool getBinaryState(uint8_t input);
       static std::string getTextState(const char* const array[], int index);
 
       static const constexpr char* const DisabledEnabled[] = {"2", "Disabled", "Enabled"};

@@ -244,7 +244,7 @@ namespace esphome
       SUB_SWITCH(set33);
       SUB_SWITCH(set34);
 
-      void switch_control(switch::Switch* object, bool state);
+      void switch_control(switch_::Switch* object, size_t value);
 #endif
 
       PanasonicHeatpumpComponent() = default;
