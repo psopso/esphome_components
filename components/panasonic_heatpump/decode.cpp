@@ -26,7 +26,7 @@ namespace esphome
     constexpr const char* const PanasonicDecode::Bivalent[];
     constexpr const char* const PanasonicDecode::ModelNames[];
 
-    // stores the bytes #129 to #138 of known models in the same order as the ModelNames above
+    // stores the bytes #129 to #138 of known models in the same order as the ModelNames
     static const uint8_t KnownModels[NUMBER_OF_MODELS][10] =
     {
       0xE2, 0xCF, 0x0B, 0x13, 0x33, 0x32, 0xD1, 0x0C, 0x16, 0x33, // 0
@@ -177,7 +177,8 @@ namespace esphome
       uint16_t value = static_cast<uint16_t>((input2 << 8) | input1);
       return (value - 1);
     }
-    
+
+    // TOP127, TOP128 //
     float PanasonicDecode::getValvePID(uint8_t input)
     {
       return (((float)input - 1) / 2);

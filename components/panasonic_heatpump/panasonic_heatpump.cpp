@@ -1,8 +1,5 @@
 #include "panasonic_heatpump.h"
 
-#define response_message_SIZE 203
-#define request_message_SIZE 111
-
 
 namespace esphome
 {
@@ -341,9 +338,9 @@ namespace esphome
       // payload_length:  payload_length + 3 = packet_length
       // checksum:        if (sum(all bytes) & 0xFF == 0) ==> valid packet
 
-      if (bytes.size() != response_message_SIZE)
+      if (bytes.size() != RESPONSE_MSG_SIZE)
       {
-        ESP_LOGW(TAG, "Invalid response message length: recieved %d - expected %d", bytes.size(), response_message_SIZE);
+        ESP_LOGW(TAG, "Invalid response message length: recieved %d - expected %d", bytes.size(), RESPONSE_MSG_SIZE);
         delay(10);
         return;
       }
@@ -511,7 +508,7 @@ namespace esphome
     void PanasonicHeatpumpComponent::send_initial_message()
     {
       // send command
-      this->uart_hp_->write_array(PanasonicCommand::InitialMessage, REQUEST_INITIAL_SIZE);
+      this->uart_hp_->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }
@@ -519,7 +516,7 @@ namespace esphome
     void PanasonicHeatpumpComponent::send_periodical_message()
     {
       // send command
-      this->uart_hp_->write_array(PanasonicCommand::PeriodicalMessage, REQUEST_DATA_SIZE);
+      this->uart_hp_->write_array(PanasonicCommand::PeriodicalMessage, REQUEST_DATA_MSG_SIZE);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }
@@ -529,13 +526,17 @@ namespace esphome
       // initialize the command
       command_message_.clear();
       command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
-        PanasonicCommand::CommandMessage + REQUEST_DATA_SIZE);
+        PanasonicCommand::CommandMessage + REQUEST_DATA_MSG_SIZE);
       // set command byte
       command_message_[index] = value;
       // calculate and set set checksum (last element)
       command_message_.back() = PanasonicCommand::calcChecksum(command_message_, command_message_.size() - 1);
+
+      // ToDo: Wait until no request is send or stop periodic message.
+      // while (request_receiving_ == 1) { delay(1); }
+
       // send command
-      this->uart_hp_->write_array(this->command_message_);
+      // this->uart_hp_->write_array(this->command_message_);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }

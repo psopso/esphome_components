@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#define RESPONSE_MSG_SIZE 203
 #define NUMBER_OF_MODELS 53
 
 
