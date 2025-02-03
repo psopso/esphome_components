@@ -2,31 +2,41 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import switch
 from esphome.const import (
-  UNIT_PERCENT,
+  ENTITY_CATEGORY_CONFIG,
 )
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET_HEATPUMP_STATE = "heatpump_state"
-CONF_SET_HOLIDAY_MODE = "holiday_mode"
-CONF_SET_FORCE_DHW = "force_dhw"
-CONF_SET_FORCE_DEFROST = "force_defrost"
-CONF_SET_FORCE_STERILIZATION = "force_sterilization"
-CONF_SET_PUMP = "pump"
-CONF_SET_MAIN_SCHEDULE = "main_schedule"
-CONF_SET_ALT_EXTERNAL_SENSOR = "alt_external_sensor"
-CONF_SET_BUFFER = "buffer"
+CONF_SET1 = "set1"
+CONF_SET2 = "set2"
+CONF_SET10 = "set10"
+CONF_SET12 = "set12"
+CONF_SET13 = "set13"
+CONF_SET14 = "set14"
+CONF_SET24 = "set24"
+CONF_SET25 = "set25"
+CONF_SET28 = "set28"
+CONF_SET30 = "set30"
+CONF_SET31 = "set31"
+CONF_SET32 = "set32"
+CONF_SET33 = "set33"
+CONF_SET34 = "set34"
 
 TYPES = [
-  CONF_SET_HEATPUMP_STATE,
-  CONF_SET_HOLIDAY_MODE,
-  CONF_SET_FORCE_DHW,
-  CONF_SET_FORCE_DEFROST,
-  CONF_SET_FORCE_STERILIZATION,
-  CONF_SET_PUMP,
-  CONF_SET_MAIN_SCHEDULE,
-  CONF_SET_ALT_EXTERNAL_SENSOR,
-  CONF_SET_BUFFER,
+  CONF_SET1,
+  CONF_SET2,
+  CONF_SET10,
+  CONF_SET12,
+  CONF_SET13,
+  CONF_SET14,
+  CONF_SET24,
+  CONF_SET25,
+  CONF_SET28,
+  CONF_SET30,
+  CONF_SET31,
+  CONF_SET32,
+  CONF_SET33,
+  CONF_SET34,
 ]
 
 PanasonicHeatpumpSwitch = panasonic_heatpump_ns.class_("PanasonicHeatpumpSwitch", switch.Switch)
@@ -35,32 +45,61 @@ CONFIG_SCHEMA = cv.Schema(
   {
     cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-    cv.Optional(CONF_SET_HEATPUMP_STATE): switch.switch_schema(
+    cv.Optional(CONF_SET1): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_HOLIDAY_MODE): switch.switch_schema(
+    cv.Optional(CONF_SET2): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_FORCE_DHW): switch.switch_schema(
+    cv.Optional(CONF_SET10): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_FORCE_DEFROST): switch.switch_schema(
+    cv.Optional(CONF_SET12): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_FORCE_STERILIZATION): switch.switch_schema(
+    cv.Optional(CONF_SET13): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_PUMP): switch.switch_schema(
+    cv.Optional(CONF_SET14): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_MAIN_SCHEDULE): switch.switch_schema(
+    cv.Optional(CONF_SET24): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ALT_EXTERNAL_SENSOR): switch.switch_schema(
+    cv.Optional(CONF_SET25): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_BUFFER): switch.switch_schema(
+    cv.Optional(CONF_SET28): switch.switch_schema(
       PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET30): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET31): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET32): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET33): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET34): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )

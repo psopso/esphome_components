@@ -158,62 +158,64 @@ namespace esphome
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top126_text_sensor_);
       LOG_TEXT_SENSOR("", "Panasonic Heatpump TextSensor", this->top130_text_sensor_);
 #endif
-#ifdef USE_BUTTON
-      LOG_BUTTON("", "Panasonic Heatpump Button", this->reset_button_);
-#endif
 #ifdef USE_NUMBER
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->z1_heat_request_temperature_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->z1_cool_request_temperature_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->z2_heat_request_temperature_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->z2_cool_request_temperature_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->dhw_temp_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->max_pump_duty_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_target_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_target_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_outside_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_heat_outside_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_target_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_target_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_outside_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_heat_outside_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_target_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_target_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_outside_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone1_cool_outside_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_target_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_target_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_outside_low_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->zone2_cool_outside_high_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->floor_heat_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->floor_cool_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->dhw_heat_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_delay_time_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_start_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->heater_stop_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->buffer_delta_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->heatingoffoutdoortemp_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->bivalent_start_temperature_number_);
-      LOG_NUMBER("", "Panasonic Heatpump Number", this->bivalent_stop_temperature_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set5_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set6_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set7_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set8_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set11_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set15_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_1_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_2_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_3_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_4_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_5_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_6_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_7_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_8_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_9_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_10_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_11_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_12_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_13_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_14_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_15_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set16_16_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set18_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set19_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set20_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set21_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set22_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set23_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set27_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set29_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set36_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set37_number_);
+      LOG_NUMBER("", "Panasonic Heatpump Number", this->set38_number_);
 #endif
 #ifdef USE_SELECT
-      LOG_SELECT("", "Panasonic Heatpump Select", this->quiet_mode_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->powerful_mode_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->operation_mode_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->zones_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->external_pad_heater_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->powerful_mode2_select_);
-      LOG_SELECT("", "Panasonic Heatpump Select", this->bivalent_mode_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set3_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set4_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set9_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set17_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set26_select_);
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set35_select_);
 #endif
 #ifdef USE_SWITCH
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->heatpump_state_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->holiday_mode_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_dhw_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_defrost_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->force_sterilization_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->pump_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->main_schedule_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->alt_external_sensor_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->buffer_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set1_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set2_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set10_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set12_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set13_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set14_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set24_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set25_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set28_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set30_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set31_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set32_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set33_switch_);
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set34_switch_);
 #endif
     }
 
@@ -309,7 +311,7 @@ namespace esphome
     void PanasonicHeatpumpComponent::log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator)
     {
       if (this->log_uart_msg_ == false) return;
-      
+
       std::string logStr;
       logStr = "[" + std::to_string(bytes.size()) + "]";
       ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.c_str());
@@ -538,77 +540,73 @@ namespace esphome
       delay(100);  // NOLINT
     }
 
-#ifdef USE_BUTTON
-    void PanasonicHeatpumpComponent::button_press_action(button::Button* object)
-    {
-      // if (object == this->reset_button_)
-      //   this->send_request(value, index);
-    }
-#endif
 #ifdef USE_NUMBER
     void PanasonicHeatpumpComponent::number_control(number::Number* object, float value)
     {
-      // if (object == this->z1_heat_request_temperature_number_)
-      //   this->send_request(value, index);
-      // else if (object == this->z1_cool_request_temperature_number_)
-      // else if (object == this->z2_heat_request_temperature_number_)
-      // else if (object == this->z2_cool_request_temperature_number_)
-      // else if (object == this->dhw_temp_number_)
-      // else if (object == this->max_pump_duty_number_)
-      // else if (object == this->zone1_heat_target_high_number_)
-      // else if (object == this->zone1_heat_target_low_number_)
-      // else if (object == this->zone1_heat_outside_low_number_)
-      // else if (object == this->zone1_heat_outside_high_number_)
-      // else if (object == this->zone2_heat_target_high_number_)
-      // else if (object == this->zone2_heat_target_low_number_)
-      // else if (object == this->zone2_heat_outside_low_number_)
-      // else if (object == this->zone2_heat_outside_high_number_)
-      // else if (object == this->zone1_cool_target_high_number_)
-      // else if (object == this->zone1_cool_target_low_number_)
-      // else if (object == this->zone1_cool_outside_low_number_)
-      // else if (object == this->zone1_cool_outside_high_number_)
-      // else if (object == this->zone2_cool_target_high_number_)
-      // else if (object == this->zone2_cool_target_low_number_)
-      // else if (object == this->zone2_cool_outside_low_number_)
-      // else if (object == this->zone2_cool_outside_high_number_)
-      // else if (object == this->floor_heat_delta_number_)
-      // else if (object == this->floor_cool_delta_number_)
-      // else if (object == this->dhw_heat_delta_number_)
-      // else if (object == this->heater_delay_time_number_)
-      // else if (object == this->heater_start_delta_number_)
-      // else if (object == this->heater_stop_delta_number_)
-      // else if (object == this->buffer_delta_number_)
-      // else if (object == this->heatingoffoutdoortemp_number_)
-      // else if (object == this->bivalent_start_temperature_number_)
-      // else if (object == this->bivalent_stop_temperature_number_)
+      if (object == this->set5_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 38);
+      else if (object == this->set6_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 39);
+      else if (object == this->set7_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 40);
+      else if (object == this->set8_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 41);
+      else if (object == this->set11_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 42);
+      else if (object == this->set15_number_) this->send_command_message(PanasonicCommand::setPlus1(value), 45);
+      else if (object == this->set16_1_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 75);
+      else if (object == this->set16_2_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 76);
+      else if (object == this->set16_3_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 77);
+      else if (object == this->set16_4_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 78);
+      else if (object == this->set16_5_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 79);
+      else if (object == this->set16_6_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 80);
+      else if (object == this->set16_7_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 81);
+      else if (object == this->set16_8_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 82);
+      else if (object == this->set16_9_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 86);
+      else if (object == this->set16_10_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 87);
+      else if (object == this->set16_11_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 88);
+      else if (object == this->set16_12_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 89);
+      else if (object == this->set16_13_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 90);
+      else if (object == this->set16_14_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 91);
+      else if (object == this->set16_15_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 92);
+      else if (object == this->set16_16_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 93);
+      else if (object == this->set18_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 84);
+      else if (object == this->set19_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 94);
+      else if (object == this->set20_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 99);
+      else if (object == this->set21_number_) this->send_command_message(PanasonicCommand::setPlus1(value), 104);
+      else if (object == this->set22_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 105);
+      else if (object == this->set23_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 106);
+      else if (object == this->set27_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 59);
+      else if (object == this->set29_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 83);
+      else if (object == this->set36_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 65);
+      else if (object == this->set37_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 66);
+      else if (object == this->set38_number_) this->send_command_message(PanasonicCommand::setPlus128(value), 68);
     }
 #endif
 #ifdef USE_SELECT
-    void PanasonicHeatpumpComponent::select_control(select::Select* object, const std::string &value)
+    void PanasonicHeatpumpComponent::select_control(select::Select* object, size_t value)
     {
-      // if (object == this->quiet_mode_select_)
-      //   this->send_request(value, index);
-      // else if (object == this->powerful_mode_select_)
-      // else if (object == this->operation_mode_select_)
-      // else if (object == this->zones_select_)
-      // else if (object == this->external_pad_heater_select_)
-      // else if (object == this->powerful_mode2_select_)
-      // else if (object == this->bivalent_mode_select_)
+      if (object == this->set3_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply8(value), 7);
+      else if (object == this->set4_select_) this->send_command_message(PanasonicCommand::setPlus73(value), 7);
+      else if (object == this->set9_select_) this->send_command_message(PanasonicCommand::setOperationMode(value), 6);
+      else if (object == this->set17_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 6);
+      else if (object == this->set26_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 25);
+      else if (object == this->set35_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply4(value), 26);
     }
 #endif
 #ifdef USE_SWITCH
     void PanasonicHeatpumpComponent::switch_control(switch::Switch* object, bool state)
     {
-      // if (object == this->heatpump_state_switch_)
-      //   this->send_request(value, index);
-      // else if (object == this->holiday_mode_switch_)
-      // else if (object == this->force_dhw_switch_)
-      // else if (object == this->force_defrost_switch_)
-      // else if (object == this->force_sterilization_switch_)
-      // else if (object == this->pump_switch_)
-      // else if (object == this->main_schedule_switch_)
-      // else if (object == this->alt_external_sensor_switch_)
-      // else if (object == this->buffer_switch_)
+      if (object == this->set1_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 4);
+      else if (object == this->set2_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 5);
+      else if (object == this->set10_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 4);
+      else if (object == this->set12_switch_) this->send_command_message(PanasonicCommand::setMultiply2(value), 8);
+      else if (object == this->set13_switch_) this->send_command_message(PanasonicCommand::setMultiply4(value), 8);
+      else if (object == this->set14_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 4);
+      else if (object == this->set24_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 5);
+      else if (object == this->set25_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 20);
+      else if (object == this->set28_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply4(value), 24);
+      else if (object == this->set30_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 23);
+      else if (object == this->set31_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 23);
+      else if (object == this->set32_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 23);
+      else if (object == this->set33_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply4(value), 23);
+      else if (object == this->set34_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 26);
+
     }
 #endif
   }  // namespace panasonic_heatpump

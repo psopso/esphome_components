@@ -8,7 +8,9 @@ namespace esphome
     void PanasonicHeatpumpSelect::control(const std::string &value)
     {
       this->publish_state(value);
-      this->parent_->select_control(this, value);
+      auto index = this->active_index();
+      if (index.has_value())
+        this->parent_->select_control(this, index.value());
     }
   } // namespace panasonic_heatpump
 } // namespace esphome

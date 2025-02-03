@@ -2,78 +2,119 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import number
 from esphome.const import (
-  UNIT_CENTIMETER,
-  UNIT_PERCENT,
+  UNIT_CELSIUS,
+  UNIT_KELVIN,
+  UNIT_MINUTE,
+  ENTITY_CATEGORY_CONFIG,
 )
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET_Z1_HEAT_REQUEST_TEMPERATURE = "z1_heat_request_temperature"
-CONF_SET_Z1_COOL_REQUEST_TEMPERATURE = "z1_cool_request_temperature"
-CONF_SET_Z2_HEAT_REQUEST_TEMPERATURE = "z2_heat_request_temperature"
-CONF_SET_Z2_COOL_REQUEST_TEMPERATURE = "z2_cool_request_temperature"
-CONF_SET_DHW_TEMP = "dhw_temp"
-CONF_SET_MAX_PUMP_DUTY = "max_pump_duty"
-CONF_SET_ZONE1_HEAT_TARGET_HIGH = "zone1_heat_target_high"
-CONF_SET_ZONE1_HEAT_TARGET_LOW = "zone1_heat_target_low"
-CONF_SET_ZONE1_HEAT_OUTSIDE_LOW = "zone1_heat_outside_low"
-CONF_SET_ZONE1_HEAT_OUTSIDE_HIGH = "zone1_heat_outside_high"
-CONF_SET_ZONE2_HEAT_TARGET_HIGH = "zone2_heat_target_high"
-CONF_SET_ZONE2_HEAT_TARGET_LOW = "zone2_heat_target_low"
-CONF_SET_ZONE2_HEAT_OUTSIDE_LOW = "zone2_heat_outside_low"
-CONF_SET_ZONE2_HEAT_OUTSIDE_HIGH = "zone2_heat_outside_high"
-CONF_SET_ZONE1_COOL_TARGET_HIGH = "zone1_cool_target_high"
-CONF_SET_ZONE1_COOL_TARGET_LOW = "zone1_cool_target_low"
-CONF_SET_ZONE1_COOL_OUTSIDE_LOW = "zone1_cool_outside_low"
-CONF_SET_ZONE1_COOL_OUTSIDE_HIGH = "zone1_cool_outside_high"
-CONF_SET_ZONE2_COOL_TARGET_HIGH = "zone2_cool_target_high"
-CONF_SET_ZONE2_COOL_TARGET_LOW = "zone2_cool_target_low"
-CONF_SET_ZONE2_COOL_OUTSIDE_LOW = "zone2_cool_outside_low"
-CONF_SET_ZONE2_COOL_OUTSIDE_HIGH = "zone2_cool_outside_high"
-CONF_SET_FLOOR_HEAT_DELTA = "floor_heat_delta"
-CONF_SET_FLOOR_COOL_DELTA = "floor_cool_delta"
-CONF_SET_DHW_HEAT_DELTA = "dhw_heat_delta"
-CONF_SET_HEATER_DELAY_TIME = "heater_delay_time"
-CONF_SET_HEATER_START_DELTA = "heater_start_delta"
-CONF_SET_HEATER_STOP_DELTA = "heater_stop_delta"
-CONF_SET_BUFFER_DELTA = "buffer_delta"
-CONF_SET_HEATINGOFFOUTDOORTEMP = "heatingoffoutdoortemp"
-CONF_SET_BIVALENT_START_TEMPERATURE = "bivalent_start_temperature"
-CONF_SET_BIVALENT_STOP_TEMPERATURE = "bivalent_stop_temperature"
+CONF_SET5 = "set5"
+CONF_SET6 = "set6"
+CONF_SET7 = "set7"
+CONF_SET8 = "set8"
+CONF_SET11 = "set11"
+CONF_SET15 = "set15"
+CONF_SET16_1 = "set16_1"
+CONF_SET16_2 = "set16_2"
+CONF_SET16_3 = "set16_3"
+CONF_SET16_4 = "set16_4"
+CONF_SET16_5 = "set16_5"
+CONF_SET16_6 = "set16_6"
+CONF_SET16_7 = "set16_7"
+CONF_SET16_8 = "set16_8"
+CONF_SET16_9 = "set16_9"
+CONF_SET16_10 = "set16_10"
+CONF_SET16_11 = "set16_11"
+CONF_SET16_12 = "set16_12"
+CONF_SET16_13 = "set16_13"
+CONF_SET16_14 = "set16_14"
+CONF_SET16_15 = "set16_15"
+CONF_SET16_16 = "set16_16"
+CONF_SET18 = "set18"
+CONF_SET19 = "set19"
+CONF_SET20 = "set20"
+CONF_SET21 = "set21"
+CONF_SET22 = "set22"
+CONF_SET23 = "set23"
+CONF_SET27 = "set27"
+CONF_SET29 = "set29"
+CONF_SET36 = "set36"
+CONF_SET37 = "set37"
+CONF_SET38 = "set38"
 
 TYPES = [
-  CONF_SET_Z1_HEAT_REQUEST_TEMPERATURE,
-  CONF_SET_Z1_COOL_REQUEST_TEMPERATURE,
-  CONF_SET_Z2_HEAT_REQUEST_TEMPERATURE,
-  CONF_SET_Z2_COOL_REQUEST_TEMPERATURE,
-  CONF_SET_DHW_TEMP,
-  CONF_SET_MAX_PUMP_DUTY,
-  CONF_SET_ZONE1_HEAT_TARGET_HIGH,
-  CONF_SET_ZONE1_HEAT_TARGET_LOW,
-  CONF_SET_ZONE1_HEAT_OUTSIDE_LOW,
-  CONF_SET_ZONE1_HEAT_OUTSIDE_HIGH,
-  CONF_SET_ZONE2_HEAT_TARGET_HIGH,
-  CONF_SET_ZONE2_HEAT_TARGET_LOW,
-  CONF_SET_ZONE2_HEAT_OUTSIDE_LOW,
-  CONF_SET_ZONE2_HEAT_OUTSIDE_HIGH,
-  CONF_SET_ZONE1_COOL_TARGET_HIGH,
-  CONF_SET_ZONE1_COOL_TARGET_LOW,
-  CONF_SET_ZONE1_COOL_OUTSIDE_LOW,
-  CONF_SET_ZONE1_COOL_OUTSIDE_HIGH,
-  CONF_SET_ZONE2_COOL_TARGET_HIGH,
-  CONF_SET_ZONE2_COOL_TARGET_LOW,
-  CONF_SET_ZONE2_COOL_OUTSIDE_LOW,
-  CONF_SET_ZONE2_COOL_OUTSIDE_HIGH,
-  CONF_SET_FLOOR_HEAT_DELTA,
-  CONF_SET_FLOOR_COOL_DELTA,
-  CONF_SET_DHW_HEAT_DELTA,
-  CONF_SET_HEATER_DELAY_TIME,
-  CONF_SET_HEATER_START_DELTA,
-  CONF_SET_HEATER_STOP_DELTA,
-  CONF_SET_BUFFER_DELTA,
-  CONF_SET_HEATINGOFFOUTDOORTEMP,
-  CONF_SET_BIVALENT_START_TEMPERATURE,
-  CONF_SET_BIVALENT_STOP_TEMPERATURE,
+  CONF_SET5,
+  CONF_SET6,
+  CONF_SET7,
+  CONF_SET8,
+  CONF_SET11,
+  CONF_SET15,
+  CONF_SET16_1,
+  CONF_SET16_2,
+  CONF_SET16_3,
+  CONF_SET16_4,
+  CONF_SET16_5,
+  CONF_SET16_6,
+  CONF_SET16_7,
+  CONF_SET16_8,
+  CONF_SET16_9,
+  CONF_SET16_10,
+  CONF_SET16_11,
+  CONF_SET16_12,
+  CONF_SET16_13,
+  CONF_SET16_14,
+  CONF_SET16_15,
+  CONF_SET16_16,
+  CONF_SET18,
+  CONF_SET19,
+  CONF_SET20,
+  CONF_SET21,
+  CONF_SET22,
+  CONF_SET23,
+  CONF_SET27,
+  CONF_SET29,
+  CONF_SET36,
+  CONF_SET37,
+  CONF_SET38,
+]
+
+# min_value, max_value, step
+CONF_NUMBERS = [
+  [ -5, 5, 1, ],
+  [ -5, 5, 1, ],
+  [ -5, 5, 1, ],
+  [ -5, 5, 1, ],
+  [ 40, 75, 1, ],
+  [ 64, 254, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ 1, 15, 1, ],
+  [ 1, 15, 1, ],
+  [ -12, -2, 1, ],
+  [ 0, 1000, 1, ],
+  [ 1, 15, 1, ],
+  [ 1, 15, 1, ],
+  [ 0, 10, 1, ],
+  [ 5, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
+  [ -15, 35, 1, ],
 ]
 
 PanasonicHeatpumpNumber = panasonic_heatpump_ns.class_("PanasonicHeatpumpNumber", number.Number)
@@ -82,133 +123,169 @@ CONFIG_SCHEMA = cv.Schema(
   {
     cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-    cv.Optional(CONF_SET_Z1_HEAT_REQUEST_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET5): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_Z1_COOL_REQUEST_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET6): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_Z2_HEAT_REQUEST_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET7): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_Z2_COOL_REQUEST_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET8): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_DHW_TEMP): number.number_schema(
+    cv.Optional(CONF_SET11): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_MAX_PUMP_DUTY): number.number_schema(
+    cv.Optional(CONF_SET15): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_HEAT_TARGET_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_1): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_HEAT_TARGET_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_2): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_HEAT_OUTSIDE_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_3): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_HEAT_OUTSIDE_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_4): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_HEAT_TARGET_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_5): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_HEAT_TARGET_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_6): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_HEAT_OUTSIDE_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_7): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_HEAT_OUTSIDE_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_8): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_COOL_TARGET_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_9): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_COOL_TARGET_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_10): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_COOL_OUTSIDE_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_11): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE1_COOL_OUTSIDE_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_12): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_COOL_TARGET_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_13): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_COOL_TARGET_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_14): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_COOL_OUTSIDE_LOW): number.number_schema(
+    cv.Optional(CONF_SET16_15): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONE2_COOL_OUTSIDE_HIGH): number.number_schema(
+    cv.Optional(CONF_SET16_16): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_FLOOR_HEAT_DELTA): number.number_schema(
+    cv.Optional(CONF_SET18): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_FLOOR_COOL_DELTA): number.number_schema(
+    cv.Optional(CONF_SET19): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_DHW_HEAT_DELTA): number.number_schema(
+    cv.Optional(CONF_SET20): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_HEATER_DELAY_TIME): number.number_schema(
+    cv.Optional(CONF_SET21): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_MINUTE,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_HEATER_START_DELTA): number.number_schema(
+    cv.Optional(CONF_SET22): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_HEATER_STOP_DELTA): number.number_schema(
+    cv.Optional(CONF_SET23): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_BUFFER_DELTA): number.number_schema(
+    cv.Optional(CONF_SET27): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_KELVIN,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_HEATINGOFFOUTDOORTEMP): number.number_schema(
+    cv.Optional(CONF_SET29): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_BIVALENT_START_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET36): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_BIVALENT_STOP_TEMPERATURE): number.number_schema(
+    cv.Optional(CONF_SET37): number.number_schema(
       PanasonicHeatpumpNumber,
-      unit_of_measurement=UNIT_CENTIMETER,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
+    ),
+    cv.Optional(CONF_SET38): number.number_schema(
+      PanasonicHeatpumpNumber,
+      unit_of_measurement=UNIT_CELSIUS,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )
@@ -220,6 +297,7 @@ async def to_code(config):
 
 async def setup_conf(parent_config, key, hub):
   if child_config := parent_config.get(key):
-    var = await number.new_number(child_config, min_value=0, max_value=100, step=.1)
+    index = TYPES.index(key)
+    var = await number.new_number(child_config, min_value=CONF_NUMBERS[index][0], max_value=CONF_NUMBERS[index][1], step=CONF_NUMBERS[index][2])
     await cg.register_parented(var, parent_config[CONF_PANASONIC_HEATPUMP_ID])
     cg.add(getattr(hub, f"set_{key}_number")(var))

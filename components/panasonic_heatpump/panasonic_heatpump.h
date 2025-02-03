@@ -13,9 +13,6 @@
 #ifdef USE_TEXT_SENSOR
 #include "esphome/components/text_sensor/text_sensor.h"
 #endif
-#ifdef USE_BUTTON
-#include "esphome/components/button/button.h"
-#endif
 #ifdef USE_NUMBER
 #include "esphome/components/number/number.h"
 #endif
@@ -38,6 +35,7 @@ namespace esphome
     class PanasonicHeatpumpComponent : public Component
     {
     public:
+      // ToDo: Add template for custom sensor classes similar to SUB_SENSOR (see Pipsolar)
 #ifdef USE_SENSOR
       SUB_SENSOR(top1);
       SUB_SENSOR(top5);
@@ -183,68 +181,68 @@ namespace esphome
       SUB_TEXT_SENSOR(top126);
       SUB_TEXT_SENSOR(top130);
 #endif
-#ifdef USE_BUTTON
-      SUB_BUTTON(reset);
-
-      void button_press_action(button::Button* object);
-#endif
 #ifdef USE_NUMBER
-      SUB_NUMBER(z1_heat_request_temperature);
-      SUB_NUMBER(z1_cool_request_temperature);
-      SUB_NUMBER(z2_heat_request_temperature);
-      SUB_NUMBER(z2_cool_request_temperature);
-      SUB_NUMBER(dhw_temp);
-      SUB_NUMBER(max_pump_duty);
-      SUB_NUMBER(zone1_heat_target_high);
-      SUB_NUMBER(zone1_heat_target_low);
-      SUB_NUMBER(zone1_heat_outside_low);
-      SUB_NUMBER(zone1_heat_outside_high);
-      SUB_NUMBER(zone2_heat_target_high);
-      SUB_NUMBER(zone2_heat_target_low);
-      SUB_NUMBER(zone2_heat_outside_low);
-      SUB_NUMBER(zone2_heat_outside_high);
-      SUB_NUMBER(zone1_cool_target_high);
-      SUB_NUMBER(zone1_cool_target_low);
-      SUB_NUMBER(zone1_cool_outside_low);
-      SUB_NUMBER(zone1_cool_outside_high);
-      SUB_NUMBER(zone2_cool_target_high);
-      SUB_NUMBER(zone2_cool_target_low);
-      SUB_NUMBER(zone2_cool_outside_low);
-      SUB_NUMBER(zone2_cool_outside_high);
-      SUB_NUMBER(floor_heat_delta);
-      SUB_NUMBER(floor_cool_delta);
-      SUB_NUMBER(dhw_heat_delta);
-      SUB_NUMBER(heater_delay_time);
-      SUB_NUMBER(heater_start_delta);
-      SUB_NUMBER(heater_stop_delta);
-      SUB_NUMBER(buffer_delta);
-      SUB_NUMBER(heatingoffoutdoortemp);
-      SUB_NUMBER(bivalent_start_temperature);
-      SUB_NUMBER(bivalent_stop_temperature);
+      SUB_NUMBER(set5);
+      SUB_NUMBER(set6);
+      SUB_NUMBER(set7);
+      SUB_NUMBER(set8);
+      SUB_NUMBER(set11);
+      SUB_NUMBER(set15);
+      SUB_NUMBER(set16_1);
+      SUB_NUMBER(set16_2);
+      SUB_NUMBER(set16_3);
+      SUB_NUMBER(set16_4);
+      SUB_NUMBER(set16_5);
+      SUB_NUMBER(set16_6);
+      SUB_NUMBER(set16_7);
+      SUB_NUMBER(set16_8);
+      SUB_NUMBER(set16_9);
+      SUB_NUMBER(set16_10);
+      SUB_NUMBER(set16_11);
+      SUB_NUMBER(set16_12);
+      SUB_NUMBER(set16_13);
+      SUB_NUMBER(set16_14);
+      SUB_NUMBER(set16_15);
+      SUB_NUMBER(set16_16);
+      SUB_NUMBER(set18);
+      SUB_NUMBER(set19);
+      SUB_NUMBER(set20);
+      SUB_NUMBER(set21);
+      SUB_NUMBER(set22);
+      SUB_NUMBER(set23);
+      SUB_NUMBER(set27);
+      SUB_NUMBER(set29);
+      SUB_NUMBER(set36);
+      SUB_NUMBER(set37);
+      SUB_NUMBER(set38);
 
       void number_control(number::Number* object, float value);
 #endif
 #ifdef USE_SELECT
-      SUB_SELECT(quiet_mode);
-      SUB_SELECT(powerful_mode);
-      SUB_SELECT(operation_mode);
-      SUB_SELECT(zones);
-      SUB_SELECT(external_pad_heater);
-      SUB_SELECT(powerful_mode2);
-      SUB_SELECT(bivalent_mode);
+      SUB_SELECT(set3);
+      SUB_SELECT(set4);
+      SUB_SELECT(set9);
+      SUB_SELECT(set17);
+      SUB_SELECT(set26);
+      SUB_SELECT(set35);
 
-      void select_control(select::Select* object, const std::string &value);
+      void select_control(select::Select* object, size_t value);
 #endif
 #ifdef USE_SWITCH
-      SUB_SWITCH(heatpump_state);
-      SUB_SWITCH(holiday_mode);
-      SUB_SWITCH(force_dhw);
-      SUB_SWITCH(force_defrost);
-      SUB_SWITCH(force_sterilization);
-      SUB_SWITCH(pump);
-      SUB_SWITCH(main_schedule);
-      SUB_SWITCH(alt_external_sensor);
-      SUB_SWITCH(buffer);
+      SUB_SWITCH(set1);
+      SUB_SWITCH(set2);
+      SUB_SWITCH(set10);
+      SUB_SWITCH(set12);
+      SUB_SWITCH(set13);
+      SUB_SWITCH(set14);
+      SUB_SWITCH(set24);
+      SUB_SWITCH(set25);
+      SUB_SWITCH(set28);
+      SUB_SWITCH(set30);
+      SUB_SWITCH(set31);
+      SUB_SWITCH(set32);
+      SUB_SWITCH(set33);
+      SUB_SWITCH(set34);
 
       void switch_control(switch::Switch* object, bool state);
 #endif

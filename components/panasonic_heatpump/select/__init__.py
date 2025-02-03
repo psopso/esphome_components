@@ -2,27 +2,35 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import select
 from esphome.const import (
-  UNIT_PERCENT,
+  ENTITY_CATEGORY_CONFIG,
 )
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET_QUIET_MODE = "quiet_mode"
-CONF_SET_POWERFUL_MODE = "powerful_mode"
-CONF_SET_OPERATION_MODE = "operation_mode"
-CONF_SET_ZONES = "zones"
-CONF_SET_EXTERNAL_PAD_HEATER = "external_pad_heater"
-CONF_SET_POWERFUL_MODE2 = "powerful_mode2"
-CONF_SET_BIVALENT_MODE = "bivalent_mode"
+CONF_SET3 = "set3"
+CONF_SET4 = "set4"
+CONF_SET9 = "set9"
+CONF_SET17 = "set17"
+CONF_SET26 = "set26"
+CONF_SET35 = "set35"
 
 TYPES = [
-  CONF_SET_QUIET_MODE,
-  CONF_SET_POWERFUL_MODE,
-  CONF_SET_OPERATION_MODE,
-  CONF_SET_ZONES,
-  CONF_SET_EXTERNAL_PAD_HEATER,
-  CONF_SET_POWERFUL_MODE2,
-  CONF_SET_BIVALENT_MODE,
+  CONF_SET3,
+  CONF_SET4,
+  CONF_SET9,
+  CONF_SET17,
+  CONF_SET26,
+  CONF_SET35,
+]
+
+CONF_SELECTS = [
+  [ "Off mode", "Quiet mode 1", "Quiet mode 2", "Quiet mode 3", ],
+  [ "off", "30min", "60min", "90min", ],
+  [ "off", "30min", "60min", "90min", ],
+  [ "Heat only", "Cool only", "Auto", "DHW only", "Heat+DHW", "Cool+DHW", "Auto + DHW", ],
+  [ "Zone 1", "Zone2", "Zone1 and Zone2", ],
+  [ "Disabled", "Type-A", "Type-B" ],
+  [ "Alternativ", "Parallel", "Advanced Parallel" ],
 ]
 
 PanasonicHeatpumpSelect = panasonic_heatpump_ns.class_("PanasonicHeatpumpSelect", select.Select)
@@ -31,26 +39,29 @@ CONFIG_SCHEMA = cv.Schema(
   {
     cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-    cv.Optional(CONF_SET_QUIET_MODE): select.select_schema(
+    cv.Optional(CONF_SET3): select.select_schema(
       PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_POWERFUL_MODE): select.select_schema(
+    cv.Optional(CONF_SET4): select.select_schema(
       PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_OPERATION_MODE): select.select_schema(
+    cv.Optional(CONF_SET9): select.select_schema(
       PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_ZONES): select.select_schema(
+    cv.Optional(CONF_SET17): select.select_schema(
       PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_EXTERNAL_PAD_HEATER): select.select_schema(
+    cv.Optional(CONF_SET26): select.select_schema(
       PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
-    cv.Optional(CONF_SET_POWERFUL_MODE2): select.select_schema(
+    cv.Optional(CONF_SET35): select.select_schema(
       PanasonicHeatpumpSelect,
-    ),
-    cv.Optional(CONF_SET_BIVALENT_MODE): select.select_schema(
-      PanasonicHeatpumpSelect,
+      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )
@@ -62,6 +73,7 @@ async def to_code(config):
 
 async def setup_conf(parent_config, key, hub):
   if child_config := parent_config.get(key):
-    var = await select.new_select(child_config, options=["dummy1", "dummy2"])
+    index = TYPES.index(key)
+    var = await select.new_select(child_config, options=CONF_SELECTS[index])
     await cg.register_parented(var, parent_config[CONF_PANASONIC_HEATPUMP_ID])
     cg.add(getattr(hub, f"set_{key}_select")(var))
