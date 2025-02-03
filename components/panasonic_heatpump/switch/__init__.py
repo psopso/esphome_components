@@ -7,20 +7,20 @@ from esphome.const import (
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET1 = "set1"
-CONF_SET2 = "set2"
-CONF_SET10 = "set10"
-CONF_SET12 = "set12"
-CONF_SET13 = "set13"
-CONF_SET14 = "set14"
-CONF_SET24 = "set24"
-CONF_SET25 = "set25"
-CONF_SET28 = "set28"
-CONF_SET30 = "set30"
-CONF_SET31 = "set31"
-CONF_SET32 = "set32"
-CONF_SET33 = "set33"
-CONF_SET34 = "set34"
+CONF_SET1 = "set1"  # Set Heatpump
+CONF_SET2 = "set2"  # Set Holiday Mode
+CONF_SET10 = "set10"  # Set Force DHW
+CONF_SET12 = "set12"  # Set Force Defrost
+CONF_SET13 = "set13"  # Set Force Sterilization
+CONF_SET14 = "set14"  # Set Pump
+CONF_SET24 = "set24"  # Set Main Schedule
+CONF_SET25 = "set25"  # Set Alt External Sensor
+CONF_SET28 = "set28"  # Set Buffer
+CONF_SET30 = "set30"  # Set External Control
+CONF_SET31 = "set31"  # Set External Error
+CONF_SET32 = "set32"  # Set External Compressor Control
+CONF_SET33 = "set33"  # Set External Heat Cool Control
+CONF_SET34 = "set34"  # Set Bivalent Control
 
 TYPES = [
   CONF_SET1,

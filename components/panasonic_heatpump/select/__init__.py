@@ -7,12 +7,12 @@ from esphome.const import (
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
-CONF_SET3 = "set3"
-CONF_SET4 = "set4"
-CONF_SET9 = "set9"
-CONF_SET17 = "set17"
-CONF_SET26 = "set26"
-CONF_SET35 = "set35"
+CONF_SET3 = "set3"  # Set Quiet Mode
+CONF_SET4 = "set4"  # Set Powerful Mode
+CONF_SET9 = "set9"  # Set Operation Mode
+CONF_SET17 = "set17"  # Set Zones
+CONF_SET26 = "set26"  # Set External PadHeater
+CONF_SET35 = "set35"  # Set Bivalent Mode
 
 TYPES = [
   CONF_SET3,

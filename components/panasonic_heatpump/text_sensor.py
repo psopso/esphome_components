@@ -6,6 +6,7 @@ from esphome.const import (
 )
 from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
 
+
 ICON_OPERATING_MODE = "mdi:thermostat"
 ICON_POWERFUL_MODE = "mdi:arm-flex"
 ICON_QUIET_MODE = "mdi:sleep"
@@ -22,28 +23,28 @@ ICON_VALVE = "mdi:pipe-valve"
 ICON_PUMP = "mdi:pump"
 ICON_EXTERNAL_PAD_HEATER = "mdi:radiator"
 
-CONF_TOP4 = "top4"
-CONF_TOP17 = "top17"
-CONF_TOP18 = "top18"
-CONF_TOP19 = "top19"
-CONF_TOP20 = "top20"
-CONF_TOP44 = "top44"
-CONF_TOP58 = "top58"
-CONF_TOP59 = "top59"
-CONF_TOP76 = "top76"
-CONF_TOP81 = "top81"
-CONF_TOP92 = "top92"
-CONF_TOP94 = "top94"
-CONF_TOP101 = "top101"
-CONF_TOP106 = "top106"
-CONF_TOP107 = "top107"
-CONF_TOP111 = "top111"
-CONF_TOP112 = "top112"
-CONF_TOP114 = "top114"
-CONF_TOP125 = "top125"
-CONF_TOP126 = "top126"
-CONF_TOP130 = "top130"
 
+CONF_TOP4 = "top4"  # Operating Mode State
+CONF_TOP17 = "top17"  # Powerful Mode Time
+CONF_TOP18 = "top18"  # Quiet Mode Level
+CONF_TOP19 = "top19"  # Holiday Mode State
+CONF_TOP20 = "top20"  # ThreeWay Valve State
+CONF_TOP44 = "top44"  # Error
+CONF_TOP58 = "top58"  # DHW Heater State
+CONF_TOP59 = "top59"  # Room Heater State
+CONF_TOP76 = "top76"  # Heating Mode
+CONF_TOP81 = "top81"  # Cooling Mode
+CONF_TOP92 = "top92"  # Heat Pump Model
+CONF_TOP94 = "top94"  # Zones State
+CONF_TOP101 = "top101"  # Solar Mode
+CONF_TOP106 = "top106"  # Pump Flowrate Mode
+CONF_TOP107 = "top107"  # Liquid Type
+CONF_TOP111 = "top111"  # Z1 Sensor Settings
+CONF_TOP112 = "top112"  # Z2 Sensor Settings
+CONF_TOP114 = "top114"  # External Pad Heater
+CONF_TOP125 = "top125"  # TwoWay Valve State
+CONF_TOP126 = "top126"  # ThreeWay Valve State2
+CONF_TOP130 = "top130"  # Bivalent Mode
 
 TYPES = [
   CONF_TOP4,
