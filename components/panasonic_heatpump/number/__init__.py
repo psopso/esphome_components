@@ -292,12 +292,11 @@ CONFIG_SCHEMA = cv.Schema(
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
-  for key in TYPES:
-    await setup_conf(config, key, hub)
+  for index, key in enumerate(TYPES):
+    await setup_conf(config, key, index, hub)
 
-async def setup_conf(parent_config, key, hub):
+async def setup_conf(parent_config, key, index, hub):
   if child_config := parent_config.get(key):
-    index = TYPES.index(key)
     var = await number.new_number(child_config, min_value=CONF_NUMBERS[index][0], max_value=CONF_NUMBERS[index][1], step=CONF_NUMBERS[index][2])
     await cg.register_parented(var, parent_config[CONF_PANASONIC_HEATPUMP_ID])
     cg.add(getattr(hub, f"set_{key}_number")(var))
