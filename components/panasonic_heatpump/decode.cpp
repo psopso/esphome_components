@@ -113,47 +113,47 @@ namespace esphome
       return ((input >> 3) & 0b111) - 1;
     }
 
-    int PanasonicDecode::getRight3Bits(uint8_t input)
+    int PanasonicDecode::getBit6and7and8(uint8_t input)
     {
       return (input & 0b111) - 1;
     }
 
-    int PanasonicDecode::getIntMinus1(uint8_t input)
+    int PanasonicDecode::getByteMinus1(uint8_t input)
     {
       return (int)input - 1;
     }
 
-    int PanasonicDecode::getIntMinus128(uint8_t input)
+    int PanasonicDecode::getByteMinus128(uint8_t input)
     {
       return (int)input - 128;
     }
 
-    float PanasonicDecode::getIntMinus1Div2(uint8_t input)
+    float PanasonicDecode::getByteMinus1Div2(uint8_t input)
     {
       return ((float)input - 1) / 2;
     }
 
-    float PanasonicDecode::getIntMinus1Div5(uint8_t input)
+    float PanasonicDecode::getByteMinus1Div5(uint8_t input)
     {
       return ((float)input - 1) / 5;
     }
 
-    float PanasonicDecode::getIntMinus1Div50(uint8_t input)
+    float PanasonicDecode::getByteMinus1Div50(uint8_t input)
     {
       return ((float)input - 1) / 50;
     }
 
-    int PanasonicDecode::getIntMinus1Times10(uint8_t input)
+    int PanasonicDecode::getByteMinus1Times10(uint8_t input)
     {
       return ((int)input - 1) * 10;
     }
 
-    int PanasonicDecode::getIntMinus1Times50(uint8_t input)
+    int PanasonicDecode::getByteMinus1Times50(uint8_t input)
     {
       return ((int)input - 1) * 50;
     }
 
-    int PanasonicDecode::getIntMinus1Times200(uint8_t input)
+    int PanasonicDecode::getByteMinus1Times200(uint8_t input)
     {
       return ((int)input - 1) * 200;
     }

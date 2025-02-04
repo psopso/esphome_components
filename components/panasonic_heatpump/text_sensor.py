@@ -125,8 +125,12 @@ CONFIG_SCHEMA = cv.All(
       cv.Optional(CONF_TOP114): text_sensor.text_sensor_schema(
         icon=ICON_EXTERNAL_PAD_HEATER,
       ),
-      cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(
+        icon=ICON_VALVE,
+      ),
+      cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(
+        icon=ICON_VALVE,
+      ),
       cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(),
     }
   ).extend(cv.COMPONENT_SCHEMA)
