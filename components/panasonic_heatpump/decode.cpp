@@ -113,12 +113,7 @@ namespace esphome
       return ((input >> 3) & 0b111) - 1;
     }
 
-    int PanasonicDecode::getLeft5bits(uint8_t input)
-    {
-      return (input >> 3) - 1;
-    }
-
-    int PanasonicDecode::getRight3bits(uint8_t input)
+    int PanasonicDecode::getRight3Bits(uint8_t input)
     {
       return (input & 0b111) - 1;
     }
@@ -133,7 +128,6 @@ namespace esphome
       return (int)input - 128;
     }
 
-    // TOP127, TOP128 //
     float PanasonicDecode::getIntMinus1Div2(uint8_t input)
     {
       return ((float)input - 1) / 2;
@@ -159,7 +153,6 @@ namespace esphome
       return ((int)input - 1) * 50;
     }
 
-    // TOP15, TOP16, TOP38, TOP39, TOP40, TOP41 //
     int PanasonicDecode::getIntMinus1Times200(uint8_t input)
     {
       return ((int)input - 1) * 200;
@@ -182,8 +175,7 @@ namespace esphome
 
     int PanasonicDecode::getUintt16(uint8_t input1, uint8_t input2)
     {
-      uint16_t value = static_cast<uint16_t>((input2 << 8) | input1);
-      return (value - 1);
+      return (static_cast<uint16_t>((input2 << 8) | input1)) - 1;
     }
 
     // TOP4 //
