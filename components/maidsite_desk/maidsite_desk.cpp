@@ -47,19 +47,12 @@ namespace esphome
 
     void MaidsiteDeskComponent::setup()
     {
-      ESP_LOGCONFIG(TAG, "Setting up maidsite Desk ...");
+      ESP_LOGCONFIG(TAG, "Setting up Maidsite Desk ...");
       delay(10);
-
-      height_abs_number_->traits.set_min_value(0);
-      height_abs_number_->traits.set_max_value(120);
-      height_abs_number_->traits.set_step(.2);
-      height_pct_number_->traits.set_min_value(0);
-      height_pct_number_->traits.set_max_value(120);
-      height_pct_number_->traits.set_step(.1);
-
-      request_physical_limits();
-      request_limits();
-      request_settings();
+      this->check_uart_settings(9600);
+      this->request_physical_limits();
+      this->request_limits();
+      this->request_settings();
     }
 
     void MaidsiteDeskComponent::loop()
