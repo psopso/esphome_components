@@ -85,89 +85,97 @@ namespace esphome
 
     int PanasonicDecode::getBit1(uint8_t input)
     {
-      return (input >> 7);
+      return input >> 7;
     }
 
     int PanasonicDecode::getBit1and2(uint8_t input)
     {
-      return ((input >> 6) - 1);
+      return (input >> 6) - 1;
     }
 
     int PanasonicDecode::getBit3and4(uint8_t input)
     {
-      return (((input >> 4) & 0b11) - 1);
+      return ((input >> 4) & 0b11) - 1;
     }
 
     int PanasonicDecode::getBit5and6(uint8_t input)
     {
-      return (((input >> 2) & 0b11) - 1);
+      return ((input >> 2) & 0b11) - 1;
     }
 
     int PanasonicDecode::getBit7and8(uint8_t input)
     {
-      return ((input & 0b11) - 1);
+      return (input & 0b11) - 1;
     }
 
     int PanasonicDecode::getBit3and4and5(uint8_t input)
     {
-      return (((input >> 3) & 0b111) - 1);
+      return ((input >> 3) & 0b111) - 1;
     }
 
     int PanasonicDecode::getLeft5bits(uint8_t input)
     {
-      return ((input >> 3) - 1);
+      return (input >> 3) - 1;
     }
 
     int PanasonicDecode::getRight3bits(uint8_t input)
     {
-      return ((input & 0b111) - 1);
+      return (input & 0b111) - 1;
     }
 
     int PanasonicDecode::getIntMinus1(uint8_t input)
     {
-      int value = (int)input - 1;
-      return value;
+      return (int)input - 1;
     }
 
     int PanasonicDecode::getIntMinus128(uint8_t input)
     {
-      int value = (int)input - 128;
-      return value;
+      return (int)input - 128;
+    }
+
+    // TOP127, TOP128 //
+    float PanasonicDecode::getIntMinus1Div2(uint8_t input)
+    {
+      return ((float)input - 1) / 2;
     }
 
     float PanasonicDecode::getIntMinus1Div5(uint8_t input)
     {
-      return ((((float)input - 1) / 5), 1);
+      return ((float)input - 1) / 5;
     }
 
     float PanasonicDecode::getIntMinus1Div50(uint8_t input)
     {
-      return ((((float)input - 1) / 50), 2);
+      return ((float)input - 1) / 50;
     }
 
     int PanasonicDecode::getIntMinus1Times10(uint8_t input)
     {
-      int value = (int)input - 1;
-      return (value * 10);
+      return ((int)input - 1) * 10;
     }
 
     int PanasonicDecode::getIntMinus1Times50(uint8_t input)
     {
-      int value = (int)input - 1;
-      return (value * 50);
+      return ((int)input - 1) * 50;
     }
 
-    int PanasonicDecode::getFirstByte(uint8_t input)
+    // TOP15, TOP16, TOP38, TOP39, TOP40, TOP41 //
+    int PanasonicDecode::getIntMinus1Times200(uint8_t input)
     {
-      return ((input >> 4) - 1);
+      return ((int)input - 1) * 200;
     }
 
-    int PanasonicDecode::getSecondByte(uint8_t input)
+    int PanasonicDecode::getHighNibbleMinus1(uint8_t input)
     {
-      return ((input & 0b1111) - 1);
+      return (input >> 4) - 1;
     }
 
-    int PanasonicDecode::getWord(uint8_t low, uint8_t hi)
+    int PanasonicDecode::getLowNibbleMinus1(uint8_t input)
+    {
+      return (input & 0b1111) - 1;
+    }
+
+    int PanasonicDecode::getWordMinus1(uint8_t low, uint8_t hi)
     {
       return ((hi << 8) + low) - 1;
     }
@@ -178,65 +186,34 @@ namespace esphome
       return (value - 1);
     }
 
-    // TOP127, TOP128 //
-    float PanasonicDecode::getValvePID(uint8_t input)
-    {
-      return (((float)input - 1) / 2);
-    }
-
-    // TOP15, TOP16, TOP38, TOP39, TOP40, TOP41 //
-    int PanasonicDecode::getPower(uint8_t input)
-    {
-      int value = ((int)input - 1) * 200;
-      return value;
-    }
-
     // TOP4 //
     int PanasonicDecode::getOpMode(uint8_t input)
     {
       switch ((int)(input & 0b111111))
       {
-      case 18:
+      case 18:    // heat-only
         return 0;
-      case 19:
+      case 19:    // cool-only
         return 1;
-      case 25:
+      case 24:    // auto
         return 2;
-      case 33:
+      case 25:    // auto-heat
         return 3;
-      case 34:
+      case 26:    // auto-cool
         return 4;
-      case 35:
+      case 33:    // dhw-only
         return 5;
-      case 41:
+      case 34:    // heat+dhw
         return 6;
-      case 26:
+      case 35:    // cool+dhw
         return 7;
-      case 42:
+      case 40:    // auto-dhw
         return 8;
-      default:
-        return -1;
-      }
-    }
-
-    // TOP124 //
-    int PanasonicDecode::getBivalent(uint8_t input)
-    {
-      switch ((int)input)
-      {
-      case 0x55:
-        return 0;
-      case 0x56:
-        return 1;
-      case 0x57:
-        return 2;
-      case 0x58:
-        return 3;
-      case 0x59:
-        return 4;
-      case 0x5A:
-        return 5;
-      default:
+      case 41:    // auto-heat+dhw
+        return 9;
+      case 42:    // auto-cool+dhw
+        return 10;
+      default:    // unknown
         return -1;
       }
     }
@@ -268,19 +245,13 @@ namespace esphome
     // input2 = data[170]
     float PanasonicDecode::getPumpFlow(uint8_t input1, uint8_t input2)
     {
-      int PumpFlow2 = (int)input2;
-      float PumpFlow1 = (((float)input1 - 1) / 256);
-      float PumpFlow = PumpFlow2 + PumpFlow1;
-      return PumpFlow;
+      return (((float)input1 - 1) / 256) + ((int)input2);
     }
 
     // TOP5, TOP6 //
     float PanasonicDecode::getFractional(uint8_t input, uint8_t shift)
     {
-      float result;
-      int fractional = (int)((input >> shift) & 0b111) - 1;
-      result = fractional * 0.25;
-      return result;
+      return ((int)((input >> shift) & 0b111) - 1) * 0.25;
     }
 
     // TOP44 //

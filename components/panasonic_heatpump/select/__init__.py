@@ -7,6 +7,7 @@ from esphome.const import (
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
+CONF_SET2 = "set2"  # Set Holiday Mode
 CONF_SET3 = "set3"  # Set Quiet Mode
 CONF_SET4 = "set4"  # Set Powerful Mode
 CONF_SET9 = "set9"  # Set Operation Mode
@@ -15,6 +16,7 @@ CONF_SET26 = "set26"  # Set External PadHeater
 CONF_SET35 = "set35"  # Set Bivalent Mode
 
 TYPES = [
+  CONF_SET2,
   CONF_SET3,
   CONF_SET4,
   CONF_SET9,
@@ -24,12 +26,13 @@ TYPES = [
 ]
 
 CONF_SELECTS = [
-  [ "Off mode", "Quiet mode 1", "Quiet mode 2", "Quiet mode 3", ],
+  [ "Off", "Scheduled", "Active", ],
+  [ "Off", "Level 1", "Level 2", "Level 3", ],
   [ "Off", "30min", "60min", "90min", ],
-  [ "Heat only", "Cool only", "Auto", "DHW only", "Heat+DHW", "Cool+DHW", "Auto + DHW", ],
-  [ "Zone 1", "Zone2", "Zone1 and Zone2", ],
+  [ "Heat only", "Cool only", "Auto", "Auto(heat)", "Auto(cool)", "DHW only", "Heat+DHW", "Cool+DHW", "Auto+DHW", "Auto(heat)+DHW", "Auto(cool)+DHW", ],
+  [ "Zone 1", "Zone 2", "Zone 1 & 2", ],
   [ "Disabled", "Type-A", "Type-B" ],
-  [ "Alternativ", "Parallel", "Advanced Parallel" ],
+  [ "Alternative", "Parallel", "Advanced Parallel" ],
 ]
 
 PanasonicHeatpumpSelect = panasonic_heatpump_ns.class_("PanasonicHeatpumpSelect", select.Select)
@@ -38,29 +41,26 @@ CONFIG_SCHEMA = cv.Schema(
   {
     cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
+    cv.Optional(CONF_SET2): select.select_schema(
+      PanasonicHeatpumpSelect,
+    ),
     cv.Optional(CONF_SET3): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET4): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET9): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET17): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET26): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET35): select.select_schema(
       PanasonicHeatpumpSelect,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )

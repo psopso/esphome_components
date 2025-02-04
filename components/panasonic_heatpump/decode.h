@@ -26,20 +26,19 @@ namespace esphome
       static int getRight3bits(uint8_t input);
       static int getIntMinus1(uint8_t input);
       static int getIntMinus128(uint8_t input);
+      static float getIntMinus1Div2(uint8_t input);
       static float getIntMinus1Div5(uint8_t input);
       static float getIntMinus1Div50(uint8_t input);
       static int getIntMinus1Times10(uint8_t input);
       static int getIntMinus1Times50(uint8_t input);
-      static int getFirstByte(uint8_t input);
-      static int getSecondByte(uint8_t input);
-      static int getWord(uint8_t hi, uint8_t low);
+      static int getIntMinus1Times200(uint8_t input);
+      static int getHighNibbleMinus1(uint8_t input);
+      static int getLowNibbleMinus1(uint8_t input);
+      static int getWordMinus1(uint8_t hi, uint8_t low);
       static int getUintt16(uint8_t input1, uint8_t input2);
 
-      static float getValvePID(uint8_t input);
-      static int getPower(uint8_t input);
       static int getOpMode(uint8_t input);
       static int getModel(std::vector<uint8_t>& data, uint8_t index);
-      static int getBivalent(uint8_t input);
       static float getPumpFlow(uint8_t input1, uint8_t input2);
       static float getFractional(uint8_t input, uint8_t shift);
       static std::string getErrorInfo(uint8_t errorType, uint8_t errorNumber);
@@ -47,25 +46,25 @@ namespace esphome
       static bool getBinaryState(uint8_t input);
       static std::string getTextState(const char* const array[], int index);
 
-      static const constexpr char* const DisabledEnabled[] = {"2", "Disabled", "Enabled"};
-      static const constexpr char* const BlockedFree[] = {"2", "Blocked", "Free"};
-      static const constexpr char* const OffOn[] = {"2", "Off", "On"};
-      static const constexpr char* const InactiveActive[] = {"2", "Inactive", "Active"};
-      static const constexpr char* const PumpFlowRateMode[] = {"2", "DeltaT", "Max flow"};
-      static const constexpr char* const HolidayState[] = {"3", "Off", "Scheduled", "Active"};
-      static const constexpr char* const OpModeDesc[] = {"9", "Heat", "Cool", "Auto(heat)", "DHW", "Heat+DHW", "Cool+DHW", "Auto(heat)+DHW", "Auto(cool)", "Auto(cool)+DHW"};
-      static const constexpr char* const Powerfulmode[] = {"4", "Off", "30min", "60min", "90min"};
-      static const constexpr char* const Quietmode[] = {"4", "Off", "Level 1", "Level 2", "Level 3"};
-      static const constexpr char* const Valve[] = {"2", "Room", "DHW"};
-      static const constexpr char* const Valve2[] = {"2", "Cool", "Heat"};
-      static const constexpr char* const MixingValve[] = {"4", "Off", "Decrease","Increase", "Invalid"};
-      static const constexpr char* const ZonesState[] = {"3", "Zone1 active", "Zone2 active", "Zone1 and zone2 active"};
-      static const constexpr char* const HeatCoolModeDesc[] = {"2", "Comp. Curve", "Direct"};
-      static const constexpr char* const SolarModeDesc[] = {"3", "Disabled", "Buffer", "DHW"};
-      static const constexpr char* const ZonesSensorType[] = {"4", "Water Temperature", "External Thermostat", "Internal Thermostat", "Thermistor"};
-      static const constexpr char* const LiquidType[] = {"2", "Water", "Glycol"};
-      static const constexpr char* const ExtPadHeaterType[] = {"3", "Disabled", "Type-A", "Type-B"};
-      static const constexpr char* const Bivalent[] = {"3", "Alternative", "Parallel", "Advanced Parallel"};
+      static const constexpr char* const DisabledEnabled[] = { "2", "Disabled", "Enabled" };
+      static const constexpr char* const BlockedFree[] = { "2", "Blocked", "Free" };
+      static const constexpr char* const OffOn[] = { "2", "Off", "On" };
+      static const constexpr char* const InactiveActive[] = { "2", "Inactive", "Active" };
+      static const constexpr char* const PumpFlowRateMode[] = { "2", "DeltaT", "Max flow" };
+      static const constexpr char* const Valve[] = { "2", "Room", "DHW" };
+      static const constexpr char* const Valve2[] = { "2", "Cool", "Heat" };
+      static const constexpr char* const HeatCoolModeDesc[] = { "2", "Comp. Curve", "Direct" };
+      static const constexpr char* const LiquidType[] = { "2", "Water", "Glycol" };
+      static const constexpr char* const HolidayState[] = { "3", "Off", "Scheduled", "Active" };
+      static const constexpr char* const SolarModeDesc[] = { "3", "Disabled", "Buffer", "DHW" };
+      static const constexpr char* const MixingValve[] = { "4", "Off", "Decrease","Increase", "Invalid" };
+      static const constexpr char* const ZonesSensorType[] = { "4", "Water Temperature", "External Thermostat", "Internal Thermostat", "Thermistor" };
+      static const constexpr char* const Quietmode[] = { "4", "Off", "Level 1", "Level 2", "Level 3" };
+      static const constexpr char* const Powerfulmode[] = { "4", "Off", "30min", "60min", "90min" };
+      static const constexpr char* const OpModeDesc[] = { "9", "Heat only", "Cool only", "Auto", "Auto(heat)", "Auto(cool)", "DHW only", "Heat+DHW", "Cool+DHW", "Auto+DHW", "Auto(heat)+DHW", "Auto(cool)+DHW" };
+      static const constexpr char* const ZonesState[] = { "3", "Zone 1", "Zone 2", "Zone 1 & 2" };
+      static const constexpr char* const ExtPadHeaterType[] = { "3", "Disabled", "Type-A", "Type-B" };
+      static const constexpr char* const Bivalent[] = { "3", "Alternative", "Parallel", "Advanced Parallel" };
       static const constexpr char* const ModelNames[] =
       {
         "53", //string representation of number of known models (last model number + 1)

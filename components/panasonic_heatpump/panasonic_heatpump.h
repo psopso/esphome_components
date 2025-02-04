@@ -32,7 +32,7 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
-    class PanasonicHeatpumpComponent : public Component
+    class PanasonicHeatpumpComponent : public Component, public uart::UARTDevice
     {
     public:
       // ToDo: Add template for custom sensor classes similar to SUB_SENSOR (see Pipsolar)
@@ -219,6 +219,7 @@ namespace esphome
       void number_control(number::Number* object, float value);
 #endif
 #ifdef USE_SELECT
+      SUB_SELECT(set2);
       SUB_SELECT(set3);
       SUB_SELECT(set4);
       SUB_SELECT(set9);
@@ -230,7 +231,6 @@ namespace esphome
 #endif
 #ifdef USE_SWITCH
       SUB_SWITCH(set1);
-      SUB_SWITCH(set2);
       SUB_SWITCH(set10);
       SUB_SWITCH(set12);
       SUB_SWITCH(set13);
@@ -250,16 +250,19 @@ namespace esphome
       PanasonicHeatpumpComponent() = default;
       float get_setup_priority() const override { return setup_priority::LATE; }
       void dump_config() override;
+      void setup() override;
       void loop() override;
 
-      void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
-      void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
+      //void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
+      //void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
+      void set_uart_client(uart::UARTComponent *uart) { this->uart_client_ = uart; }
       void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
       void set_polling_time(uint32_t time_sec) { this->polling_time_ = time_sec; }
 
     protected:
-      uart::UARTComponent *uart_hp_;
-      uart::UARTComponent *uart_wm_;
+      //uart::UARTComponent* uart_hp_;
+      //uart::UARTComponent* uart_wm_;
+      uart::UARTComponent* uart_client_;
       bool log_uart_msg_{false};
       uint32_t polling_time_{1};
 

@@ -191,6 +191,7 @@ namespace esphome
       LOG_NUMBER("", "Panasonic Heatpump Number", this->set38_number_);
 #endif
 #ifdef USE_SELECT
+      LOG_SELECT("", "Panasonic Heatpump Select", this->set2_select_);
       LOG_SELECT("", "Panasonic Heatpump Select", this->set3_select_);
       LOG_SELECT("", "Panasonic Heatpump Select", this->set4_select_);
       LOG_SELECT("", "Panasonic Heatpump Select", this->set9_select_);
@@ -200,7 +201,6 @@ namespace esphome
 #endif
 #ifdef USE_SWITCH
       LOG_SWITCH("", "Panasonic Heatpump Switch", this->set1_switch_);
-      LOG_SWITCH("", "Panasonic Heatpump Switch", this->set2_switch_);
       LOG_SWITCH("", "Panasonic Heatpump Switch", this->set10_switch_);
       LOG_SWITCH("", "Panasonic Heatpump Switch", this->set12_switch_);
       LOG_SWITCH("", "Panasonic Heatpump Switch", this->set13_switch_);
@@ -216,15 +216,23 @@ namespace esphome
 #endif
     }
 
+    void PanasonicHeatpumpComponent::setup()
+    {
+      ESP_LOGCONFIG(TAG, "Setting up Panasonic Heatpump ...");
+      delay(10);
+      this->check_uart_settings(9600, 1, uart::UART_CONFIG_PARITY_EVEN, 8);
+    }
+
     void PanasonicHeatpumpComponent::loop()
     {
       uint8_t byte_hp;
-      uint8_t byte_wm;
+      uint8_t byte_cl;
 
-      while (this->uart_hp_->available())
+      while (this->available())
       {
-        this->uart_hp_->read_byte(&byte_hp);
-        this->uart_wm_->write_byte(byte_hp);
+        this->read_byte(&byte_hp);
+        if (this->uart_client_)
+          this->uart_client_->write_byte(byte_hp);
 
         // Message shall start with 0x71, if not skip this byte
         if (!this->response_receiving_)
@@ -261,34 +269,36 @@ namespace esphome
         }
       }
 
-      while (this->uart_wm_->available())
+      if (this->uart_client_)
+      {
+      while (this->uart_client_->available())
       {
         // stop forwording messages if no message is currently processing
         if (!this->forward_requests_ && !this->request_receiving_)
           continue;
 
-        this->uart_wm_->read_byte(&byte_wm);
-        this->uart_hp_->write_byte(byte_wm);
+        this->uart_client_->read_byte(&byte_cl);
+        this->write_byte(byte_cl);
 
         // Message shall start with 0x71, if not skip this byte
         if (!this->request_receiving_)
         {
-          if (byte_wm != 0x71)
+          if (byte_cl != 0x71)
             continue;
           this->request_receiving_ = true;
         }
         // Add current byte to message buffer
-        this->request_message_.push_back(byte_wm);
+        this->request_message_.push_back(byte_cl);
 
         // 2. bytes contains the payload size
         if (this->request_message_.size() == 2)
-          this->request_payload_length_ = byte_wm;
+          this->request_payload_length_ = byte_cl;
         // Discard message if 3. and 4. byte are not as expected
-        if (this->request_message_.size() == 3 && byte_wm != 0x01 ||
-            this->request_message_.size() == 4 && byte_wm != 0x10)
+        if (this->request_message_.size() == 3 && byte_cl != 0x01 ||
+            this->request_message_.size() == 4 && byte_cl != 0x10)
         {
           ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x%02X",
-            request_message_.size(), byte_wm, request_message_.size() == 3 ? "01" : "10");
+            request_message_.size(), byte_cl, request_message_.size() == 3 ? "01" : "10");
           delay(10);
           this->request_message_.clear();
           this->request_receiving_ = false;
@@ -302,6 +312,7 @@ namespace esphome
           this->request_message_.clear();
           this->request_receiving_ = false;
         }
+      }
       }
     }
 
@@ -366,11 +377,11 @@ namespace esphome
       if (this->top8_sensor_) this->top8_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[166]));
       if (this->top9_sensor_) this->top9_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[42]));
       if (this->top10_sensor_) this->top10_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[141]));
-      if (this->top11_sensor_) this->top11_sensor_->publish_state(PanasonicDecode::getWord(bytes[182], bytes[183]));
-      if (this->top12_sensor_) this->top12_sensor_->publish_state(PanasonicDecode::getWord(bytes[179], bytes[180]));
+      if (this->top11_sensor_) this->top11_sensor_->publish_state(PanasonicDecode::getWordMinus1(bytes[182], bytes[183]));
+      if (this->top12_sensor_) this->top12_sensor_->publish_state(PanasonicDecode::getWordMinus1(bytes[179], bytes[180]));
       if (this->top14_sensor_) this->top14_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[142]));
-      if (this->top15_sensor_) this->top15_sensor_->publish_state(PanasonicDecode::getPower(bytes[194]));
-      if (this->top16_sensor_) this->top16_sensor_->publish_state(PanasonicDecode::getPower(bytes[193]));
+      if (this->top15_sensor_) this->top15_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[194]));
+      if (this->top16_sensor_) this->top16_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[193]));
       if (this->top21_sensor_) this->top21_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[158]));
       if (this->top22_sensor_) this->top22_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[99]));
       if (this->top23_sensor_) this->top23_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[84]));
@@ -387,10 +398,10 @@ namespace esphome
       if (this->top35_sensor_) this->top35_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[41]));
       if (this->top36_sensor_) this->top36_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[145]));
       if (this->top37_sensor_) this->top37_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[146]));
-      if (this->top38_sensor_) this->top38_sensor_->publish_state(PanasonicDecode::getPower(bytes[196]));
-      if (this->top39_sensor_) this->top39_sensor_->publish_state(PanasonicDecode::getPower(bytes[195]));
-      if (this->top40_sensor_) this->top40_sensor_->publish_state(PanasonicDecode::getPower(bytes[198]));
-      if (this->top41_sensor_) this->top41_sensor_->publish_state(PanasonicDecode::getPower(bytes[197]));
+      if (this->top38_sensor_) this->top38_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[196]));
+      if (this->top39_sensor_) this->top39_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[195]));
+      if (this->top40_sensor_) this->top40_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[198]));
+      if (this->top41_sensor_) this->top41_sensor_->publish_state(PanasonicDecode::getIntMinus1Times200(bytes[197]));
       if (this->top42_sensor_) this->top42_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[147]));
       if (this->top43_sensor_) this->top43_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[148]));
       if (this->top45_sensor_) this->top45_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[43]));
@@ -430,8 +441,8 @@ namespace esphome
       if (this->top87_sensor_) this->top87_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[91]));
       if (this->top88_sensor_) this->top88_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[93]));
       if (this->top89_sensor_) this->top89_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[92]));
-      if (this->top90_sensor_) this->top90_sensor_->publish_state(PanasonicDecode::getWord(bytes[185], bytes[186]));
-      if (this->top91_sensor_) this->top91_sensor_->publish_state(PanasonicDecode::getWord(bytes[188], bytes[189]));
+      if (this->top90_sensor_) this->top90_sensor_->publish_state(PanasonicDecode::getWordMinus1(bytes[185], bytes[186]));
+      if (this->top91_sensor_) this->top91_sensor_->publish_state(PanasonicDecode::getWordMinus1(bytes[188], bytes[189]));
       if (this->top93_sensor_) this->top93_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[172]));
       if (this->top95_sensor_) this->top95_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[45]));
       if (this->top96_sensor_) this->top96_sensor_->publish_state(PanasonicDecode::getIntMinus1(bytes[104]));
@@ -446,8 +457,8 @@ namespace esphome
       if (this->top116_sensor_) this->top116_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[126]));
       if (this->top117_sensor_) this->top117_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[127]));
       if (this->top118_sensor_) this->top118_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[128]));
-      if (this->top127_sensor_) this->top127_sensor_->publish_state(PanasonicDecode::getValvePID(bytes[177]));
-      if (this->top128_sensor_) this->top128_sensor_->publish_state(PanasonicDecode::getValvePID(bytes[178]));
+      if (this->top127_sensor_) this->top127_sensor_->publish_state(PanasonicDecode::getIntMinus1Div2(bytes[177]));
+      if (this->top128_sensor_) this->top128_sensor_->publish_state(PanasonicDecode::getIntMinus1Div2(bytes[178]));
       if (this->top131_sensor_) this->top131_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[65]));
       if (this->top134_sensor_) this->top134_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[66]));
       if (this->top135_sensor_) this->top135_sensor_->publish_state(PanasonicDecode::getIntMinus128(bytes[68]));
@@ -496,19 +507,76 @@ namespace esphome
       if (this->top101_text_sensor_) this->top101_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::SolarModeDesc, PanasonicDecode::getBit3and4(bytes[24])));
       if (this->top106_text_sensor_) this->top106_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::PumpFlowRateMode, PanasonicDecode::getBit3and4(bytes[29])));
       if (this->top107_text_sensor_) this->top107_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::LiquidType, PanasonicDecode::getBit1(bytes[20])));
-      if (this->top111_text_sensor_) this->top111_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getSecondByte(bytes[22])));
-      if (this->top112_text_sensor_) this->top112_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getFirstByte(bytes[22])));
+      if (this->top111_text_sensor_) this->top111_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getLowNibbleMinus1(bytes[22])));
+      if (this->top112_text_sensor_) this->top112_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesSensorType, PanasonicDecode::getHighNibbleMinus1(bytes[22])));
       if (this->top114_text_sensor_) this->top114_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ExtPadHeaterType, PanasonicDecode::getBit3and4(bytes[25])));
       if (this->top125_text_sensor_) this->top125_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Valve2, PanasonicDecode::getBit5and6(bytes[116])));
       if (this->top126_text_sensor_) this->top126_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Valve, PanasonicDecode::getBit7and8(bytes[116])));
       if (this->top130_text_sensor_) this->top130_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBit5and6(bytes[26])));
+#endif
+#ifdef USE_NUMBER
+      if (this->set11_number_) this->set11_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[42]));
+      if (this->set20_number_) this->set20_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[99]));
+      if (this->set18_number_) this->set18_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[84]));
+      if (this->set19_number_) this->set19_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[94]));
+      if (this->set5_number_) this->set5_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[38]));
+      if (this->set6_number_) this->set6_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[39]));
+      if (this->set16_1_number_) this->set16_1_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[75]));
+      if (this->set16_2_number_) this->set16_2_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[76]));
+      if (this->set16_4_number_) this->set16_4_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[78]));
+      if (this->set16_3_number_) this->set16_3_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[77]));
+      if (this->set7_number_) this->set7_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[40]));
+      if (this->set8_number_) this->set8_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[41]));
+      if (this->set16_9_number_) this->set16_9_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[86]));
+      if (this->set16_10_number_) this->set16_10_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[87]));
+      if (this->set16_12_number_) this->set16_12_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[89]));
+      if (this->set16_11_number_) this->set16_11_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[88]));
+      if (this->set29_number_) this->set29_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[83]));
+      if (this->set16_5_number_) this->set16_5_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[79]));
+      if (this->set16_6_number_) this->set16_6_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[80]));
+      if (this->set16_8_number_) this->set16_8_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[82]));
+      if (this->set16_7_number_) this->set16_7_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[81]));
+      if (this->set16_13_number_) this->set16_13_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[90]));
+      if (this->set16_14_number_) this->set16_14_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[91]));
+      if (this->set16_16_number_) this->set16_16_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[93]));
+      if (this->set16_15_number_) this->set16_15_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[92]));
+      if (this->set15_number_) this->set15_number_->publish_state(PanasonicDecode::getIntMinus1(bytes[45]));
+      if (this->set21_number_) this->set21_number_->publish_state(PanasonicDecode::getIntMinus1(bytes[104]));
+      if (this->set22_number_) this->set22_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[105]));
+      if (this->set23_number_) this->set23_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[106]));
+      if (this->set27_number_) this->set27_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[59]));
+      if (this->set36_number_) this->set36_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[65]));
+      if (this->set37_number_) this->set37_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[66]));
+      if (this->set38_number_) this->set38_number_->publish_state(PanasonicDecode::getIntMinus128(bytes[68]));
+#endif
+#ifdef USE_SELECT
+      if (this->set9_select_) this->set9_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
+      if (this->set4_select_) this->set4_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Powerfulmode, PanasonicDecode::getRight3bits(bytes[7])));
+      if (this->set3_select_) this->set3_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Quietmode, PanasonicDecode::getBit3and4and5(bytes[7])));
+      if (this->set2_select_) this->set2_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::HolidayState, PanasonicDecode::getBit3and4(bytes[5])));
+      if (this->set17_select_) this->set17_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ZonesState, PanasonicDecode::getBit1and2(bytes[6])));
+      if (this->set26_select_) this->set26_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ExtPadHeaterType, PanasonicDecode::getBit3and4(bytes[25])));
+      if (this->set35_select_) this->set35_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBit5and6(bytes[26])));
+#endif
+#ifdef USE_SWITCH
+      if (this->set1_switch_) this->set1_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[4])));
+      if (this->set10_switch_) this->set10_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[4])));
+      if (this->set24_switch_) this->set24_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[5])));
+      if (this->set12_switch_) this->set12_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[111])));
+      if (this->set13_switch_) this->set13_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[117])));
+      if (this->set28_switch_) this->set28_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[24])));
+      if (this->set30_switch_) this->set30_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[23])));
+      if (this->set33_switch_) this->set33_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit5and6(bytes[23])));
+      if (this->set31_switch_) this->set31_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[23])));
+      if (this->set32_switch_) this->set32_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[23])));
+      if (this->set34_switch_) this->set34_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[26])));
 #endif
     }
 
     void PanasonicHeatpumpComponent::send_initial_message()
     {
       // send command
-      this->uart_hp_->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
+      this->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }
@@ -516,7 +584,7 @@ namespace esphome
     void PanasonicHeatpumpComponent::send_periodical_message()
     {
       // send command
-      this->uart_hp_->write_array(PanasonicCommand::PeriodicalMessage, REQUEST_DATA_MSG_SIZE);
+      this->write_array(PanasonicCommand::PeriodicalMessage, REQUEST_DATA_MSG_SIZE);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }
@@ -536,7 +604,7 @@ namespace esphome
       // while (request_receiving_ == 1) { delay(1); }
 
       // send command
-      // this->uart_hp_->write_array(this->command_message_);
+      // this->write_array(this->command_message_);
       this->log_uart_hex(">>>", this->command_message_, ',');
       delay(100);  // NOLINT
     }
@@ -582,7 +650,8 @@ namespace esphome
 #ifdef USE_SELECT
     void PanasonicHeatpumpComponent::select_control(select::Select* object, size_t value)
     {
-      if (object == this->set3_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply8(value), 7);
+      if (object == this->set2_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 5);
+      else if (object == this->set3_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply8(value), 7);
       else if (object == this->set4_select_) this->send_command_message(PanasonicCommand::setPlus73(value), 7);
       else if (object == this->set9_select_) this->send_command_message(PanasonicCommand::setOperationMode(value), 6);
       else if (object == this->set17_select_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 6);
@@ -594,7 +663,6 @@ namespace esphome
     void PanasonicHeatpumpComponent::switch_control(switch_::Switch* object, size_t value)
     {
       if (object == this->set1_switch_) this->send_command_message(PanasonicCommand::setPlus1(value), 4);
-      else if (object == this->set2_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply16(value), 5);
       else if (object == this->set10_switch_) this->send_command_message(PanasonicCommand::setPlus1Multiply64(value), 4);
       else if (object == this->set12_switch_) this->send_command_message(PanasonicCommand::setMultiply2(value), 8);
       else if (object == this->set13_switch_) this->send_command_message(PanasonicCommand::setMultiply4(value), 8);

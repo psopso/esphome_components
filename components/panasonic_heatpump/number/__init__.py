@@ -126,31 +126,25 @@ CONFIG_SCHEMA = cv.Schema(
     cv.Optional(CONF_SET5): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET6): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET7): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET8): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET11): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET15): number.number_schema(
       PanasonicHeatpumpNumber,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET16_1): number.number_schema(
       PanasonicHeatpumpNumber,
@@ -235,57 +229,46 @@ CONFIG_SCHEMA = cv.Schema(
     cv.Optional(CONF_SET18): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET19): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET20): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET21): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_MINUTE,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET22): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET23): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET27): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_KELVIN,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET29): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET36): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET37): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET38): number.number_schema(
       PanasonicHeatpumpNumber,
       unit_of_measurement=UNIT_CELSIUS,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )

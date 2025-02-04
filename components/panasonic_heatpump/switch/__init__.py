@@ -8,7 +8,6 @@ from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic
 
 
 CONF_SET1 = "set1"  # Set Heatpump
-CONF_SET2 = "set2"  # Set Holiday Mode
 CONF_SET10 = "set10"  # Set Force DHW
 CONF_SET12 = "set12"  # Set Force Defrost
 CONF_SET13 = "set13"  # Set Force Sterilization
@@ -24,7 +23,6 @@ CONF_SET34 = "set34"  # Set Bivalent Control
 
 TYPES = [
   CONF_SET1,
-  CONF_SET2,
   CONF_SET10,
   CONF_SET12,
   CONF_SET13,
@@ -47,59 +45,42 @@ CONFIG_SCHEMA = cv.Schema(
 
     cv.Optional(CONF_SET1): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
-    ),
-    cv.Optional(CONF_SET2): switch.switch_schema(
-      PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET10): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET12): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET13): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET14): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET24): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET25): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET28): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET30): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET31): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET32): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET33): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
     cv.Optional(CONF_SET34): switch.switch_schema(
       PanasonicHeatpumpSwitch,
-      entity_category=ENTITY_CATEGORY_CONFIG,
     ),
   }
 )
