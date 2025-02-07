@@ -68,8 +68,11 @@ external_components:
     components: [ panasonic_heatpump ]
 
 panasonic_heatpump:
-  uart_hp: uart_heatpump
-  uart_wm: uart_cz_taw1
+  id: my_heatpump
+  uart_id: uart_heatpump
+  uart_client_id: uart_cz_taw1
+  log_uart_msg: true
+  update_interval: 3s
 
 sensor:
   - platform: panasonic_heatpump
@@ -247,20 +250,22 @@ sensor:
       name: "Economizer Outlet Temp"
     top118:
       name: "Second Room Thermostat Temp"
-    top119:
-      name: "Bivalent Heating Start Temperature"
-    top120:
-      name: "Bivalent Heating Parallel Adv Starttemp"
-    top121:
-      name: "Bivalent Heating Parallel Adv Stoptemp"
-    top122:
-      name: "Bivalent Heating Parallel Adv Start Delay"
-    top123:
-      name: "Bivalent Heating Parallel Adv Stop Delay"
-    top125:
-      name: "2 Zone mixing valve 1 opening"
-    top126:
-      name: "2 Zone mixing valve 2 opening"
+    top127:
+      name: "Z1 Valve PID"
+    top128:
+      name: "Z2 Valve PID"
+    top131:
+      name: "Bivalent Start Temperature"
+    top134:
+      name: "Bivalent Advanced Start Temp"
+    top135:
+      name: "Bivalent Advanced Stop Temp"
+    top136:
+      name: "Bivalent Advanced Start Delay"
+    top137:
+      name: "Bivalent Advanced Stop Delay"
+    top138:
+      name: "Bivalent Advanced DHW Delay"
 
 binary_sensor:
   - platform: panasonic_heatpump
@@ -292,6 +297,25 @@ binary_sensor:
       name: "Anti Freeze Mode"
     top110:
       name: "Optional PCB"
+    top119:
+      name: "External Control"
+    top120:
+      name: "External Heat Cool Control"
+    top121:
+      name: "External Error Signal"
+    top122:
+      name: "External Compressor Control"
+    top123:
+      name: "Z2 Pump State"
+    top124:
+      name: "Z1 Pump State"
+    top129:
+      name: "Bivalent Control"
+    top132:
+      name: "Bivalent Advanced Heat"
+    top133:
+      name: "Bivalent Advanced DHW"
+
 
 text_sensor:
   - platform: panasonic_heatpump
@@ -331,5 +355,124 @@ text_sensor:
       name: "Z2 Sensor Settings"
     top114:
       name: "External Pad Heater"
-    top124:
-      name: "Bivalent Heating Setting"
+    top125:
+      name: "TwoWay Valve State"
+    top126:
+      name: "ThreeWay Valve State2"
+    top130:
+      name: "Bivalent Mode"
+
+number:
+  - platform: panasonic_heatpump
+    set5:
+      name: "Set Z1 Heat Request Temperature"
+    set6:
+      name: "Set Z1 Cool Request Temperature"
+    set7:
+      name: "Set Z2 Heat Request Temperature"
+    set8:
+      name: "Set Z2 Cool Request Temperature"
+    set11:
+      name: "Set DHW Temp"
+    set15:
+      name: "Set Max Pump Duty"
+    set16_1:
+      name: "Set Zone1 Heat Target High"
+    set16_2:
+      name: "Set Zone1 Heat Target Low"
+    set16_3:
+      name: "Set Zone1 Heat Outside Low"
+    set16_4:
+      name: "Set Zone1 Heat Outside High"
+    set16_5:
+      name: "Set Zone2 Heat Target High"
+    set16_6:
+      name: "Set Zone2 Heat Target Low"
+    set16_7:
+      name: "Set Zone2 Heat Outside Low"
+    set16_8:
+      name: "Set Zone2 Heat Outside High"
+    set16_9:
+      name: "Set Zone1 Cool Target High"
+    set16_10:
+      name: "Set Zone1 Cool Target Low"
+    set16_11:
+      name: "Set Zone1 Cool Outside Low"
+    set16_12:
+      name: "Set Zone1 Cool Outside High"
+    set16_13:
+      name: "Set Zone2 Cool Target High"
+    set16_14:
+      name: "Set Zone2 Cool Target Low"
+    set16_15:
+      name: "Set Zone2 Cool Outside Low"
+    set16_16:
+      name: "Set Zone2 Cool Outside High"
+    set18:
+      name: "Set Floor Heat Delta"
+    set19:
+      name: "Set Floor Cool Delta"
+    set20:
+      name: "Set DHW Heat Delta"
+    set21:
+      name: "Set Heater Delay Time"
+    set22:
+      name: "Set Heater Start Delta"
+    set23:
+      name: "Set Heater Stop Delta"
+    set27:
+      name: "Set Buffer Delta"
+    set29:
+      name: "Set Heating Off Outdoor Temp"
+    set36:
+      name: "Set Bivalent Start Temp"
+    set37:
+      name: "Set Bivalent AP Start Temp"
+    set38:
+      name: "Set Bivalent AP Stop Temp"
+
+select:
+  - platform: panasonic_heatpump
+    set2:
+      name: "Set Holiday Mode"
+    set3:
+      name: "Set Quiet Mode"
+    set4:
+      name: "Set Powerful Mode"
+    set9:
+      name: "Set Operation Mode"
+    set17:
+      name: "Set Zones"
+    set26:
+      name: "Set External PadHeater"
+    set35:
+      name: "Set Bivalent Mode"
+
+switch:
+    - platform: panasonic_heatpump
+      set1:
+        name: "Set Heatpump"
+      set10:
+        name: "Set Force DHW"
+      set12:
+        name: "Set Force Defrost"
+      set13:
+        name: "Set Force Sterilization"
+      set14:
+        name: "Set Pump"
+      set24:
+        name: "Set Main Schedule"
+      set25:
+        name: "Set Alt External Sensor"
+      set28:
+        name: "Set Buffer"
+      set30:
+        name: "Set External Control"
+      set31:
+        name: "Set External Error"
+      set32:
+        name: "Set External Compressor Control"
+      set33:
+        name: "Set External Heat Cool Control"
+      set34:
+        name: "Set Bivalent Control"
