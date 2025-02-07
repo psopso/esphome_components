@@ -32,7 +32,7 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
-    class PanasonicHeatpumpComponent : public Component, public uart::UARTDevice
+    class PanasonicHeatpumpComponent : public PollingComponent, public uart::UARTDevice
     {
     public:
       // ToDo: Add template for custom sensor classes similar to SUB_SENSOR (see Pipsolar)
@@ -251,6 +251,7 @@ namespace esphome
       float get_setup_priority() const override { return setup_priority::LATE; }
       void dump_config() override;
       void setup() override;
+      void update() override;
       void loop() override;
 
       //void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
@@ -262,7 +263,7 @@ namespace esphome
     protected:
       //uart::UARTComponent* uart_hp_;
       //uart::UARTComponent* uart_wm_;
-      uart::UARTComponent* uart_client_;
+      uart::UARTComponent* uart_client_{nullptr};
       bool log_uart_msg_{false};
       uint32_t polling_time_{1};
 
@@ -273,13 +274,16 @@ namespace esphome
       uint8_t request_payload_length_;
       bool response_receiving_{false};
       bool request_receiving_{false};
-      bool forward_requests_{true};
+      bool trigger_request_{true};
+      uint8_t next_request_{0};  // 0 = initial, 1 = polling, 2 = command
 
+      void read_response();
+      void send_request();
+      void read_request();
       void decode_response(std::vector<uint8_t> data);
-      void send_initial_message();
-      void send_periodical_message();
-      void send_command_message(uint8_t value, uint8_t index);
-      void log_uart_hex(std::string prefix, std::vector<uint8_t> bytes, uint8_t separator);
+      void set_command_message(uint8_t value, uint8_t index);
+      void log_uart_hex(std::string prefix, const std::vector<uint8_t> &data, uint8_t separator) { this->log_uart_hex(prefix, &data[0], data.size(), separator); }
+      void log_uart_hex(std::string prefix, const uint8_t *data, size_t length, uint8_t separator);
     };
   }  // namespace panasonic_heatpump
 }  // namespace esphome

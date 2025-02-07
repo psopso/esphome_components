@@ -32,7 +32,7 @@ namespace esphome
       static uint8_t setDemandControl(size_t input);
 
       static const uint8_t InitialMessage[REQUEST_INIT_MSG_SIZE];
-      static const uint8_t PeriodicalMessage[REQUEST_DATA_MSG_SIZE];
+      static const uint8_t PollingMessage[REQUEST_DATA_MSG_SIZE];
       static const uint8_t CommandMessage[REQUEST_DATA_MSG_SIZE];
     };
   }  // namespace panasonic_heatpump
