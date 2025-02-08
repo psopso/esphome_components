@@ -22,7 +22,7 @@ from esphome.const import (
   STATE_CLASS_TOTAL_INCREASING,
   ICON_COUNTER,
 )
-from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
+from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
 UNIT_LITRE_PER_MINUTE = "L/min"
@@ -226,482 +226,577 @@ TYPES = [
   CONF_TOP138,
 ]
 
-CONFIG_SCHEMA = cv.All(
-  cv.Schema(
-    {
+PanasonicHeatpumpSensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpSensor", sensor.Sensor, cg.Component)
+
+CONFIG_SCHEMA = cv.Schema(
+  {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
       cv.Optional(CONF_TOP1): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_VOLUME_FLOW_RATE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_LITRE_PER_MINUTE,
       ),
       cv.Optional(CONF_TOP5): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP6): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP7): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP8): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_FREQUENCY,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_HERTZ,
       ),
       cv.Optional(CONF_TOP9): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP10): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP11): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_TOTAL_INCREASING,
         unit_of_measurement = UNIT_HOUR,
       ),
       cv.Optional(CONF_TOP12): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         unit_of_measurement=UNIT_EMPTY,
         icon=ICON_COUNTER,
       ),
       cv.Optional(CONF_TOP14): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP15): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP16): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP21): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP22): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP23): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP24): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP25): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP27): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP28): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP29): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP30): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP31): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP32): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP33): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP34): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP35): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP36): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP37): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP38): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP39): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP40): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP41): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_WATT,
       ),
       cv.Optional(CONF_TOP42): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP43): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP45): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP46): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP47): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP48): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP49): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP50): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP51): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP52): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP53): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP54): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP55): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP56): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP57): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP62): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         icon=ICON_FAN_SPEED,
         unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_TOP63): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         icon=ICON_FAN_SPEED,
         unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_TOP64): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_PRESSURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_PRESSURE_KGFCM2,
       ),
       cv.Optional(CONF_TOP65): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         unit_of_measurement = UNIT_ROTATIONS_PER_MINUTE,
       ),
       cv.Optional(CONF_TOP66): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_PRESSURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_PRESSURE_KGFCM2,
       ),
       cv.Optional(CONF_TOP67): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_CURRENT,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_AMPERE,
       ),
       cv.Optional(CONF_TOP70): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP71): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_TOP72): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP73): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP74): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP75): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP77): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP78): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP79): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP80): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP82): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP83): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP84): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP85): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP86): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP87): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP88): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP89): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP90): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_TOTAL_INCREASING,
         unit_of_measurement = UNIT_HOUR,
       ),
       cv.Optional(CONF_TOP91): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_TOTAL_INCREASING,
         unit_of_measurement = UNIT_HOUR,
       ),
-      cv.Optional(CONF_TOP93): sensor.sensor_schema(),
-      cv.Optional(CONF_TOP95): sensor.sensor_schema(),
+      cv.Optional(CONF_TOP93): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
+      ),
+      cv.Optional(CONF_TOP95): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
+      ),
       cv.Optional(CONF_TOP96): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_TOP97): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP98): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP102): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP103): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP104): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP105): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP113): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_KELVIN,
       ),
       cv.Optional(CONF_TOP115): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_PRESSURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_BAR,
       ),
       cv.Optional(CONF_TOP116): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP117): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP118): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP127): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_PERCENT,
       ),
       cv.Optional(CONF_TOP128): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_PERCENT,
       ),
       cv.Optional(CONF_TOP131): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP134): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP135): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_TEMPERATURE,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_CELSIUS,
       ),
       cv.Optional(CONF_TOP136): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_TOP137): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_MINUTE,
       ),
       cv.Optional(CONF_TOP138): sensor.sensor_schema(
+        PanasonicHeatpumpSensor,
         device_class=DEVICE_CLASS_DURATION,
         state_class=STATE_CLASS_MEASUREMENT,
         unit_of_measurement = UNIT_MINUTE,
       ),
-
-    }
-  ).extend(cv.COMPONENT_SCHEMA)
-)
+  }
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for key in TYPES:
-    await setup_conf(config, key, hub)
-
-async def setup_conf(parent_config, key, hub):
-  if child_config := parent_config.get(key):
-    var = await sensor.new_sensor(child_config)
-    cg.add(getattr(hub, f"set_{key}_sensor")(var))
+    if child_config := config.get(key):
+      var = await sensor.new_sensor(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
+      cg.add(getattr(hub, f"set_{key}_sensor")(var))

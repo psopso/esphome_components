@@ -1,10 +1,18 @@
 #include "panasonic_heatpump_switch.h"
+#include "esphome/core/log.h"
 
 
 namespace esphome
 {
   namespace panasonic_heatpump
   {
+    static const char *const TAG = "panasonic_heatpump.switch";
+
+    void PanasonicHeatpumpSwitch::dump_config()
+    {
+      LOG_SWITCH("", "Panasonic Heatpump Switch", this);
+    }
+
     void PanasonicHeatpumpSwitch::write_state(bool state)
     {
       this->publish_state(state);

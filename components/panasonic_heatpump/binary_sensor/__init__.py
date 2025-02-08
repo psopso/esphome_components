@@ -4,7 +4,7 @@ from esphome.components import binary_sensor
 from esphome.const import (
   DEVICE_CLASS_RUNNING,
 )
-from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
+from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
 CONF_TOP0 = "top0"  # Heatpump State
@@ -57,68 +57,99 @@ TYPES = [
   CONF_TOP133,
 ]
 
-CONFIG_SCHEMA = cv.All(
-  cv.Schema(
-    {
+PanasonicHeatpumpBinarySensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpBinarySensor", binary_sensor.BinarySensor, cg.Component)
+
+CONFIG_SCHEMA = cv.Schema(
+  {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
       cv.Optional(CONF_TOP0): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP2): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP3): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP13): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP26): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP60): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP61): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP68): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP69): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP99): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
       ),
       cv.Optional(CONF_TOP100): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
       ),
       cv.Optional(CONF_TOP108): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
       ),
       cv.Optional(CONF_TOP109): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
         device_class = DEVICE_CLASS_RUNNING,
       ),
       cv.Optional(CONF_TOP110): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
       ),
-      cv.Optional(CONF_TOP119): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP120): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP121): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP122): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP123): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP124): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP129): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP132): binary_sensor.binary_sensor_schema(),
-      cv.Optional(CONF_TOP133): binary_sensor.binary_sensor_schema(),
-    }
-  ).extend(cv.COMPONENT_SCHEMA)
-)
+      cv.Optional(CONF_TOP119): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP120): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP121): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP122): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP123): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP124): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP129): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP132): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+      cv.Optional(CONF_TOP133): binary_sensor.binary_sensor_schema(
+        PanasonicHeatpumpBinarySensor,
+      ),
+  }
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for key in TYPES:
-    await setup_conf(config, key, hub)
-
-async def setup_conf(parent_config, key, hub):
-  if child_config := parent_config.get(key):
-    var = await binary_sensor.new_binary_sensor(child_config)
-    cg.add(getattr(hub, f"set_{key}_binary_sensor")(var))
+    if child_config := config.get(key):
+      var = await binary_sensor.new_binary_sensor(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
+      cg.add(getattr(hub, f"set_{key}_binary_sensor")(var))

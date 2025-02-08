@@ -4,7 +4,7 @@ from esphome.components import text_sensor
 from esphome.const import (
   DEVICE_CLASS_HEAT,
 )
-from . import PanasonicHeatpumpComponent, CONF_PANASONIC_HEATPUMP_ID
+from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
 
 ICON_OPERATING_MODE = "mdi:thermostat"
@@ -70,78 +70,100 @@ TYPES = [
   CONF_TOP130,
 ]
 
-CONFIG_SCHEMA = cv.All(
-  cv.Schema(
-    {
+PanasonicHeatpumpTextSensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpTextSensor", text_sensor.TextSensor, cg.Component)
+
+CONFIG_SCHEMA = cv.Schema(
+  {
       cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
       cv.Optional(CONF_TOP4): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_OPERATING_MODE,
       ),
       cv.Optional(CONF_TOP17): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_POWERFUL_MODE,
       ),
       cv.Optional(CONF_TOP18): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_QUIET_MODE,
       ),
       cv.Optional(CONF_TOP19): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_HOLIDAY_MODE,
       ),
       cv.Optional(CONF_TOP20): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_VALVE,
       ),
       cv.Optional(CONF_TOP44): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_ERROR,
       ),
       cv.Optional(CONF_TOP58): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_BLOCKED,
       ),
       cv.Optional(CONF_TOP59): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_BLOCKED,
       ),
       cv.Optional(CONF_TOP76): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_HEATING_MODE,
       ),
       cv.Optional(CONF_TOP81): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_COOLING_MODE,
       ),
       cv.Optional(CONF_TOP92): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_MODEL,
       ),
       cv.Optional(CONF_TOP94): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_ZONE,
       ),
       cv.Optional(CONF_TOP101): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_SOLAR_MODE,
       ),
       cv.Optional(CONF_TOP106): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_PUMP,
       ),
       cv.Optional(CONF_TOP107): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_LIQUID,
       ),
-      cv.Optional(CONF_TOP111): text_sensor.text_sensor_schema(),
-      cv.Optional(CONF_TOP112): text_sensor.text_sensor_schema(),
+      cv.Optional(CONF_TOP111): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
+      ),
+      cv.Optional(CONF_TOP112): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
+      ),
       cv.Optional(CONF_TOP114): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_EXTERNAL_PAD_HEATER,
       ),
       cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_VALVE,
       ),
       cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,
         icon=ICON_VALVE,
       ),
-      cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(),
-    }
-  ).extend(cv.COMPONENT_SCHEMA)
-)
+      cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(
+        PanasonicHeatpumpTextSensor,),
+  }
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for key in TYPES:
-    await setup_conf(config, key, hub)
-
-async def setup_conf(parent_config, key, hub):
-  if child_config := parent_config.get(key):
-    var = await text_sensor.new_text_sensor(child_config)
-    cg.add(getattr(hub, f"set_{key}_text_sensor")(var))
+    if child_config := config.get(key):
+      var = await text_sensor.new_text_sensor(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
+      cg.add(getattr(hub, f"set_{key}_text_sensor")(var))

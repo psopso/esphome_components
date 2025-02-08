@@ -35,7 +35,7 @@ CONF_SELECTS = [
   [ "Alternative", "Parallel", "Advanced Parallel" ],
 ]
 
-PanasonicHeatpumpSelect = panasonic_heatpump_ns.class_("PanasonicHeatpumpSelect", select.Select)
+PanasonicHeatpumpSelect = panasonic_heatpump_ns.class_("PanasonicHeatpumpSelect", select.Select, cg.Component)
 
 CONFIG_SCHEMA = cv.Schema(
   {
@@ -63,15 +63,13 @@ CONFIG_SCHEMA = cv.Schema(
       PanasonicHeatpumpSelect,
     ),
   }
-)
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for index, key in enumerate(TYPES):
-    await setup_conf(config, key, index, hub)
-
-async def setup_conf(parent_config, key, index, hub):
-  if child_config := parent_config.get(key):
-    var = await select.new_select(child_config, options=CONF_SELECTS[index])
-    await cg.register_parented(var, parent_config[CONF_PANASONIC_HEATPUMP_ID])
-    cg.add(getattr(hub, f"set_{key}_select")(var))
+    if child_config := config.get(key):
+      var = await select.new_select(child_config, options=CONF_SELECTS[index])
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
+      cg.add(getattr(hub, f"set_{key}_select")(var))

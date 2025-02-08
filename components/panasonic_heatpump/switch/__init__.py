@@ -37,7 +37,7 @@ TYPES = [
   CONF_SET34,
 ]
 
-PanasonicHeatpumpSwitch = panasonic_heatpump_ns.class_("PanasonicHeatpumpSwitch", switch.Switch)
+PanasonicHeatpumpSwitch = panasonic_heatpump_ns.class_("PanasonicHeatpumpSwitch", switch.Switch, cg.Component)
 
 CONFIG_SCHEMA = cv.Schema(
   {
@@ -83,15 +83,13 @@ CONFIG_SCHEMA = cv.Schema(
       PanasonicHeatpumpSwitch,
     ),
   }
-)
+).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for key in TYPES:
-    await setup_conf(config, key, hub)
-
-async def setup_conf(parent_config, key, hub):
-  if child_config := parent_config.get(key):
-    var = await switch.new_switch(child_config)
-    await cg.register_parented(var, parent_config[CONF_PANASONIC_HEATPUMP_ID])
-    cg.add(getattr(hub, f"set_{key}_switch")(var))
+    if child_config := config.get(key):
+      var = await switch.new_switch(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
+      cg.add(getattr(hub, f"set_{key}_switch")(var))
