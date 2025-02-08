@@ -37,7 +37,7 @@ GPIO4  | RX
 
 Sometimes the desk controller does not supply enough current, then simply disconnet the VCC pin and plug in a micro-usb/usb-c cable into your ESP board.  
 
-### ESPHome yaml code
+### Example ESPHome yaml code
 
 ```yaml
 external_components:
