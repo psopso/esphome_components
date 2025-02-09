@@ -8,7 +8,6 @@ namespace esphome
 {
   namespace maidsite_desk
   {
-    class MaidsiteDeskComponent;
     class MaidsiteDeskButton : public button::Button, public Parented<MaidsiteDeskComponent>
     {
     public:
