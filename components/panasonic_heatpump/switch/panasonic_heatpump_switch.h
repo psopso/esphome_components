@@ -8,7 +8,6 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
-    class PanasonicHeatpumpComponent;
     class PanasonicHeatpumpSwitch : public switch_::Switch, public Component, public Parented<PanasonicHeatpumpComponent>
     {
     public:

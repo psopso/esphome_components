@@ -8,7 +8,6 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
-    class PanasonicHeatpumpComponent;
     class PanasonicHeatpumpTextSensor : public text_sensor::TextSensor, public Component, public Parented<PanasonicHeatpumpComponent>
     {
     public:

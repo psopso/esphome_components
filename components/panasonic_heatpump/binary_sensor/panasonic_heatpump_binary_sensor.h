@@ -8,7 +8,6 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
-    class PanasonicHeatpumpComponent;
     class PanasonicHeatpumpBinarySensor : public binary_sensor::BinarySensor, public Component, public Parented<PanasonicHeatpumpComponent>
     {
     public:
