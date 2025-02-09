@@ -92,10 +92,8 @@ CONFIG_SCHEMA = cv.Schema(
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_MAIDSITE_DESK_ID])
   for key in TYPES:
-    await setup_conf(config, key, hub)
-
-async def setup_conf(parent_config, key, hub):
-  if child_config := parent_config.get(key):
-    var = await button.new_button(child_config)
-    await cg.register_parented(var, parent_config[CONF_MAIDSITE_DESK_ID])
-    cg.add(getattr(hub, f"set_{key}_button")(var))
+    if child_config := config.get(key):
+      var = await button.new_button(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_MAIDSITE_DESK_ID])
+      cg.add(getattr(hub, f"set_{key}_button")(var))

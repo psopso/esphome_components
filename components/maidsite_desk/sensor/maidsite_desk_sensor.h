@@ -1,5 +1,5 @@
 #pragma once
-#include "esphome/components/button/button.h"
+#include "esphome/components/sensor/sensor.h"
 #include "esphome/core/component.h"
 #include "../maidsite_desk.h"
 
@@ -9,14 +9,11 @@ namespace esphome
   namespace maidsite_desk
   {
     class MaidsiteDeskComponent;
-    class MaidsiteDeskButton : public button::Button, public Parented<MaidsiteDeskComponent>
+    class MaidsiteDeskSensor : public sensor::Sensor, public Component, public Parented<MaidsiteDeskComponent>
     {
     public:
-      MaidsiteDeskButton() = default;
+      MaidsiteDeskSensor() = default;
       void dump_config() override;
-
-    protected:
-      void press_action() override;
     };
   } // namespace maidsite_desk
 } // namespace esphome
