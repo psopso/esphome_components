@@ -30,8 +30,6 @@ namespace esphome
 
     void PanasonicHeatpumpComponent::loop()
     {
-      // ToDo: if response timeout then send init again
-
       this->read_response();
       this->send_request();
       this->read_request();
@@ -46,6 +44,7 @@ namespace esphome
       uint8_t byte;
       while (this->available())
       {
+        // Read byte from heatpump and forward it directly to the client (CZ-TAW1)
         this->read_byte(&byte);
         if (this->uart_client_ != nullptr)
           this->uart_client_->write_byte(byte);
@@ -122,10 +121,11 @@ namespace esphome
       uint8_t byte;
       while (this->uart_client_->available())
       {
+        // Read byte from client and forward it directly to the heatpump
         this->uart_client_->read_byte(&byte);
         this->write_byte(byte);
 
-        // Message shall start with 0x71, if not skip this byte
+        // Message shall start with 0x71 or 0xF1, if not skip this byte
         if (!this->request_receiving_)
         {
           if (byte != 0x71 && byte != 0xF1)
@@ -214,6 +214,35 @@ namespace esphome
         return;
       }
 
+      this->publish_sensor(bytes);
+      this->publish_binary_sensor(bytes);
+      this->publish_text_sensor(bytes);
+      this->publish_number(bytes);
+      this->publish_select(bytes);
+      this->publish_switch(bytes);
+    }
+    
+    void PanasonicHeatpumpComponent::set_command_byte(uint8_t value, uint8_t index)
+    {
+      if (this->next_request_ == 1)
+      {
+        // initialize the command
+        command_message_.clear();
+        command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
+        PanasonicCommand::CommandMessage + REQUEST_DATA_MSG_SIZE);
+      }
+      // set command byte
+      command_message_[index] = value;
+      // calculate and set set checksum (last element)
+      command_message_.back() = PanasonicCommand::calcChecksum(command_message_, command_message_.size() - 1);
+
+      // command will be send on next loop
+      this->next_request_ = 2;
+      this->trigger_request_ = true;
+    }
+
+    void PanasonicHeatpumpComponent::publish_sensor(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_SENSOR
       if (this->top1_sensor_) this->top1_sensor_->publish_state(PanasonicDecode::getPumpFlow(bytes[169], bytes[170]));
       if (this->top5_sensor_) this->top5_sensor_->publish_state(PanasonicDecode::getByteMinus128(bytes[143]) + PanasonicDecode::getFractional(bytes[118], 0));
@@ -311,6 +340,10 @@ namespace esphome
       if (this->top137_sensor_) this->top137_sensor_->publish_state(PanasonicDecode::getByteMinus1(bytes[69]));
       if (this->top138_sensor_) this->top138_sensor_->publish_state(PanasonicDecode::getByteMinus1(bytes[70]));
 #endif
+    }
+
+    void PanasonicHeatpumpComponent::publish_binary_sensor(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_BINARY_SENSOR
       if (this->top0_binary_sensor_) this->top0_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[4])));
       if (this->top2_binary_sensor_) this->top2_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[4])));
@@ -336,6 +369,10 @@ namespace esphome
       if (this->top132_binary_sensor_) this->top132_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit3and4(bytes[26])));
       if (this->top133_binary_sensor_) this->top133_binary_sensor_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[26])));
 #endif
+    }
+
+    void PanasonicHeatpumpComponent::publish_text_sensor(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_TEXT_SENSOR
       if (this->top4_text_sensor_) this->top4_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
       if (this->top17_text_sensor_) this->top17_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Powerfulmode, PanasonicDecode::getBit6and7and8(bytes[7])));
@@ -359,6 +396,10 @@ namespace esphome
       if (this->top126_text_sensor_) this->top126_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Valve, PanasonicDecode::getBit7and8(bytes[116])));
       if (this->top130_text_sensor_) this->top130_text_sensor_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBit5and6(bytes[26])));
 #endif
+    }
+
+    void PanasonicHeatpumpComponent::publish_number(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_NUMBER
       if (this->set11_number_) this->set11_number_->publish_state(PanasonicDecode::getByteMinus128(bytes[42]));
       if (this->set20_number_) this->set20_number_->publish_state(PanasonicDecode::getByteMinus128(bytes[99]));
@@ -394,6 +435,10 @@ namespace esphome
       if (this->set37_number_) this->set37_number_->publish_state(PanasonicDecode::getByteMinus128(bytes[66]));
       if (this->set38_number_) this->set38_number_->publish_state(PanasonicDecode::getByteMinus128(bytes[68]));
 #endif
+    }
+
+    void PanasonicHeatpumpComponent::publish_select(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_SELECT
       if (this->set9_select_) this->set9_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::OpModeDesc, PanasonicDecode::getOpMode(bytes[6])));
       if (this->set4_select_) this->set4_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Powerfulmode, PanasonicDecode::getBit6and7and8(bytes[7])));
@@ -403,6 +448,10 @@ namespace esphome
       if (this->set26_select_) this->set26_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::ExtPadHeaterType, PanasonicDecode::getBit3and4(bytes[25])));
       if (this->set35_select_) this->set35_select_->publish_state(PanasonicDecode::getTextState(PanasonicDecode::Bivalent, PanasonicDecode::getBit5and6(bytes[26])));
 #endif
+    }
+
+    void PanasonicHeatpumpComponent::publish_switch(std::vector<uint8_t> bytes)
+    {
 #ifdef USE_SWITCH
       if (this->set1_switch_) this->set1_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit7and8(bytes[4])));
       if (this->set10_switch_) this->set10_switch_->publish_state(PanasonicDecode::getBinaryState(PanasonicDecode::getBit1and2(bytes[4])));
@@ -418,91 +467,75 @@ namespace esphome
 #endif
     }
 
-    void PanasonicHeatpumpComponent::set_command_message(uint8_t value, uint8_t index)
-    {
-      if (this->next_request_ == 1)
-      {
-        // initialize the command
-        command_message_.clear();
-        command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
-        PanasonicCommand::CommandMessage + REQUEST_DATA_MSG_SIZE);
-      }
-      // set command byte
-      command_message_[index] = value;
-      // calculate and set set checksum (last element)
-      command_message_.back() = PanasonicCommand::calcChecksum(command_message_, command_message_.size() - 1);
-
-      // command will be send on next loop
-      this->next_request_ = 2;
-      this->trigger_request_ = true;
-    }
 
 #ifdef USE_NUMBER
-    void PanasonicHeatpumpComponent::number_control(number::Number* object, float value)
+    void PanasonicHeatpumpComponent::control_number(number::Number* object, float value)
     {
-      if (object == this->set5_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 38);
-      else if (object == this->set6_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 39);
-      else if (object == this->set7_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 40);
-      else if (object == this->set8_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 41);
-      else if (object == this->set11_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 42);
-      else if (object == this->set15_number_) this->set_command_message(PanasonicCommand::setPlus1(value), 45);
-      else if (object == this->set16_1_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 75);
-      else if (object == this->set16_2_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 76);
-      else if (object == this->set16_3_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 77);
-      else if (object == this->set16_4_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 78);
-      else if (object == this->set16_5_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 79);
-      else if (object == this->set16_6_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 80);
-      else if (object == this->set16_7_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 81);
-      else if (object == this->set16_8_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 82);
-      else if (object == this->set16_9_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 86);
-      else if (object == this->set16_10_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 87);
-      else if (object == this->set16_11_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 88);
-      else if (object == this->set16_12_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 89);
-      else if (object == this->set16_13_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 90);
-      else if (object == this->set16_14_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 91);
-      else if (object == this->set16_15_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 92);
-      else if (object == this->set16_16_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 93);
-      else if (object == this->set18_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 84);
-      else if (object == this->set19_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 94);
-      else if (object == this->set20_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 99);
-      else if (object == this->set21_number_) this->set_command_message(PanasonicCommand::setPlus1(value), 104);
-      else if (object == this->set22_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 105);
-      else if (object == this->set23_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 106);
-      else if (object == this->set27_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 59);
-      else if (object == this->set29_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 83);
-      else if (object == this->set36_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 65);
-      else if (object == this->set37_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 66);
-      else if (object == this->set38_number_) this->set_command_message(PanasonicCommand::setPlus128(value), 68);
+      if (object == this->set5_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 38);
+      else if (object == this->set6_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 39);
+      else if (object == this->set7_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 40);
+      else if (object == this->set8_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 41);
+      else if (object == this->set11_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 42);
+      else if (object == this->set15_number_) this->set_command_byte(PanasonicCommand::setPlus1(value), 45);
+      else if (object == this->set16_1_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 75);
+      else if (object == this->set16_2_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 76);
+      else if (object == this->set16_3_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 77);
+      else if (object == this->set16_4_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 78);
+      else if (object == this->set16_5_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 79);
+      else if (object == this->set16_6_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 80);
+      else if (object == this->set16_7_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 81);
+      else if (object == this->set16_8_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 82);
+      else if (object == this->set16_9_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 86);
+      else if (object == this->set16_10_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 87);
+      else if (object == this->set16_11_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 88);
+      else if (object == this->set16_12_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 89);
+      else if (object == this->set16_13_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 90);
+      else if (object == this->set16_14_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 91);
+      else if (object == this->set16_15_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 92);
+      else if (object == this->set16_16_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 93);
+      else if (object == this->set18_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 84);
+      else if (object == this->set19_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 94);
+      else if (object == this->set20_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 99);
+      else if (object == this->set21_number_) this->set_command_byte(PanasonicCommand::setPlus1(value), 104);
+      else if (object == this->set22_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 105);
+      else if (object == this->set23_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 106);
+      else if (object == this->set27_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 59);
+      else if (object == this->set29_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 83);
+      else if (object == this->set36_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 65);
+      else if (object == this->set37_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 66);
+      else if (object == this->set38_number_) this->set_command_byte(PanasonicCommand::setPlus128(value), 68);
     }
 #endif
+
 #ifdef USE_SELECT
-    void PanasonicHeatpumpComponent::select_control(select::Select* object, size_t value)
+    void PanasonicHeatpumpComponent::control_select(select::Select* object, size_t value)
     {
-      if (object == this->set2_select_) this->set_command_message(PanasonicCommand::setPlus1Multiply16(value), 5);
-      else if (object == this->set3_select_) this->set_command_message(PanasonicCommand::setPlus1Multiply8(value), 7);
-      else if (object == this->set4_select_) this->set_command_message(PanasonicCommand::setPlus73(value), 7);
-      else if (object == this->set9_select_) this->set_command_message(PanasonicCommand::setOperationMode(value), 6);
-      else if (object == this->set17_select_) this->set_command_message(PanasonicCommand::setPlus1Multiply64(value), 6);
-      else if (object == this->set26_select_) this->set_command_message(PanasonicCommand::setPlus1Multiply16(value), 25);
-      else if (object == this->set35_select_) this->set_command_message(PanasonicCommand::setPlus1Multiply4(value), 26);
+      if (object == this->set2_select_) this->set_command_byte(PanasonicCommand::setPlus1Multiply16(value), 5);
+      else if (object == this->set3_select_) this->set_command_byte(PanasonicCommand::setPlus1Multiply8(value), 7);
+      else if (object == this->set4_select_) this->set_command_byte(PanasonicCommand::setPlus73(value), 7);
+      else if (object == this->set9_select_) this->set_command_byte(PanasonicCommand::setOperationMode(value), 6);
+      else if (object == this->set17_select_) this->set_command_byte(PanasonicCommand::setPlus1Multiply64(value), 6);
+      else if (object == this->set26_select_) this->set_command_byte(PanasonicCommand::setPlus1Multiply16(value), 25);
+      else if (object == this->set35_select_) this->set_command_byte(PanasonicCommand::setPlus1Multiply4(value), 26);
     }
 #endif
+
 #ifdef USE_SWITCH
-    void PanasonicHeatpumpComponent::switch_control(switch_::Switch* object, size_t value)
+    void PanasonicHeatpumpComponent::control_switch(switch_::Switch* object, size_t value)
     {
-      if (object == this->set1_switch_) this->set_command_message(PanasonicCommand::setPlus1(value), 4);
-      else if (object == this->set10_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply64(value), 4);
-      else if (object == this->set12_switch_) this->set_command_message(PanasonicCommand::setMultiply2(value), 8);
-      else if (object == this->set13_switch_) this->set_command_message(PanasonicCommand::setMultiply4(value), 8);
-      else if (object == this->set14_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply16(value), 4);
-      else if (object == this->set24_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply64(value), 5);
-      else if (object == this->set25_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply16(value), 20);
-      else if (object == this->set28_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply4(value), 24);
-      else if (object == this->set30_switch_) this->set_command_message(PanasonicCommand::setPlus1(value), 23);
-      else if (object == this->set31_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply16(value), 23);
-      else if (object == this->set32_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply64(value), 23);
-      else if (object == this->set33_switch_) this->set_command_message(PanasonicCommand::setPlus1Multiply4(value), 23);
-      else if (object == this->set34_switch_) this->set_command_message(PanasonicCommand::setPlus1(value), 26);
+      if (object == this->set1_switch_) this->set_command_byte(PanasonicCommand::setPlus1(value), 4);
+      else if (object == this->set10_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply64(value), 4);
+      else if (object == this->set12_switch_) this->set_command_byte(PanasonicCommand::setMultiply2(value), 8);
+      else if (object == this->set13_switch_) this->set_command_byte(PanasonicCommand::setMultiply4(value), 8);
+      else if (object == this->set14_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply16(value), 4);
+      else if (object == this->set24_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply64(value), 5);
+      else if (object == this->set25_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply16(value), 20);
+      else if (object == this->set28_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply4(value), 24);
+      else if (object == this->set30_switch_) this->set_command_byte(PanasonicCommand::setPlus1(value), 23);
+      else if (object == this->set31_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply16(value), 23);
+      else if (object == this->set32_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply64(value), 23);
+      else if (object == this->set33_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply4(value), 23);
+      else if (object == this->set34_switch_) this->set_command_byte(PanasonicCommand::setPlus1(value), 26);
     }
 #endif
   }  // namespace panasonic_heatpump

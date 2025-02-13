@@ -277,7 +277,12 @@ async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
   for index, key in enumerate(TYPES):
     if child_config := config.get(key):
-      var = await number.new_number(child_config, min_value=CONF_NUMBERS[index][0], max_value=CONF_NUMBERS[index][1], step=CONF_NUMBERS[index][2])
+      var = await number.new_number(
+        child_config,
+        min_value=CONF_NUMBERS[index][0],
+        max_value=CONF_NUMBERS[index][1],
+        step=CONF_NUMBERS[index][2]
+      )
       await cg.register_component(var, child_config)
       await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
       cg.add(getattr(hub, f"set_{key}_number")(var))

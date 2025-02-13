@@ -216,7 +216,7 @@ namespace esphome
       SUB_NUMBER(set37);
       SUB_NUMBER(set38);
 
-      void number_control(number::Number* object, float value);
+      void control_number(number::Number* object, float value);
 #endif
 #ifdef USE_SELECT
       SUB_SELECT(set2);
@@ -227,7 +227,7 @@ namespace esphome
       SUB_SELECT(set26);
       SUB_SELECT(set35);
 
-      void select_control(select::Select* object, size_t value);
+      void control_select(select::Select* object, size_t value);
 #endif
 #ifdef USE_SWITCH
       SUB_SWITCH(set1);
@@ -254,15 +254,11 @@ namespace esphome
       void update() override;
       void loop() override;
 
-      //void set_uart_hp(uart::UARTComponent *uart) { this->uart_hp_ = uart; }
-      //void set_uart_wm(uart::UARTComponent *uart) { this->uart_wm_ = uart; }
       void set_uart_client(uart::UARTComponent *uart) { this->uart_client_ = uart; }
       void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
       void set_polling_time(uint32_t time_sec) { this->polling_time_ = time_sec; }
 
     protected:
-      //uart::UARTComponent* uart_hp_;
-      //uart::UARTComponent* uart_wm_;
       uart::UARTComponent* uart_client_{nullptr};
       bool log_uart_msg_{false};
       uint32_t polling_time_{1};
@@ -281,7 +277,13 @@ namespace esphome
       void send_request();
       void read_request();
       void decode_response(std::vector<uint8_t> data);
-      void set_command_message(uint8_t value, uint8_t index);
+      void set_command_byte(uint8_t value, uint8_t index);
+      void publish_sensor(std::vector<uint8_t> bytes);
+      void publish_binary_sensor(std::vector<uint8_t> bytes);
+      void publish_text_sensor(std::vector<uint8_t> bytes);
+      void publish_number(std::vector<uint8_t> bytes);
+      void publish_select(std::vector<uint8_t> bytes);
+      void publish_switch(std::vector<uint8_t> bytes);
       void log_uart_hex(std::string prefix, const std::vector<uint8_t> &data, uint8_t separator) { this->log_uart_hex(prefix, &data[0], data.size(), separator); }
       void log_uart_hex(std::string prefix, const uint8_t *data, size_t length, uint8_t separator);
     };

@@ -18,7 +18,7 @@ namespace esphome
       this->publish_state(value);
       auto index = this->active_index();
       if (index.has_value())
-        this->parent_->select_control(this, index.value());
+        this->parent_->control_select(this, index.value());
     }
   } // namespace panasonic_heatpump
 } // namespace esphome
