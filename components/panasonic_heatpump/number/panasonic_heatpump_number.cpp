@@ -11,6 +11,7 @@ namespace esphome
     void PanasonicHeatpumpNumber::dump_config()
     {
       LOG_NUMBER("", "Panasonic Heatpump Number", this);
+      delay(10);
     }
 
     void PanasonicHeatpumpNumber::control(float value)

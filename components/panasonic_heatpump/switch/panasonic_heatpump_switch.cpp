@@ -11,6 +11,7 @@ namespace esphome
     void PanasonicHeatpumpSwitch::dump_config()
     {
       LOG_SWITCH("", "Panasonic Heatpump Switch", this);
+      delay(10);
     }
     
     void PanasonicHeatpumpSwitch::write_state(bool state)

@@ -11,6 +11,7 @@ namespace esphome
     void PanasonicHeatpumpSelect::dump_config()
     {
       LOG_SELECT("", "Panasonic Heatpump Select", this);
+      delay(10);
     }
 
     void PanasonicHeatpumpSelect::control(const std::string &value)

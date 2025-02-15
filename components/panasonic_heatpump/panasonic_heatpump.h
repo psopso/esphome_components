@@ -244,7 +244,7 @@ namespace esphome
       SUB_SWITCH(set33);
       SUB_SWITCH(set34);
 
-      void switch_control(switch_::Switch* object, size_t value);
+      void control_switch(switch_::Switch* object, size_t value);
 #endif
 
       PanasonicHeatpumpComponent() = default;
@@ -284,7 +284,10 @@ namespace esphome
       void publish_number(std::vector<uint8_t> bytes);
       void publish_select(std::vector<uint8_t> bytes);
       void publish_switch(std::vector<uint8_t> bytes);
-      void log_uart_hex(std::string prefix, const std::vector<uint8_t> &data, uint8_t separator) { this->log_uart_hex(prefix, &data[0], data.size(), separator); }
+      void log_uart_hex(std::string prefix, const std::vector<uint8_t> &data, uint8_t separator)
+      {
+        this->log_uart_hex(prefix, &data[0], data.size(), separator);
+      }
       void log_uart_hex(std::string prefix, const uint8_t *data, size_t length, uint8_t separator);
     };
   }  // namespace panasonic_heatpump

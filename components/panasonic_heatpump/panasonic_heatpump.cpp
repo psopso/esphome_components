@@ -10,6 +10,7 @@ namespace esphome
     void PanasonicHeatpumpComponent::dump_config()
     {
       ESP_LOGCONFIG(TAG, "Panasonic Heatpump");
+      delay(10);
     }
 
     void PanasonicHeatpumpComponent::setup()
@@ -52,7 +53,7 @@ namespace esphome
         // Message shall start with 0x71, if not skip this byte
         if (!this->response_receiving_)
         {
-          if (byte != 0x71)
+          if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
             continue;
           this->response_receiving_ = true;
         }
@@ -63,11 +64,11 @@ namespace esphome
         if (this->response_message_.size() == 2)
           this->response_payload_length_ = byte;
         // Discard message if format is wrong
-        if (this->response_message_.size() == 3 && byte != 0x01 ||
-            this->response_message_.size() == 4 && byte != 0x10)
+        if ((this->response_message_.size() == 3 || this->response_message_.size() == 4)
+            && byte != 0x01 && byte != 0x10)
         {
-          ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x%02X",
-            response_message_.size(), byte, response_message_.size() == 3 ? "01" : "10");
+          ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
+            response_message_.size(), byte);
           delay(10);
           this->response_message_.clear();
           this->response_receiving_ = false;
@@ -128,7 +129,7 @@ namespace esphome
         // Message shall start with 0x71 or 0xF1, if not skip this byte
         if (!this->request_receiving_)
         {
-          if (byte != 0x71 && byte != 0xF1)
+          if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
             continue;
           this->request_receiving_ = true;
         }
@@ -140,11 +141,11 @@ namespace esphome
           this->request_payload_length_ = byte;
 
         // Discard message if format is wrong
-        if (this->request_message_.size() == 3 && byte != 0x01 ||
-            this->request_message_.size() == 4 && byte != 0x10)
+        if ((this->request_message_.size() == 3 || this->request_message_.size() == 4)
+            && byte != 0x01 && byte != 0x10)
         {
-          ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x%02X",
-            request_message_.size(), byte, request_message_.size() == 3 ? "01" : "10");
+          ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
+            request_message_.size(), byte);
           delay(10);
           this->request_message_.clear();
           this->request_receiving_ = false;
