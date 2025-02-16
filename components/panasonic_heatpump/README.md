@@ -546,6 +546,10 @@ select:
       name: "Set Bivalent Mode"
 ```
 
+## Known Issues
+
+When the ESP controller is connected initially to the heatpump, the heatpump may not respond to any request messages. If the CZ-TAW1 is also connected to the ESP controller you will probably see some requests like 31 05 10 01 ... These are initial request messages. If the heatpump is not responding, it may help to turn off and on the power of the heatpump (switching the heatpump off is not enough). After a power on the heatpump should respond to the requests.
+
 ## Sources
 
 :heart: A big THANKS to [Egyras](https://github.com/Egyras) and the work done on the repository [HeishaMon](https://github.com/Egyras/HeishaMon) for decoding the panasonic uart protocol and providing information to build hardware based on an ESP Chip.  

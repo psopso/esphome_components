@@ -78,7 +78,7 @@ namespace esphome
         // Check if message is complete
         if (this->response_message_.size() > 2 && this->response_message_.size() == this->response_payload_length_ + 3)
         {
-          this->log_uart_hex("<<<", this->response_message_, ',');
+          this->log_uart_hex(UART_LOG_RX, this->response_message_, ',');
           this->decode_response(this->response_message_);
           this->response_message_.clear();
           this->response_receiving_ = false;
@@ -92,7 +92,7 @@ namespace esphome
 
       if (this->next_request_ == 2) // command
       {
-        this->log_uart_hex(">>>", this->command_message_, ',');
+        this->log_uart_hex(UART_LOG_RX, this->command_message_, ',');
         this->write_array(this->command_message_);
         this->flush();
         return;
@@ -103,13 +103,13 @@ namespace esphome
       if (this->next_request_ == 0) // initial
       {
         // Probably not necessary but CZ-TAW1 sends this query on boot
-        this->log_uart_hex(">>>", PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE, ',');
+        this->log_uart_hex(UART_LOG_RX, PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE, ',');
         this->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
         this->flush();
       }
       else if (this->next_request_ == 1) // polling
       {
-        this->log_uart_hex(">>>", PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE, ',');
+        this->log_uart_hex(UART_LOG_RX, PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE, ',');
         this->write_array(PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE);
         this->flush();
       }
@@ -155,20 +155,40 @@ namespace esphome
         // Check if message is complete
         if (this->request_message_.size() > 2 && this->request_message_.size() == this->request_payload_length_ + 3)
         {
-          this->log_uart_hex(">>>", this->request_message_, ',');
+          this->log_uart_hex(UART_LOG_TX, this->request_message_, ',');
           this->request_message_.clear();
           this->request_receiving_ = false;
         }
       }
     }
 
-    void PanasonicHeatpumpComponent::log_uart_hex(std::string prefix, const uint8_t *data, size_t length, uint8_t separator)
+    void PanasonicHeatpumpComponent::log_uart_hex(UartLogDirection direction, const uint8_t *data, size_t length, uint8_t separator)
     {
       if (this->log_uart_msg_ == false) return;
 
       std::string logStr;
+      std::string msgDir = direction == UART_LOG_TX ? ">>>" : "<<<";
+      std::string msgType = "response";
+      if (direction == UART_LOG_TX)
+      {
+        switch(data[0])
+        {
+          case 0x31:
+            msgType = "initial_request";
+            break;
+          case 0x71:
+            msgType = "polling_request";
+            break;
+          case 0xF1:
+            msgType = "command_request";
+            break;
+          default:
+            msgType = "request";
+        };
+      }
+
       logStr = "[" + std::to_string(length) + "]";
-      ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.c_str());
+      ESP_LOGI(TAG, "%s %s%s", msgDir.c_str(), msgType.c_str(), logStr.c_str());
       delay(10);
 
       logStr = "";
@@ -183,7 +203,7 @@ namespace esphome
       size_t chunkSize = 90;
       for (size_t i = 0; i < logStr.length(); i += chunkSize)
       {
-        ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.substr(i, chunkSize).c_str());
+        ESP_LOGD(TAG, "%s %s", msgDir.c_str(), logStr.substr(i, chunkSize).c_str());
         delay(10);
       }
     }

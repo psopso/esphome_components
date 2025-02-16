@@ -32,6 +32,12 @@ namespace esphome
 {
   namespace panasonic_heatpump
   {
+    enum UartLogDirection
+    {
+      UART_LOG_RX,
+      UART_LOG_TX,
+    };
+    
     class PanasonicHeatpumpComponent : public PollingComponent, public uart::UARTDevice
     {
     public:
@@ -284,11 +290,11 @@ namespace esphome
       void publish_number(std::vector<uint8_t> bytes);
       void publish_select(std::vector<uint8_t> bytes);
       void publish_switch(std::vector<uint8_t> bytes);
-      void log_uart_hex(std::string prefix, const std::vector<uint8_t> &data, uint8_t separator)
+      void log_uart_hex(UartLogDirection direction, const std::vector<uint8_t> &data, uint8_t separator)
       {
-        this->log_uart_hex(prefix, &data[0], data.size(), separator);
+        this->log_uart_hex(direction, &data[0], data.size(), separator);
       }
-      void log_uart_hex(std::string prefix, const uint8_t *data, size_t length, uint8_t separator);
+      void log_uart_hex(UartLogDirection direction, const uint8_t *data, size_t length, uint8_t separator);
     };
   }  // namespace panasonic_heatpump
 }  // namespace esphome
