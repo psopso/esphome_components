@@ -61,87 +61,87 @@ PanasonicHeatpumpBinarySensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpB
 
 CONFIG_SCHEMA = cv.Schema(
   {
-      cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
+    cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-      cv.Optional(CONF_TOP0): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP2): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP3): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP13): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP26): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP60): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP61): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP68): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP69): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP99): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP100): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP108): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP109): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-        device_class = DEVICE_CLASS_RUNNING,
-      ),
-      cv.Optional(CONF_TOP110): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP119): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP120): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP121): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP122): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP123): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP124): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP129): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP132): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
-      cv.Optional(CONF_TOP133): binary_sensor.binary_sensor_schema(
-        PanasonicHeatpumpBinarySensor,
-      ),
+    cv.Optional(CONF_TOP0): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP2): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP3): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP13): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP26): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP60): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP61): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP68): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP69): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP99): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP100): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP108): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP109): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+      device_class = DEVICE_CLASS_RUNNING,
+    ),
+    cv.Optional(CONF_TOP110): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP119): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP120): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP121): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP122): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP123): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP124): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP129): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP132): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
+    cv.Optional(CONF_TOP133): binary_sensor.binary_sensor_schema(
+      PanasonicHeatpumpBinarySensor,
+    ),
   }
 ).extend(cv.COMPONENT_SCHEMA)
 

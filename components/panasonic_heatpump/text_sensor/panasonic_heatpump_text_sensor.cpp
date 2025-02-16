@@ -11,6 +11,7 @@ namespace esphome
     void PanasonicHeatpumpTextSensor::dump_config()
     {
       LOG_TEXT_SENSOR("", "Panasonic Heatpump Text Sensor", this);
+      delay(10);
     }
   } // namespace panasonic_heatpump
 } // namespace esphome

@@ -11,6 +11,7 @@ namespace esphome
     void PanasonicHeatpumpBinarySensor::dump_config()
     {
       LOG_BINARY_SENSOR("", "Panasonic Heatpump Binary Sensor", this);
+      delay(10);
     }
   } // namespace panasonic_heatpump
 } // namespace esphome

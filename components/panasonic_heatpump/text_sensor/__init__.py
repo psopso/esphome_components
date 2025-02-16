@@ -74,88 +74,88 @@ PanasonicHeatpumpTextSensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpTex
 
 CONFIG_SCHEMA = cv.Schema(
   {
-      cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
+    cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
 
-      cv.Optional(CONF_TOP4): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_OPERATING_MODE,
-      ),
-      cv.Optional(CONF_TOP17): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_POWERFUL_MODE,
-      ),
-      cv.Optional(CONF_TOP18): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_QUIET_MODE,
-      ),
-      cv.Optional(CONF_TOP19): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_HOLIDAY_MODE,
-      ),
-      cv.Optional(CONF_TOP20): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_VALVE,
-      ),
-      cv.Optional(CONF_TOP44): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_ERROR,
-      ),
-      cv.Optional(CONF_TOP58): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_BLOCKED,
-      ),
-      cv.Optional(CONF_TOP59): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_BLOCKED,
-      ),
-      cv.Optional(CONF_TOP76): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_HEATING_MODE,
-      ),
-      cv.Optional(CONF_TOP81): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_COOLING_MODE,
-      ),
-      cv.Optional(CONF_TOP92): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_MODEL,
-      ),
-      cv.Optional(CONF_TOP94): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_ZONE,
-      ),
-      cv.Optional(CONF_TOP101): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_SOLAR_MODE,
-      ),
-      cv.Optional(CONF_TOP106): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_PUMP,
-      ),
-      cv.Optional(CONF_TOP107): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_LIQUID,
-      ),
-      cv.Optional(CONF_TOP111): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-      ),
-      cv.Optional(CONF_TOP112): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-      ),
-      cv.Optional(CONF_TOP114): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_EXTERNAL_PAD_HEATER,
-      ),
-      cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_VALVE,
-      ),
-      cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,
-        icon=ICON_VALVE,
-      ),
-      cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(
-        PanasonicHeatpumpTextSensor,),
+    cv.Optional(CONF_TOP4): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_OPERATING_MODE,
+    ),
+    cv.Optional(CONF_TOP17): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_POWERFUL_MODE,
+    ),
+    cv.Optional(CONF_TOP18): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_QUIET_MODE,
+    ),
+    cv.Optional(CONF_TOP19): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_HOLIDAY_MODE,
+    ),
+    cv.Optional(CONF_TOP20): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_VALVE,
+    ),
+    cv.Optional(CONF_TOP44): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_ERROR,
+    ),
+    cv.Optional(CONF_TOP58): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_BLOCKED,
+    ),
+    cv.Optional(CONF_TOP59): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_BLOCKED,
+    ),
+    cv.Optional(CONF_TOP76): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_HEATING_MODE,
+    ),
+    cv.Optional(CONF_TOP81): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_COOLING_MODE,
+    ),
+    cv.Optional(CONF_TOP92): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_MODEL,
+    ),
+    cv.Optional(CONF_TOP94): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_ZONE,
+    ),
+    cv.Optional(CONF_TOP101): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_SOLAR_MODE,
+    ),
+    cv.Optional(CONF_TOP106): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_PUMP,
+    ),
+    cv.Optional(CONF_TOP107): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_LIQUID,
+    ),
+    cv.Optional(CONF_TOP111): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+    ),
+    cv.Optional(CONF_TOP112): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+    ),
+    cv.Optional(CONF_TOP114): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_EXTERNAL_PAD_HEATER,
+    ),
+    cv.Optional(CONF_TOP125): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_VALVE,
+    ),
+    cv.Optional(CONF_TOP126): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,
+      icon=ICON_VALVE,
+    ),
+    cv.Optional(CONF_TOP130): text_sensor.text_sensor_schema(
+      PanasonicHeatpumpTextSensor,),
   }
 ).extend(cv.COMPONENT_SCHEMA)
 
