@@ -92,7 +92,7 @@ namespace esphome
 
       if (this->next_request_ == 2) // command
       {
-        this->log_uart_hex(UART_LOG_RX, this->command_message_, ',');
+        this->log_uart_hex(UART_LOG_TX, this->command_message_, ',');
         this->write_array(this->command_message_);
         this->flush();
         return;
@@ -103,13 +103,13 @@ namespace esphome
       if (this->next_request_ == 0) // initial
       {
         // Probably not necessary but CZ-TAW1 sends this query on boot
-        this->log_uart_hex(UART_LOG_RX, PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE, ',');
+        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE, ',');
         this->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
         this->flush();
       }
       else if (this->next_request_ == 1) // polling
       {
-        this->log_uart_hex(UART_LOG_RX, PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE, ',');
+        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE, ',');
         this->write_array(PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE);
         this->flush();
       }
