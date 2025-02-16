@@ -50,7 +50,7 @@ namespace esphome
         if (this->uart_client_ != nullptr)
           this->uart_client_->write_byte(byte);
 
-        // Message shall start with 0x71, if not skip this byte
+        // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->response_receiving_)
         {
           if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
@@ -126,7 +126,7 @@ namespace esphome
         this->uart_client_->read_byte(&byte);
         this->write_byte(byte);
 
-        // Message shall start with 0x71 or 0xF1, if not skip this byte
+        // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->request_receiving_)
         {
           if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
