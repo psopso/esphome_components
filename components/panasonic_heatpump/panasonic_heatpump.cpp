@@ -48,13 +48,14 @@ namespace esphome
         // Read byte from heatpump and forward it directly to the client (CZ-TAW1)
         this->read_byte(&byte);
         if (this->uart_client_ != nullptr)
+        {
           this->uart_client_->write_byte(byte);
+        }
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->response_receiving_)
         {
-          if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
-            continue;
+          if (byte != 0x31 && byte != 0x71 && byte != 0xF1) continue;
           this->response_receiving_ = true;
         }
         // Add current byte to message buffer
@@ -62,7 +63,9 @@ namespace esphome
 
         // 2. bytes contains the payload size
         if (this->response_message_.size() == 2)
+        {
           this->response_payload_length_ = byte;
+        }
         // Discard message if format is wrong
         if ((this->response_message_.size() == 3 || this->response_message_.size() == 4)
             && byte != 0x01 && byte != 0x10)
@@ -103,14 +106,14 @@ namespace esphome
       if (this->next_request_ == 0) // initial
       {
         // Probably not necessary but CZ-TAW1 sends this query on boot
-        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE, ',');
-        this->write_array(PanasonicCommand::InitialMessage, REQUEST_INIT_MSG_SIZE);
+        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE, ',');
+        this->write_array(PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE);
         this->flush();
       }
       else if (this->next_request_ == 1) // polling
       {
-        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE, ',');
-        this->write_array(PanasonicCommand::PollingMessage, REQUEST_DATA_MSG_SIZE);
+        this->log_uart_hex(UART_LOG_TX, PanasonicCommand::PollingMessage, DATA_MESSAGE_SIZE, ',');
+        this->write_array(PanasonicCommand::PollingMessage, DATA_MESSAGE_SIZE);
         this->flush();
       }
     }
@@ -124,13 +127,12 @@ namespace esphome
       {
         // Read byte from client and forward it directly to the heatpump
         this->uart_client_->read_byte(&byte);
-        this->write_byte(byte);
+          this->write_byte(byte);
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->request_receiving_)
         {
-          if (byte != 0x31 && byte != 0x71 && byte != 0xF1)
-            continue;
+          if (byte != 0x31 && byte != 0x71 && byte != 0xF1) continue;
           this->request_receiving_ = true;
         }
         // Add current byte to message buffer
@@ -138,8 +140,9 @@ namespace esphome
 
         // 2. bytes contains the payload size
         if (this->request_message_.size() == 2)
+        {
           this->request_payload_length_ = byte;
-
+        }
         // Discard message if format is wrong
         if ((this->request_message_.size() == 3 || this->request_message_.size() == 4)
             && byte != 0x01 && byte != 0x10)
@@ -203,7 +206,7 @@ namespace esphome
       size_t chunkSize = 90;
       for (size_t i = 0; i < logStr.length(); i += chunkSize)
       {
-        ESP_LOGD(TAG, "%s %s", msgDir.c_str(), logStr.substr(i, chunkSize).c_str());
+        ESP_LOGI(TAG, "%s %s", msgDir.c_str(), logStr.substr(i, chunkSize).c_str());
         delay(10);
       }
     }
@@ -250,7 +253,7 @@ namespace esphome
         // initialize the command
         command_message_.clear();
         command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
-        PanasonicCommand::CommandMessage + REQUEST_DATA_MSG_SIZE);
+        PanasonicCommand::CommandMessage + DATA_MESSAGE_SIZE);
       }
       // set command byte
       command_message_[index] = value;
@@ -488,7 +491,6 @@ namespace esphome
 #endif
     }
 
-
 #ifdef USE_NUMBER
     void PanasonicHeatpumpComponent::control_number(number::Number* object, float value)
     {
@@ -542,8 +544,10 @@ namespace esphome
 #endif
 
 #ifdef USE_SWITCH
-    void PanasonicHeatpumpComponent::control_switch(switch_::Switch* object, size_t value)
+    void PanasonicHeatpumpComponent::control_switch(switch_::Switch* object, bool state)
     {
+      size_t value = state ? 1 : 0;
+
       if (object == this->set1_switch_) this->set_command_byte(PanasonicCommand::setPlus1(value), 4);
       else if (object == this->set10_switch_) this->set_command_byte(PanasonicCommand::setPlus1Multiply64(value), 4);
       else if (object == this->set12_switch_) this->set_command_byte(PanasonicCommand::setMultiply2(value), 8);

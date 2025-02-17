@@ -2,9 +2,10 @@
 #include <cmath>
 #include <vector>
 
-#define REQUEST_INIT_MSG_SIZE 8
-#define REQUEST_DATA_MSG_SIZE 111
-#define REQUEST_OPTIONAL_MSG_SIZE 20
+#define INIT_REQUEST_SIZE 8
+#define INIT_RESPONSE_SIZE 51
+#define DATA_MESSAGE_SIZE 111
+#define OPTIONAL_MESSAGE_SIZE 20
 
 
 namespace esphome
@@ -31,9 +32,10 @@ namespace esphome
       static uint8_t setByte6(uint8_t byte6, int val, int base, int bit);
       static uint8_t setDemandControl(size_t input);
 
-      static const uint8_t InitialMessage[REQUEST_INIT_MSG_SIZE];
-      static const uint8_t PollingMessage[REQUEST_DATA_MSG_SIZE];
-      static const uint8_t CommandMessage[REQUEST_DATA_MSG_SIZE];
+      static const uint8_t InitialRequest[INIT_REQUEST_SIZE];
+      static const uint8_t InitialResponse[INIT_RESPONSE_SIZE];
+      static const uint8_t PollingMessage[DATA_MESSAGE_SIZE];
+      static const uint8_t CommandMessage[DATA_MESSAGE_SIZE];
     };
   }  // namespace panasonic_heatpump
 }  // namespace esphome

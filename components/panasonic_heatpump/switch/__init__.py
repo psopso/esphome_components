@@ -6,7 +6,6 @@ from esphome.const import (
 )
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
-
 CONF_SET1 = "set1"  # Set Heatpump
 CONF_SET10 = "set10"  # Set Force DHW
 CONF_SET12 = "set12"  # Set Force Defrost
