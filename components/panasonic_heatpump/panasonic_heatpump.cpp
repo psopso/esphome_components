@@ -68,7 +68,7 @@ namespace esphome
         }
         // Discard message if format is wrong
         if ((this->response_message_.size() == 3 || this->response_message_.size() == 4)
-            && byte != 0x01 && byte != 0x10)
+            && byte != 0x01 && byte != 0x10 && byte != 0x21)
         {
           ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
             response_message_.size(), byte);
@@ -145,7 +145,7 @@ namespace esphome
         }
         // Discard message if format is wrong
         if ((this->request_message_.size() == 3 || this->request_message_.size() == 4)
-            && byte != 0x01 && byte != 0x10)
+            && byte != 0x01 && byte != 0x10 && byte != 0x21)
         {
           ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
             request_message_.size(), byte);
