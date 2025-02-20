@@ -5,7 +5,7 @@ from esphome.const import (
   UNIT_CENTIMETER,
   UNIT_PERCENT,
 )
-from . import CONF_MAIDSITE_DESK_ID, MaidsiteDeskComponent, maidsite_desk_ns
+from .. import CONF_MAIDSITE_DESK_ID, MaidsiteDeskComponent, maidsite_desk_ns
 
 CONF_UNIT = "unit"
 CONF_HEIGHT_ABS = "height_abs"
@@ -85,4 +85,6 @@ async def to_code(config):
   for key in TYPES:
     if child_config := config.get(key):
       var = await sensor.new_sensor(child_config)
+      await cg.register_component(var, child_config)
+      await cg.register_parented(var, config[CONF_MAIDSITE_DESK_ID])
       cg.add(getattr(hub, f"set_{key}_sensor")(var))

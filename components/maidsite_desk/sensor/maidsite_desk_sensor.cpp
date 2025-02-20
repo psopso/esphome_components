@@ -11,6 +11,7 @@ namespace esphome
     void MaidsiteDeskSensor::dump_config()
     {
       LOG_SENSOR("", "Maidsite Desk Sensor", this);
+      delay(10);
     }
   } // namespace maidsite_desk
 } // namespace esphome

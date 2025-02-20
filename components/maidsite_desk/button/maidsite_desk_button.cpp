@@ -11,6 +11,7 @@ namespace esphome
     void MaidsiteDeskButton::dump_config()
     {
       LOG_BUTTON("", "Maidsite Desk Button", this);
+      delay(10);
     }
 
     void MaidsiteDeskButton::press_action()

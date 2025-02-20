@@ -11,6 +11,7 @@ namespace esphome
     void MaidsiteDeskNumber::dump_config()
     {
       LOG_NUMBER("", "Maidsite Desk Number", this);
+      delay(10);
     }
 
     void MaidsiteDeskNumber::control(float value)
