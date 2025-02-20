@@ -28,6 +28,8 @@
 #include <tuple>
 #include <string>
 
+#define UART_LOG_CHUNK_SIZE 153
+
 
 namespace esphome
 {
@@ -264,13 +266,14 @@ namespace esphome
       // option functions
       void set_uart_client(uart::UARTComponent* uart) { this->uart_client_ = uart; }
       void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
+      // uart message variables to use in lambda functions
+      std::vector<uint8_t> response_message_;
 
     protected:
       // options variables
       uart::UARTComponent* uart_client_ { nullptr };
       bool log_uart_msg_ { false };
       // uart message variables
-      std::vector<uint8_t> response_message_;
       std::vector<uint8_t> request_message_;
       std::vector<uint8_t> command_message_;
       uint8_t response_payload_length_;

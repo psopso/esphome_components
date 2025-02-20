@@ -107,6 +107,7 @@ namespace esphome
       {
         // Probably not necessary but CZ-TAW1 sends this query on boot
         this->log_uart_hex(UART_LOG_TX, PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE, ',');
+
         this->write_array(PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE);
         this->flush();
       }
@@ -202,10 +203,9 @@ namespace esphome
         logStr += buffer;
       }
 
-      size_t chunkSize = 150;
-      for (size_t i = 0; i < logStr.length(); i += chunkSize)
+      for (size_t i = 0; i < logStr.length(); i += UART_LOG_CHUNK_SIZE)
       {
-        ESP_LOGI(TAG, "%s %s", msgDir.c_str(), logStr.substr(i, chunkSize).c_str());
+        ESP_LOGI(TAG, "%s %s", msgDir.c_str(), logStr.substr(i, UART_LOG_CHUNK_SIZE).c_str());
         delay(10);
       }
     }
