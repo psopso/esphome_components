@@ -10,6 +10,7 @@ namespace esphome
     void MaidsiteDeskComponent::dump_config()
     {
       ESP_LOGCONFIG(TAG, "Maidsite Desk");
+      delay(10);
     }
 
     void MaidsiteDeskComponent::setup()
