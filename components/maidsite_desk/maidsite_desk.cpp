@@ -82,7 +82,6 @@ namespace esphome
 
       std::string logStr;
       char buffer[5];
-      size_t chunkSize = 90;
 
       for (size_t i = 0; i < bytes.size(); i++)
       {
@@ -90,9 +89,9 @@ namespace esphome
         sprintf(buffer, "%02X", bytes[i]);
         logStr += buffer;
       }
-      for (size_t i = 0; i < logStr.length(); i += chunkSize)
+      for (size_t i = 0; i < logStr.length(); i += UART_LOG_CHUNK_SIZE)
       {
-        ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.substr(i, chunkSize).c_str());
+        ESP_LOGI(TAG, "%s %s", prefix.c_str(), logStr.substr(i, UART_LOG_CHUNK_SIZE).c_str());
         delay(10);
       }
     }

@@ -15,6 +15,8 @@
 #include <vector>
 #include <string>
 
+#define UART_LOG_CHUNK_SIZE 153
+
 
 namespace esphome
 {
