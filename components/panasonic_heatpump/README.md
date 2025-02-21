@@ -569,6 +569,8 @@ sensor:
     lambda: |-
       // get the requried byte
       int byte = my_heatpump->getResponseByte(46);
+      // a valid byte range is 0x00-0xFF
+      // do not update if the byte is invalid
       if (byte < 0) return {};
       // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
       // in this case -128
@@ -581,6 +583,8 @@ text_sensor:
     lambda: |-
       // get the requried byte
       int byte = my_heatpump->getResponseByte(9);
+      // a valid byte range is 0x00-0xFF
+      // do not update if the byte is invalid
       if (byte < 0) return {};
       // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
       // in this case 3rd and 4th bit (--> b0011 0000)
@@ -588,7 +592,7 @@ text_sensor:
       // set text
       if (state == 0) return { "Standard" };
       if (state == 1) return { "DHW" };
-      // if state is unkown do not update text
+      // if state is unkown do not update
       return {};
 ```
 
