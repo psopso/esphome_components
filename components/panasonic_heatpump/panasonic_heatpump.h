@@ -267,20 +267,23 @@ namespace esphome
       void set_uart_client(uart::UARTComponent* uart) { this->uart_client_ = uart; }
       void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
       // uart message variables to use in lambda functions
-      std::vector<uint8_t> response_message_;
+      int getResponseByte(const int index);
 
     protected:
       // options variables
       uart::UARTComponent* uart_client_ { nullptr };
       bool log_uart_msg_ { false };
       // uart message variables
+      std::vector<uint8_t> temp_message_;
+      std::vector<uint8_t> response_message_;
       std::vector<uint8_t> request_message_;
       std::vector<uint8_t> command_message_;
       uint8_t response_payload_length_;
       uint8_t request_payload_length_;
+      uint8_t byte_;
       bool response_receiving_ { false };
       bool request_receiving_ { false };
-      bool trigger_request_ { true };
+      bool trigger_request_ { false };
       uint8_t next_request_ { 0 };  // 0 = initial, 1 = polling, 2 = command
 
       // uart message functions
@@ -288,7 +291,7 @@ namespace esphome
       void send_request();
       void read_request();
       void decode_response(const std::vector<uint8_t>& data);
-      void set_command_byte(uint8_t value, uint8_t index);
+      void set_command_byte(const uint8_t value, const uint8_t index);
       void set_command_bytes(const std::vector<std::tuple<uint8_t, uint8_t>>& data);
       // sensor and control publish functions
       void publish_sensor(const std::vector<uint8_t>& data);
@@ -297,9 +300,9 @@ namespace esphome
       void publish_number(const std::vector<uint8_t>& data);
       void publish_select(const std::vector<uint8_t>& data);
       void publish_switch(const std::vector<uint8_t>& data);
-      // logger functions
-      void log_uart_hex(UartLogDirection direction, const std::vector<uint8_t>& data, uint8_t separator);
-      void log_uart_hex(UartLogDirection direction, const uint8_t* data, size_t length, uint8_t separator);
+      // helper functions
+      void log_uart_hex(UartLogDirection direction, const std::vector<uint8_t>& data, const char separator);
+      void log_uart_hex(UartLogDirection direction, const uint8_t* data, const size_t length, const char separator);
     };
   }  // namespace panasonic_heatpump
 }  // namespace esphome

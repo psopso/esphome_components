@@ -19,8 +19,15 @@ namespace esphome
       delay(10);
       this->check_uart_settings(9600, 1, uart::UART_CONFIG_PARITY_EVEN, 8);
       // Trigger initial request
-      this->next_request_ = 0;
-      this->trigger_request_ = true;
+      if (this->uart_client_ == nullptr)
+      {
+        this->next_request_ = 0;
+        this->trigger_request_ = true;
+      }
+      else
+      {
+        this->trigger_request_ = false;
+      }
     }
 
     void PanasonicHeatpumpComponent::update()
@@ -42,49 +49,50 @@ namespace esphome
 
     void PanasonicHeatpumpComponent::read_response()
     {
-      uint8_t byte;
       while (this->available())
       {
         // Read byte from heatpump and forward it directly to the client (CZ-TAW1)
-        this->read_byte(&byte);
+        this->read_byte(&byte_);
         if (this->uart_client_ != nullptr)
         {
-          this->uart_client_->write_byte(byte);
+          this->uart_client_->write_byte(byte_);
         }
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->response_receiving_)
         {
-          if (byte != 0x31 && byte != 0x71 && byte != 0xF1) continue;
+          if (byte_ != 0x31 && byte_ != 0x71 && byte_ != 0xF1) continue;
+          this->response_message_.clear();
           this->response_receiving_ = true;
         }
         // Add current byte to message buffer
-        this->response_message_.push_back(byte);
+        this->response_message_.push_back(byte_);
 
         // 2. byte contains the payload size
         if (this->response_message_.size() == 2)
         {
-          this->response_payload_length_ = byte;
+          this->response_payload_length_ = byte_;
         }
         // Discard message if format is wrong
-        if ((this->response_message_.size() == 3 || this->response_message_.size() == 4)
-            && byte != 0x01 && byte != 0x10 && byte != 0x21)
+        if ((this->response_message_.size() == 3 ||
+            this->response_message_.size() == 4) &&
+            byte_ != 0x01 && byte_ != 0x10 && byte_ != 0x21)
         {
-          ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
-            response_message_.size(), byte);
-          delay(10);
-          this->response_message_.clear();
           this->response_receiving_ = false;
+          ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
+            response_message_.size(), byte_);
+          delay(10);
           continue;
         }
 
         // Check if message is complete
-        if (this->response_message_.size() > 2 && this->response_message_.size() == this->response_payload_length_ + 3)
+        if (this->response_message_.size() > 2 &&
+            this->response_message_.size() == this->response_payload_length_ + 3)
         {
-          this->log_uart_hex(UART_LOG_RX, this->response_message_, ',');
-          this->decode_response(this->response_message_);
-          this->response_message_.clear();
+          this->temp_message_ = this->response_message_;
           this->response_receiving_ = false;
+          this->log_uart_hex(UART_LOG_RX, this->response_message_, ',');
+          this->decode_response(this->response_message_);;
         }
       }
     }
@@ -107,7 +115,6 @@ namespace esphome
       {
         // Probably not necessary but CZ-TAW1 sends this query on boot
         this->log_uart_hex(UART_LOG_TX, PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE, ',');
-
         this->write_array(PanasonicCommand::InitialRequest, INIT_REQUEST_SIZE);
         this->flush();
       }
@@ -123,58 +130,65 @@ namespace esphome
     {
       if (this->uart_client_ == nullptr) return;
 
-      uint8_t byte;
       while (this->uart_client_->available())
       {
         // Read byte from client and forward it directly to the heatpump
-        this->uart_client_->read_byte(&byte);
-          this->write_byte(byte);
+        this->uart_client_->read_byte(&byte_);
+        this->write_byte(byte_);
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
         if (!this->request_receiving_)
         {
-          if (byte != 0x31 && byte != 0x71 && byte != 0xF1) continue;
+          if (byte_ != 0x31 && byte_ != 0x71 && byte_ != 0xF1) continue;
+          this->request_message_.clear();
           this->request_receiving_ = true;
         }
         // Add current byte to message buffer
-        this->request_message_.push_back(byte);
+        this->request_message_.push_back(byte_);
 
         // 2. byte contains the payload size
         if (this->request_message_.size() == 2)
         {
-          this->request_payload_length_ = byte;
+          this->request_payload_length_ = byte_;
         }
         // Discard message if format is wrong
-        if ((this->request_message_.size() == 3 || this->request_message_.size() == 4)
-            && byte != 0x01 && byte != 0x10 && byte != 0x21)
+        if ((this->request_message_.size() == 3 ||
+            this->request_message_.size() == 4) &&
+            byte_ != 0x01 && byte_ != 0x10 && byte_ != 0x21)
         {
-          ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
-            request_message_.size(), byte);
-          delay(10);
-          this->request_message_.clear();
           this->request_receiving_ = false;
+          ESP_LOGW(TAG, "Invalid request message: %d. byte is 0x%02X but expexted is 0x01 or 0x10",
+            request_message_.size(), byte_);
+          delay(10);
           continue;
         }
 
         // Check if message is complete
-        if (this->request_message_.size() > 2 && this->request_message_.size() == this->request_payload_length_ + 3)
+        if (this->request_message_.size() > 2 &&
+            this->request_message_.size() == this->request_payload_length_ + 3)
         {
-          this->log_uart_hex(UART_LOG_TX, this->request_message_, ',');
-          this->request_message_.clear();
           this->request_receiving_ = false;
+          this->log_uart_hex(UART_LOG_TX, this->request_message_, ',');
         }
       }
     }
 
-    void PanasonicHeatpumpComponent::log_uart_hex(UartLogDirection direction, const std::vector<uint8_t>& data, uint8_t separator)
+    int PanasonicHeatpumpComponent::getResponseByte(const int index)
+    {
+      if (this->response_message_.size() > index) return this->response_message_[index];
+      if (this->temp_message_.size() > index) return this->temp_message_[index];
+      return -1;
+    }
+
+    void PanasonicHeatpumpComponent::log_uart_hex(UartLogDirection direction, const std::vector<uint8_t>& data, const char separator)
     {
       this->log_uart_hex(direction, &data[0], data.size(), separator);
     }
-    void PanasonicHeatpumpComponent::log_uart_hex(UartLogDirection direction, const uint8_t* data, size_t length, uint8_t separator)
+    void PanasonicHeatpumpComponent::log_uart_hex(UartLogDirection direction, const uint8_t* data, const size_t length, const char separator)
     {
       if (this->log_uart_msg_ == false) return;
 
-      std::string logStr;
+      std::string logStr = "";
       std::string msgDir = direction == UART_LOG_TX ? ">>>" : "<<<";
       std::string msgType = direction == UART_LOG_TX ? "request" : "response";
       switch(data[0])
@@ -190,11 +204,9 @@ namespace esphome
           break;
       };
 
-      logStr = "[" + std::to_string(length) + "]";
-      ESP_LOGI(TAG, "%s %s%s", msgDir.c_str(), msgType.c_str(), logStr.c_str());
+      ESP_LOGI(TAG, "%s %s[%i]", msgDir.c_str(), msgType.c_str(), length);
       delay(10);
 
-      logStr = "";
       char buffer[5];
       for (size_t i = 0; i < length; i++)
       {
@@ -246,14 +258,13 @@ namespace esphome
       this->publish_switch(data);
     }
 
-    void PanasonicHeatpumpComponent::set_command_byte(uint8_t value, uint8_t index)
+    void PanasonicHeatpumpComponent::set_command_byte(const uint8_t value, const uint8_t index)
     {
       if (this->next_request_ == 1)
       {
         // initialize the command
-        command_message_.clear();
-        command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
-        PanasonicCommand::CommandMessage + DATA_MESSAGE_SIZE);
+        command_message_.assign(std::begin(PanasonicCommand::CommandMessage),
+                                std::end(PanasonicCommand::CommandMessage));
       }
       // set command byte
       command_message_[index] = value;
@@ -270,9 +281,8 @@ namespace esphome
       if (this->next_request_ == 1)
       {
         // initialize the command
-        command_message_.clear();
-        command_message_.insert(this->command_message_.end(), PanasonicCommand::CommandMessage, 
-        PanasonicCommand::CommandMessage + DATA_MESSAGE_SIZE);
+        command_message_.assign(std::begin(PanasonicCommand::CommandMessage),
+                                std::end(PanasonicCommand::CommandMessage));
       }
       // set command bytes
       for (size_t i = 0; i < data.size(); ++i)

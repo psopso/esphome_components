@@ -546,6 +546,48 @@ select:
       name: "Set Bivalent Mode"
 ```
 
+## Custom Entities (For Advanced Users)
+
+If you review the [ProtocolByteDecrypt.md](https://github.com/Egyras/HeishaMon/blob/master/ProtocolByteDecrypt.md) file you will find also some TOPs and SETs which are not implemented yet in heishamon.  
+They are usually marked as TOP (without a number).  
+The nice part of ESPHome is that it is so highly customizeable.  
+So if you want some additional TOP or SET entities you can easily create your own.  
+Under the hood the received uart message from the heatpump is stored in a vector.  
+Here are 2 examples how to create a sensor and a text_sensor:
+
+```
+sensor:
+  - platform: template
+    name: "Dry concrete target temperature for actual stage"
+    update_interval: 3s
+    device_class: temperature
+    unit_of_measurement: °C
+    lambda: |-
+      // get the requried byte
+      int byte = my_heatpump->getResponseByte(46);
+      if (byte < 0) return {};
+      // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
+      // in this case -128
+      return byte - 128;
+
+text_sensor:
+  - platform: template
+    name: "DHW capacity (J-series only)"
+    update_interval: 3s
+    lambda: |-
+      // get the requried byte
+      int byte = my_heatpump->getResponseByte(9);
+      if (byte < 0) return {};
+      // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
+      // in this case 3rd and 4th bit (--> b0011 0000)
+      int state = ((byte >> 4) & 0b11) - 1;
+      // set text
+      if (state == 0) return { "Standard" };
+      if (state == 1) return { "DHW" };
+      // if state is unkown do not update text
+      return {};
+```
+
 ## Known Issues
 
 When the ESP controller is connected initially to the heatpump, the heatpump may not respond to any request messages. If the CZ-TAW1 is also connected to the ESP controller you will probably see some requests like 31 05 10 01 ... These are initial request messages. If the heatpump is not responding, it may help to turn off and on the power of the heatpump (switching the heatpump off is not enough). After a power on the heatpump should respond to the requests.
