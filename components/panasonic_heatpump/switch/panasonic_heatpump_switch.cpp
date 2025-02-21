@@ -13,12 +13,11 @@ namespace esphome
       LOG_SWITCH("", "Panasonic Heatpump Switch", this);
       delay(10);
     }
-    
+
     void PanasonicHeatpumpSwitch::write_state(bool state)
     {
       this->publish_state(state);
-      size_t value = state ? 1 : 0;
-      this->parent_->control_switch(this, value);
+      this->parent_->control_switch(this, state);
     }
   } // namespace panasonic_heatpump
 } // namespace esphome

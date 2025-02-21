@@ -13,9 +13,11 @@ namespace esphome
     public:
       PanasonicHeatpumpSwitch() = default;
       void dump_config() override;
+      void set_id(int id) { this->id_ = id; }
 
     protected:
       void write_state(bool state) override;
+      int id_;
     };
   } // namespace panasonic_heatpump
 } // namespace esphome

@@ -6,7 +6,6 @@ from esphome.const import (
 )
 from .. import CONF_PANASONIC_HEATPUMP_ID, PanasonicHeatpumpComponent, panasonic_heatpump_ns
 
-
 CONF_SET1 = "set1"  # Set Heatpump
 CONF_SET10 = "set10"  # Set Force DHW
 CONF_SET12 = "set12"  # Set Force Defrost
@@ -87,9 +86,10 @@ CONFIG_SCHEMA = cv.Schema(
 
 async def to_code(config):
   hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
-  for key in TYPES:
+  for index, key in enumerate(TYPES):
     if child_config := config.get(key):
       var = await switch.new_switch(child_config)
       await cg.register_component(var, child_config)
       await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
       cg.add(getattr(hub, f"set_{key}_switch")(var))
+      cg.add(var.set_id(index))

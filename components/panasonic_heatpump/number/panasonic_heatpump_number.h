@@ -13,9 +13,11 @@ namespace esphome
     public:
       PanasonicHeatpumpNumber() = default;
       void dump_config() override;
+      void set_id(int id) { this->id_ = id; }
 
     protected:
       void control(float value) override;
+      int id_;
     };
   } // namespace panasonic_heatpump
 } // namespace esphome

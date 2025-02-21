@@ -286,3 +286,4 @@ async def to_code(config):
       await cg.register_component(var, child_config)
       await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
       cg.add(getattr(hub, f"set_{key}_number")(var))
+      cg.add(var.set_id(index))

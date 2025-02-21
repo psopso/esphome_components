@@ -37,7 +37,7 @@ namespace esphome
       static int getUintt16(uint8_t input1, uint8_t input2);
 
       static int getOpMode(uint8_t input);
-      static int getModel(std::vector<uint8_t>& data, uint8_t index);
+      static int getModel(const std::vector<uint8_t>& data, uint8_t index);
       static float getPumpFlow(uint8_t input1, uint8_t input2);
       static float getFractional(uint8_t input, uint8_t shift);
       static std::string getErrorInfo(uint8_t errorType, uint8_t errorNumber);
@@ -121,5 +121,7 @@ namespace esphome
         "IDU:WH-SDC0509L3E5, ODU:WH-WDG05LE5", // 52
       };
     };
+
+    extern const uint8_t KnownModels[NUMBER_OF_MODELS][10];
   }  // namespace panasonic_heatpump
 }  // namespace esphome

@@ -25,7 +25,10 @@
 #include "decode.h"
 #include "commands.h"
 #include <vector>
+#include <tuple>
 #include <string>
+
+#define UART_LOG_CHUNK_SIZE 153
 
 
 namespace esphome
@@ -37,7 +40,7 @@ namespace esphome
       UART_LOG_RX,
       UART_LOG_TX,
     };
-    
+
     class PanasonicHeatpumpComponent : public PollingComponent, public uart::UARTDevice
     {
     public:
@@ -250,51 +253,56 @@ namespace esphome
       SUB_SWITCH(set33);
       SUB_SWITCH(set34);
 
-      void control_switch(switch_::Switch* object, size_t value);
+      void control_switch(switch_::Switch* object, bool state);
 #endif
 
       PanasonicHeatpumpComponent() = default;
+      // base class functions
       float get_setup_priority() const override { return setup_priority::LATE; }
       void dump_config() override;
       void setup() override;
       void update() override;
       void loop() override;
-
-      void set_uart_client(uart::UARTComponent *uart) { this->uart_client_ = uart; }
+      // option functions
+      void set_uart_client(uart::UARTComponent* uart) { this->uart_client_ = uart; }
       void set_log_uart_msg(bool enable) { this->log_uart_msg_ = enable; }
-      void set_polling_time(uint32_t time_sec) { this->polling_time_ = time_sec; }
+      // uart message variables to use in lambda functions
+      int getResponseByte(const int index);
 
     protected:
-      uart::UARTComponent* uart_client_{nullptr};
-      bool log_uart_msg_{false};
-      uint32_t polling_time_{1};
-
+      // options variables
+      uart::UARTComponent* uart_client_ { nullptr };
+      bool log_uart_msg_ { false };
+      // uart message variables
+      std::vector<uint8_t> temp_message_;
       std::vector<uint8_t> response_message_;
       std::vector<uint8_t> request_message_;
       std::vector<uint8_t> command_message_;
       uint8_t response_payload_length_;
       uint8_t request_payload_length_;
-      bool response_receiving_{false};
-      bool request_receiving_{false};
-      bool trigger_request_{true};
-      uint8_t next_request_{0};  // 0 = initial, 1 = polling, 2 = command
+      uint8_t byte_;
+      bool response_receiving_ { false };
+      bool request_receiving_ { false };
+      bool trigger_request_ { false };
+      uint8_t next_request_ { 0 };  // 0 = initial, 1 = polling, 2 = command
 
+      // uart message functions
       void read_response();
       void send_request();
       void read_request();
-      void decode_response(std::vector<uint8_t> data);
-      void set_command_byte(uint8_t value, uint8_t index);
-      void publish_sensor(std::vector<uint8_t> bytes);
-      void publish_binary_sensor(std::vector<uint8_t> bytes);
-      void publish_text_sensor(std::vector<uint8_t> bytes);
-      void publish_number(std::vector<uint8_t> bytes);
-      void publish_select(std::vector<uint8_t> bytes);
-      void publish_switch(std::vector<uint8_t> bytes);
-      void log_uart_hex(UartLogDirection direction, const std::vector<uint8_t> &data, uint8_t separator)
-      {
-        this->log_uart_hex(direction, &data[0], data.size(), separator);
-      }
-      void log_uart_hex(UartLogDirection direction, const uint8_t *data, size_t length, uint8_t separator);
+      void decode_response(const std::vector<uint8_t>& data);
+      void set_command_byte(const uint8_t value, const uint8_t index);
+      void set_command_bytes(const std::vector<std::tuple<uint8_t, uint8_t>>& data);
+      // sensor and control publish functions
+      void publish_sensor(const std::vector<uint8_t>& data);
+      void publish_binary_sensor(const std::vector<uint8_t>& data);
+      void publish_text_sensor(const std::vector<uint8_t>& data);
+      void publish_number(const std::vector<uint8_t>& data);
+      void publish_select(const std::vector<uint8_t>& data);
+      void publish_switch(const std::vector<uint8_t>& data);
+      // helper functions
+      void log_uart_hex(UartLogDirection direction, const std::vector<uint8_t>& data, const char separator);
+      void log_uart_hex(UartLogDirection direction, const uint8_t* data, const size_t length, const char separator);
     };
   }  // namespace panasonic_heatpump
 }  // namespace esphome
