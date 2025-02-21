@@ -107,7 +107,7 @@ switch:
 All sensors are optional and all default sensor variables can be applied.  
 Here a list of all supported sensors:
 
-```
+```yaml
 sensor:
   - platform: panasonic_heatpump
     top1:
@@ -307,7 +307,7 @@ sensor:
 All binary sensors are optional and all default binary sensor variables can be applied.  
 Here a list of all supported binary sensors:
 
-```
+```yaml
 binary_sensor:
   - platform: panasonic_heatpump
     top0:
@@ -363,7 +363,7 @@ binary_sensor:
 All text sensors are optional and all default text sensor variables can be applied.  
 Here a list of all supported text sensors:
 
-```
+```yaml
 text_sensor:
   - platform: panasonic_heatpump
     top4:
@@ -415,7 +415,7 @@ text_sensor:
 All numbers are optional and all default number variables can be applied.  
 Here a list of all supported numbers:
 
-```
+```yaml
 number:
   - platform: panasonic_heatpump
     set5:
@@ -491,7 +491,7 @@ number:
 All switches are optional and all default switch variables can be applied.  
 Here a list of all supported switches:
 
-```
+```yaml
 switch:
   - platform: panasonic_heatpump
     set1:
@@ -527,7 +527,7 @@ switch:
 All selects are optional and all default select variables can be applied.  
 Here a list of all supported selects:
 
-```
+```yaml
 select:
   - platform: panasonic_heatpump
     set2:
@@ -552,10 +552,14 @@ If you review the [ProtocolByteDecrypt.md](https://github.com/Egyras/HeishaMon/b
 They are usually marked as TOP (without a number).  
 The nice part of ESPHome is that it is so highly customizeable.  
 So if you want some additional TOP or SET entities you can easily create your own.  
-Under the hood the received uart message from the heatpump is stored in a vector.  
-Here are 2 examples how to create a sensor and a text_sensor:
+Under the hood the received uart message from the heatpump is stored in a vector,  
+so you can decode each byte by yourself.  
+Here an example how to create a sensor and a text_sensor:
 
-```
+```yaml
+panasonic_heatpump:
+  id: my_heatpump
+
 sensor:
   - platform: template
     name: "Dry concrete target temperature for actual stage"
