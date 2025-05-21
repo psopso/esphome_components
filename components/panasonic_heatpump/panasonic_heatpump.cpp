@@ -93,7 +93,6 @@ namespace esphome
           this->response_receiving_ = false;
           this->log_uart_hex(UART_LOG_RX, this->response_message_, ',');
           this->decode_response(this->response_message_);
-          ESP_LOGCONFIG(TAG, this->response_message_);
         }
       }
     }
