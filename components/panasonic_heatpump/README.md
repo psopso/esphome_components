@@ -1,4 +1,4 @@
-# ESPHome Panasonic Heatpump Component
+# ESPHome Panasonic Heatpump Component -
 
 ## Usage
 
