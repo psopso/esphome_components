@@ -14,13 +14,14 @@ CONF_OBIS_CODE = "OBIS Code"
 # Závislost na UART komponentě
 DEPENDENCIES = ["uart"]
 
-from .. import xt211_dlms_ns
+from .. import xt211_dlms_ns, Xt211DlmsComponent
 
 # Deklarace C++ jmenného prostoru
 #xt211_dlms_ns = cg.esphome_ns.namespace("xt211_dlms")
 
 # Hlavní třída komponenty (hub)
-XT211DLMSHub = xt211_dlms_ns.class_("XT211DLMSHub", cg.PollingComponent, uart.UARTDevice)
+#XT211DLMSHub = xt211_dlms_ns.class_("XT211DLMSHub", cg.PollingComponent, uart.UARTDevice)
+
 # Třída pro jednotlivý senzor
 XT211DLMSSensor = xt211_dlms_ns.class_("XT211DLMSSensor", sensor.Sensor, cg.Component)
 
@@ -32,7 +33,7 @@ SENSOR_SCHEMA = sensor.sensor_schema(
 ).extend(
     {
         # Odkaz na hub, ke kterému tento senzor patří
-        cv.Required("xt211_dlms_id"): cv.use_id(XT211DLMSHub),
+        cv.Required("xt211_dlms_id"): cv.use_id(Xt211DlmsComponent),
         # OBIS kód, který má tento senzor číst
         cv.Required(CONF_OBIS_CODE): cv.string,
     }
