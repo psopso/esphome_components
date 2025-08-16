@@ -1,0 +1,50 @@
+esphome:
+  name: xt211-meter
+  friendly_name: XT211 Meter
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+wifi:
+  ssid: "TVE-SSID"
+  password: "beruskaa"
+
+logger:
+  baud_rate: 0
+  level: DEBUG
+
+api:
+ota:
+  - platform: esphome
+    password: "9ee6e60f2f1313ee9619e78d5fff2326"
+
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/psopso/esphome_components
+      ref: main
+#      url: https://github.com/psopso/esphome_components/
+    components: [ xt211_dlms ]
+    refresh: 0s
+
+uart:
+  id: uart_bus
+  tx_pin: 17
+  rx_pin: 16
+  baud_rate: 9600
+
+xt211_dlms:
+  id: xt211
+  uart_id: uart_bus
+  dir_pin: 4
+  update_interval: 1000ms
+
+
+sensor:
+  - platform: xt211_dlms
+    name: xt211
+    xt211_dlms_id: xt211
+    OBIS Code: 1.1.1
