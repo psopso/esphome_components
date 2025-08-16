@@ -5,9 +5,11 @@ from esphome.components import sensor, uart
 from esphome.const import (
     CONF_ID,
     CONF_NAME,
-    CONF_OBIS_CODE,
+#    CONF_OBIS_CODE,
     # ... import other constants you need like UNIT_WATT, ICON_FLASH etc.
 )
+
+CONF_OBIS_CODE = "OBIS Code"
 
 # Závislost na UART komponentě
 DEPENDENCIES = ["uart"]
