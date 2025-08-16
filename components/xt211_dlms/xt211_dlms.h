@@ -1,10 +1,16 @@
 #pragma once
 #include "esphome.h"
 
-class Xt211Dlms : public PollingComponent {
+namespace esphome {
+namespace xt211_dlms {
+
+struct Xt211DlmsComponent : public PollingComponent, public uart::UARTDevice {
  public:
-  Xt211Dlms(UARTComponent *parent, int dir_pin)
-      : PollingComponent(1000), uart(parent), dir_pin_(dir_pin) {}
+  float voltage = 0;
+  float current = 0;
+
+  Xt211DlmsComponent(uart::UARTComponent *parent, int dir_pin)
+      : PollingComponent(1000), uart::UARTDevice(parent), dir_pin_(dir_pin) {}
 
   void setup() override {
     pinMode(dir_pin_, OUTPUT);
@@ -13,30 +19,57 @@ class Xt211Dlms : public PollingComponent {
   }
 
   void update() override {
-    while (uart->available()) {
-      uint8_t b = uart->read();
-      // Jednoduchý testovací parser: ukládá byte do testové hodnoty
-      buffer[buffer_index++] = b;
-      if (buffer_index >= sizeof(buffer)) buffer_index = 0;
+    while (available()) {
+      uint8_t b = read();
+      parse_byte(b);
+    }
+  }
 
-      // Každý 5. byte vydáme testovou hodnotu
-      if (buffer_index % 5 == 0) {
-        float voltage = 230.0 + (rand() % 10 - 5);  // simulace ±5 V
-        float current = 5.0 + (rand() % 100) / 10.0; // simulace ±5 A
-        voltage_sensor->publish_state(voltage);
-        current_sensor->publish_state(current);
-        ESP_LOGD("xt211_dlms", "Voltage=%.2f V, Current=%.2f A", voltage, current);
+  sensor::Sensor *voltage_sensor{nullptr};
+  sensor::Sensor *current_sensor{nullptr};
+
+ protected:
+  int dir_pin_;
+
+  static const int MAX_FRAME = 128;
+  uint8_t frame_buffer[MAX_FRAME];
+  int frame_index = 0;
+  bool frame_started = false;
+
+  void parse_byte(uint8_t b) {
+    if (!frame_started && b == 0x0F) {
+      frame_started = true;
+      frame_index = 0;
+      frame_buffer[frame_index++] = b;
+      return;
+    }
+
+    if (frame_started) {
+      frame_buffer[frame_index++] = b;
+      if (frame_index >= MAX_FRAME) {
+        frame_started = false;
+        frame_index = 0;
+        ESP_LOGW("xt211_dlms", "Frame too long, reset");
+      }
+      if (b == 0x7E) {
+        process_frame(frame_buffer, frame_index);
+        frame_started = false;
+        frame_index = 0;
       }
     }
   }
 
-  // senzory registrované v YAML
-  sensor::Sensor *voltage_sensor = new sensor::Sensor();
-  sensor::Sensor *current_sensor = new sensor::Sensor();
+  void process_frame(uint8_t *buf, int len) {
+    // zde budeš parsovat OBIS podle XT211 dokumentace
+    voltage = 230.0 + (rand() % 10 - 5);
+    current = 5.0 + (rand() % 100) / 10.0;
 
- protected:
-  UARTComponent *uart;
-  int dir_pin_;
-  uint8_t buffer[64];
-  int buffer_index = 0;
+    if (voltage_sensor) voltage_sensor->publish_state(voltage);
+    if (current_sensor) current_sensor->publish_state(current);
+
+    ESP_LOGD("xt211_dlms", "Frame len=%d, Voltage=%.2fV, Current=%.2fA", len, voltage, current);
+  }
 };
+
+}  // namespace xt211_dlms
+}  // namespace esphome

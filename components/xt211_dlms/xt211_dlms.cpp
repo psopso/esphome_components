@@ -1,3 +1,8 @@
 #include "xt211_dlms.h"
+#include "esphome/core/log.h"
 
-// Testovací verze zatím nevyžaduje nic v cpp
+namespace esphome {
+namespace xt211_dlms {
+// parser je kompletně v hlavičce
+}  // namespace xt211_dlms
+}  // namespace esphome
