@@ -10,7 +10,7 @@ class Xt211Dlms : public PollingComponent {
  public:
   void set_uart(uart::UARTComponent *uart) { this->uart_ = uart; }
   void set_dir_pin(int pin) { this->dir_pin_ = pin; }
-  void add_sensor(Sensor *sensor, const std::string &obis) {
+  void add_sensor(sensor::Sensor *sensor, const std::string &obis) {
     sensors_.push_back(sensor);
     obis_codes_.push_back(obis);
   }
