@@ -14,8 +14,10 @@ CONF_OBIS_CODE = "OBIS Code"
 # Závislost na UART komponentě
 DEPENDENCIES = ["uart"]
 
+from .. import xt211_dlms_ns
+
 # Deklarace C++ jmenného prostoru
-xt211_dlms_ns = cg.esphome_ns.namespace("xt211_dlms")
+#xt211_dlms_ns = cg.esphome_ns.namespace("xt211_dlms")
 
 # Hlavní třída komponenty (hub)
 XT211DLMSHub = xt211_dlms_ns.class_("XT211DLMSHub", cg.PollingComponent, uart.UARTDevice)
