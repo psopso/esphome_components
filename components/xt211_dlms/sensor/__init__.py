@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.const import CONF_ID, CONF_OBIS_CODE, CONF_UPDATE_INTERVAL, UNIT_EMPTY, ICON_FLASH
+from esphome.const import CONF_ID, CONF_UPDATE_INTERVAL, UNIT_EMPTY, ICON_FLASH
 from esphome.components import sensor, uart
 
 DEPENDENCIES = ["uart"]
