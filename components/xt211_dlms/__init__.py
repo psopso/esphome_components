@@ -1,3 +1,0 @@
-#
-zaměrna chyba
-
