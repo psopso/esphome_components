@@ -58,7 +58,7 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     
     # Inicializace senzoru
-    await cg.register_component(var, config)
+    #await cg.register_component(var, config)
     await sensor.register_sensor(var, config)
 
     # Nastavení OBIS kódu
