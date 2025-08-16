@@ -1,8 +1,8 @@
 #pragma once
 
-#include "esphome/core/component.h"      // PollingComponent
-#include "esphome/components/uart/uart.h" // uart::UARTDevice
-#include "esphome/core/sensor.h"          // sensor::Sensor
+#include "esphome/core/component.h"        // PollingComponent
+#include "esphome/components/uart/uart.h"  // uart::UARTDevice
+#include "esphome/components/sensor/sensor.h"  // sensor::Sensor
 
 namespace esphome {
 namespace xt211_dlms {
