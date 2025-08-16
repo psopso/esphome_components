@@ -1,5 +1,6 @@
 #pragma once
 #include "esphome.h"
+#include "esphome/components/uart/uart.h"
 
 namespace xt211_dlms {
 
