@@ -47,5 +47,5 @@ for s in config.get("sensors", []):
     if "accuracy_decimals" in s:
         sensor_conf["accuracy_decimals"] = s["accuracy_decimals"]
 
-    sens = await sensor.new_sensor(sensor_conf)
+    sens = sensor.new_sensor(sensor_conf)
     cg.add(var.add_sensor(sens))
