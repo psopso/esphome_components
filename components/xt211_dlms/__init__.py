@@ -1,26 +1,45 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import sensor
 from esphome.const import CONF_ID, CONF_UPDATE_INTERVAL
+from esphome.components import uart
+from esphome.core import coroutine
+
+DEPENDENCIES = ['uart']
 
 xt211_dlms_ns = cg.esphome_ns.namespace('xt211_dlms')
 Xt211Dlms = xt211_dlms_ns.class_('Xt211Dlms', cg.Component)
 
+CONF_DIR_PIN = 'dir_pin'
 CONF_SENSORS = 'sensors'
+
+SENSOR_SCHEMA = cv.Schema({
+    cv.Required('id'): cv.declare_id(cg.Sensor),
+    cv.Required('obis_code'): cv.string,
+})
 
 CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ID): cv.declare_id(Xt211Dlms),
-    cv.Optional(CONF_UPDATE_INTERVAL, default="1000ms"): cv.update_interval,
-    cv.Optional(CONF_SENSORS, default=[]): cv.ensure_list({
-        cv.Required(CONF_ID): cv.declare_id(sensor.Sensor),
-        cv.Optional('obis_code'): cv.string,
-    }),
+    cv.Required('uart_id'): cv.use_id(uart.UART),
+    cv.Required(CONF_DIR_PIN): cv.int_,
+    cv.Optional(CONF_UPDATE_INTERVAL, default="1s"): cv.time,
+    cv.Optional(CONF_SENSORS, default=[]): cv.ensure_list(SENSOR_SCHEMA),
 }).extend(cv.COMPONENT_SCHEMA)
 
-def to_code(config):
+async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    yield cg.register_component(var)
+    await cg.register_component(var, config)
 
-    for s_conf in config.get(CONF_SENSORS, []):
-        sens = sensor.new_sensor(s_conf)
-        cg.add(var.add_sensor(sens))
+    # UART
+    uart_var = config['uart_id']
+    cg.add(var.set_uart(uart_var))
+
+    # Dir pin
+    cg.add(var.set_dir_pin(config[CONF_DIR_PIN]))
+
+    # Update interval
+    cg.add(var.set_update_interval(config[CONF_UPDATE_INTERVAL]))
+
+    # Sensors
+    for sensor_conf in config.get(CONF_SENSORS, []):
+        sens = await cg.get_variable(sensor_conf['id'])
+        cg.add(var.add_sensor(sens, sensor_conf['obis_code']))
