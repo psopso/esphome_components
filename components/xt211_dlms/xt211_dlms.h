@@ -1,33 +1,36 @@
 #pragma once
-#include "esphome.h"
+
+#include "esphome/core/component.h"        // PollingComponent
+#include "esphome/components/uart/uart.h"  // uart::UARTDevice
+#include "esphome/components/sensor/sensor.h"  // sensor::Sensor
 
 namespace esphome {
 namespace xt211_dlms {
 
-class Xt211Dlms : public PollingComponent {
+class Xt211DlmsComponent : public PollingComponent, public uart::UARTDevice {
  public:
-  void set_uart(UARTComponent *uart) { this->uart_ = uart; }
-  void set_dir_pin(int pin) { this->dir_pin_ = pin; }
-  void set_update_interval(uint32_t ms) { this->update_interval_ = ms; }
-  void add_sensor(Sensor *sensor, std::string obis) {
-    sensors_.push_back(sensor);
-    obis_codes_.push_back(obis);
-  }
+  Xt211DlmsComponent(uart::UARTComponent *parent, int dir_pin);
 
-  void setup() override {
-    // inicializace UART a DIR PIN
-  }
+  void set_voltage_sensor(sensor::Sensor *s) { this->voltage_sensor_ = s; }
+  void set_current_sensor(sensor::Sensor *s) { this->current_sensor_ = s; }
 
-  void update() override {
-    // čtení OBIS kódů a aktualizace sensorů
-  }
+  void setup() override;
+  void loop() override;
+  void update() override;
 
  protected:
-  UARTComponent *uart_;
-  int dir_pin_;
-  uint32_t update_interval_;
-  std::vector<Sensor *> sensors_;
-  std::vector<std::string> obis_codes_;
+  int dir_pin_{-1};
+
+  static constexpr int MAX_FRAME = 512;
+  uint8_t buf_[MAX_FRAME];
+  int pos_{0};
+  bool in_frame_{false};
+
+  sensor::Sensor *voltage_sensor_{nullptr};
+  sensor::Sensor *current_sensor_{nullptr};
+
+  void handle_byte_(uint8_t b);
+  void process_frame_(const uint8_t *frame, int len);
 };
 
 }  // namespace xt211_dlms
