@@ -4,7 +4,7 @@
 
 namespace xt211_dlms {
 
-class Xt211DlmsComponent : public PollingComponent, public uart::UARTDevice {
+class Xt211DlmsComponent : public PollingComponent, public esphome::uart::UARTDevice {
  public:
   Xt211DlmsComponent(uart::UARTComponent *parent, int dir_pin) : UARTDevice(parent), dir_pin_(dir_pin) {}
   void setup() override;
