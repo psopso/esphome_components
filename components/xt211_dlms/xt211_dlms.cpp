@@ -1,23 +1,18 @@
-#include "xt211_dlms.h"
-#include "esphome/components/uart/uart.h"
+#pragma once
+
+#include "esphome.h"
+#include "esphome/components/uart/uart.h"  // <<< toto je klíčové
 
 namespace xt211_dlms {
 
-void Xt211DlmsComponent::setup() {
-  pinMode(dir_pin_, OUTPUT);
-  digitalWrite(dir_pin_, LOW);
-}
+class Xt211DlmsComponent : public PollingComponent, public esphome::uart::UARTDevice {
+ public:
+  void setup() override;
+  void update() override;
 
-void Xt211DlmsComponent::update() {
-  parse_frame_();
-}
-
-void Xt211DlmsComponent::parse_frame_() {
-  while (available()) {
-    uint8_t b = read();
-    // Zde vložte svůj DLMS parser
-    // Např. detekce rámce, checksum, dekódování OBIS hodnot
-  }
-}
+ protected:
+  void parse_frame_();
+  int dir_pin_;
+};
 
 }  // namespace xt211_dlms
