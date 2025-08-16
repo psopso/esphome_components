@@ -14,8 +14,8 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required("dir_pin"): cv.int_,  # <-- pin jako integer (0-39 pro ESP32)
 }).extend(cv.polling_component_schema("1000ms"))
 
-def to_code(config):
-    uart_var = cg.get_variable(config["uart_id"])  # získáme reálný UART objekt
+async def to_code(config):
+    uart_var = await cg.get_variable(config["uart_id"])  # await, protože to je coroutine
     var = cg.new_Pvariable(config[cv.GenerateID()], uart_var, config["dir_pin"])
     cg.add(var)
     cg.register_component(var)
