@@ -22,9 +22,9 @@ XT211DLMSSensor = xt211_dlms_ns.class_("XT211DLMSSensor", sensor.Sensor, cg.Comp
 
 # Schéma pro konfiguraci senzoru v YAML
 SENSOR_SCHEMA = sensor.sensor_schema(
-    unit_of_measurement=...,
-    icon=...,
-    accuracy_decimals=...,
+    unit_of_measurement="kWh",
+    #icon=...,
+    accuracy_decimals=0,
 ).extend(
     {
         # Odkaz na hub, ke kterému tento senzor patří
