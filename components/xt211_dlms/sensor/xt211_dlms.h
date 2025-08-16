@@ -18,7 +18,7 @@ class Xt211Dlms : public PollingComponent {
   void update() override;
 
  protected:
-  UARTComponent *uart_;
+  uart::UARTComponent *uart_;
   int dir_pin_;
   std::vector<Sensor *> sensors_;
   std::vector<std::string> obis_codes_;
