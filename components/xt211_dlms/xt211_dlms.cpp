@@ -1,7 +1,6 @@
 #pragma once
 
 #include "esphome.h"
-#include "esphome/components/uart/uart.h"  // <<< toto je klíčové
 
 namespace xt211_dlms {
 
