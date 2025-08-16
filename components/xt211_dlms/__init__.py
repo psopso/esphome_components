@@ -21,7 +21,7 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(Xt211DlmsComponent),
         cv.Required("uart_id"): cv.use_id(uart.UARTComponent),
-        cv.Required("dir_pin"): cv.gpio_pin,
+        cv.Required("dir_pin"): cv.int_,
         cv.Optional("voltage"): sensor.sensor_schema(
             unit_of_measurement=UNIT_VOLT,
             accuracy_decimals=1,
