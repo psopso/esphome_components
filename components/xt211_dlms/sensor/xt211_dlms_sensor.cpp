@@ -6,16 +6,16 @@ namespace xt211_dlms {
 
 static const char *const TAG = "xt211_dlms";
 
-void XT211DLMSHub::register_sensor(XT211DLMSSensor *sensor) {
+void Xt211DlmsComponent::register_sensor(XT211DLMSSensor *sensor) {
   this->sensors_.push_back(sensor);
 }
 
-void XT211DLMSHub::setup() {
+void Xt211DlmsComponent::setup() {
   // Inicializace UART a vaší DLMS komunikace
   ESP_LOGCONFIG(TAG, "Inicializace XT211 DLMS hubu...");
 }
 
-void XT211DLMSHub::dump_config() {
+void Xt211DlmsComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "XT211 DLMS Hub:");
   for (auto *sensor : this->sensors_) {
     LOG_SENSOR("  ", "Senzor", sensor);
@@ -24,7 +24,7 @@ void XT211DLMSHub::dump_config() {
 }
 
 // Tato metoda se volá v intervalu, který nastavíte v YAML pro hub
-void XT211DLMSHub::update() {
+void Xt211DlmsComponent::update() {
   ESP_LOGD(TAG, "Zahajuji čtení dat z elektroměru...");
 
   // Projdete všechny registrované senzory

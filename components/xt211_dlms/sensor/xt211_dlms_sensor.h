@@ -9,7 +9,7 @@ namespace esphome {
 namespace xt211_dlms {
 
 // Deklarujeme dopředu třídu hubu
-class XT211DLMSHub;
+class Xt211DlmsComponent;
 
 // Třída pro jeden senzor
 class XT211DLMSSensor : public sensor::Sensor, public Component {
@@ -23,7 +23,7 @@ class XT211DLMSSensor : public sensor::Sensor, public Component {
 
 
 // Třída pro hlavní hub
-class XT211DLMSHub : public PollingComponent, public uart::UARTDevice {
+class Xt211DlmsComponent : public PollingComponent, public uart::UARTDevice {
  public:
   // Metoda volaná z 'sensor.py' pro přidání senzoru
   void register_sensor(XT211DLMSSensor *sensor);
