@@ -1,7 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, uart
-from esphome.const import UNIT_WATT_HOUR, ICON_FLASH, STATE_CLASS_TOTAL_INCREASING
 
 DEPENDENCIES = ["uart"]
 
@@ -10,10 +9,10 @@ Xt211DlmsComponent = xt211_dlms_ns.class_("Xt211DlmsComponent", cg.PollingCompon
 
 CONFIG_SCHEMA = (
     sensor.sensor_schema(
-        unit_of_measurement=UNIT_WATT_HOUR,
-        icon=ICON_FLASH,
+        unit_of_measurement="Wh",
+        icon="mdi:flash",
         accuracy_decimals=0,
-        state_class=STATE_CLASS_TOTAL_INCREASING,
+        state_class="total_increasing",
     )
     .extend(
         {
