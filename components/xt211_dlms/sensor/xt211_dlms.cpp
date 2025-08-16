@@ -59,7 +59,7 @@ void Xt211Dlms::try_parse_frame_() {
 
   // TODO: zde později DLMS/COSEM parsování (LLC E6 E7 00, APDU 0x0F Data-Notification apod.)
 }
-
+"""
 void XT211DlmsSensor::update() {
   // Čteme všechny dostupné bajty z UARTu
   std::vector<uint8_t> data;
@@ -78,6 +78,7 @@ void XT211DlmsSensor::update() {
     ESP_LOGI(TAG, "UART HEX: %s", hex_line.c_str());
   }
 }
+"""
 
 }  // namespace xt211_dlms
 }  // namespace esphome
