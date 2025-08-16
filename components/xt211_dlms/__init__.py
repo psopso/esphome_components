@@ -11,7 +11,7 @@ Xt211DlmsComponent = xt211_dlms_ns.class_("Xt211DlmsComponent", cg.PollingCompon
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(Xt211DlmsComponent),
     cv.Required("uart_id"): cv.use_id(uart.UARTComponent),
-    cv.Required("dir_pin"): cv.Pin,  # <-- univerzální pin validace
+    cv.Required("dir_pin"): cv.int_,  # <-- pin jako integer (0-39 pro ESP32)
 }).extend(cv.polling_component_schema("1000ms"))
 
 def to_code(config):
