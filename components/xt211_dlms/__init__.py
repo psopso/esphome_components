@@ -32,20 +32,20 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
 
-    for s in config.get("sensors", []):
-        # pokud ID není explicitně v YAML, vytvoříme nový
-        sensor_id = s.get(cv.GenerateID())
-        if not sensor_id:
-            sensor_id = cg.new_Pvariable(cg.generate_id(sensor.Sensor))
+for s in config.get("sensors", []):
+    # pokud ID není explicitně v YAML, vytvoříme nový
+    sensor_id = s.get(cv.GenerateID())
+    if not sensor_id:
+        sensor_id = cg.new_Pvariable(cv.declare_id(sensor.Sensor))
 
-        sensor_conf = {
-            CONF_ID: sensor_id,
-            "name": s["name"],
-        }
-        if "unit_of_measurement" in s:
-            sensor_conf["unit_of_measurement"] = s["unit_of_measurement"]
-        if "accuracy_decimals" in s:
-            sensor_conf["accuracy_decimals"] = s["accuracy_decimals"]
+    sensor_conf = {
+        CONF_ID: sensor_id,
+        "name": s["name"],
+    }
+    if "unit_of_measurement" in s:
+        sensor_conf["unit_of_measurement"] = s["unit_of_measurement"]
+    if "accuracy_decimals" in s:
+        sensor_conf["accuracy_decimals"] = s["accuracy_decimals"]
 
-        sens = await sensor.new_sensor(sensor_conf)
-        cg.add(var.add_sensor(sens))
+    sens = await sensor.new_sensor(sensor_conf)
+    cg.add(var.add_sensor(sens))
