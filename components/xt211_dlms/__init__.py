@@ -14,6 +14,7 @@ SENSOR_ITEM_SCHEMA = cv.Schema({
     cv.Required("name"): cv.string,
     cv.Optional("unit_of_measurement"): cv.string,
     cv.Optional("accuracy_decimals"): cv.int_,
+    cv.Optional(cv.GenerateID()): cv.declare_id(sensor.Sensor),  # <-- toto přidá ID
 })
 
 CONFIG_SCHEMA = cv.Schema({
@@ -26,18 +27,19 @@ CONFIG_SCHEMA = cv.Schema({
 
 
 async def to_code(config):
-    # získat reálný UART objekt
     uart_var = await cg.get_variable(config["uart_id"])
-
-    # vytvořit C++ instanci
     var = cg.new_Pvariable(config[cv.GenerateID()], uart_var, config.get("dir_pin", -1))
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
 
-    # zaregistrovat senzory definované v YAML
     for s in config.get("sensors", []):
-        # vytvoříme sensor config pro sensor.new_sensor()
+        # pokud ID není explicitně v YAML, vytvoříme nový
+        sensor_id = s.get(cv.GenerateID())
+        if not sensor_id:
+            sensor_id = cg.new_Pvariable(cg.generate_id(sensor.Sensor))
+
         sensor_conf = {
+            CONF_ID: sensor_id,
             "name": s["name"],
         }
         if "unit_of_measurement" in s:
@@ -46,8 +48,4 @@ async def to_code(config):
             sensor_conf["accuracy_decimals"] = s["accuracy_decimals"]
 
         sens = await sensor.new_sensor(sensor_conf)
-        # přidáme sensor do C++ objektu
         cg.add(var.add_sensor(sens))
-
-    # uložíme seznam OBISů do C++ volitelně (pokud budeš chtít, můžeme to implementovat)
-    # prozatím se OBIS konfigurace drží v Pythonu jen pro registraci senzorů
