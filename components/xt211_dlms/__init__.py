@@ -15,7 +15,7 @@ CONFIG_SCHEMA = cv.Schema({
 }).extend(cv.polling_component_schema("1000ms"))
 
 async def to_code(config):
-    uart_var = await cg.get_variable(config["uart_id"])  # await, protože to je coroutine
+    uart_var = await cg.get_variable(config["uart_id"])
     var = cg.new_Pvariable(config[cv.GenerateID()], uart_var, config["dir_pin"])
     cg.add(var)
-    cg.register_component(var)
+    await cg.register_component(var, config)  # <-- předat config
