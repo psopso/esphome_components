@@ -1,4 +1,4 @@
-#include "xt211_dlms.h"
+#include "xt211_dlms_sensor.h"
 #include "esphome/core/log.h"
 
 namespace esphome {
