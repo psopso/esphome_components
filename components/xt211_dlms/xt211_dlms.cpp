@@ -1,4 +1,5 @@
 #include "xt211_dlms.h"
+#include "esphome/components/uart/uart.h"
 
 namespace xt211_dlms {
 
