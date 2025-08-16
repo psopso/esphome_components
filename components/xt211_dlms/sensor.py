@@ -60,4 +60,4 @@ async def to_code(config):
     cg.add(var.set_obis_code(config[CONF_OBIS_CODE]))
     
     # Zaregistrování senzoru u hubu - TOTO JE KLÍČOVÉ!
-    cg.add(hub.register_sensor(var))
+    ccg.add(hub.register_sensor(var))
