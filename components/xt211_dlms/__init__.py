@@ -15,7 +15,7 @@ CONFIG_SCHEMA = cv.Schema({
 }).extend(cv.polling_component_schema("1000ms"))
 
 def to_code(config):
-    uart_var = yield cg.use_variable(config["uart_id"])  # získáme reálný UART objekt
+    uart_var = cg.get_variable(config["uart_id"])  # získáme reálný UART objekt
     var = cg.new_Pvariable(config[cv.GenerateID()], uart_var, config["dir_pin"])
     cg.add(var)
     cg.register_component(var)
