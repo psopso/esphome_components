@@ -60,11 +60,6 @@ void Xt211Dlms::try_parse_frame_() {
   // TODO: zde později DLMS/COSEM parsování (LLC E6 E7 00, APDU 0x0F Data-Notification apod.)
 }
 
-void Xt211Dlms::dump_config() override {
-    ESP_LOGCONFIG(TAG, "Moje vlastní komponenta:");
-    // Zde můžete vypsat konfiguraci, pokud nějakou máte
-}
-
 /*
 void XT211DlmsSensor::update() {
   // Čteme všechny dostupné bajty z UARTu
