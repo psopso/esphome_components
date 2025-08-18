@@ -16,10 +16,12 @@ void Xt211Dlms::setup() {
 
 void Xt211Dlms::loop() {
   // Non-blocking čtení UARTu přes UARTDevice API
-  while (this->available()) {
-    uint8_t b;
-    if (!this->read_byte(&b)) break;
-    this->handle_byte_(b);
+//  while (this->available()) {
+//    uint8_t b;
+//    if (!this->read_byte(&b)) break;
+//    this->handle_byte_(b);
+    delay(10000);
+    ESP_LOGI(TAG, "XT211 DLMS LOOP);
   }
 }
 
