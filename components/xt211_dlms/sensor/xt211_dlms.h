@@ -11,9 +11,8 @@
 //Pro wifi ntp
 #include "esphome/core/hal.h"
 #include "esphome/components/network/ip_address.h"
-#include "esphome/components/sntp/sntp_component.h"
 #include "esphome/core/application.h"
-
+#include "esphome/components/time/real_time_clock.h"
 
 namespace esphome {
 namespace xt211_dlms {

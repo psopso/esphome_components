@@ -4,7 +4,7 @@ from esphome.components import uart, sensor
 from esphome.const import CONF_ID, CONF_UPDATE_INTERVAL
 from esphome.components import sntp  # Importujeme sntp
 
-DEPENDENCIES = ["uart","sntp"]
+DEPENDENCIES = ["uart","time"]
 
 xt211_dlms_ns = cg.esphome_ns.namespace("xt211_dlms")
 # DĚDÍ z PollingComponent + uart.UARTDevice (žádné ruční předávání UART*)
