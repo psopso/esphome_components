@@ -21,7 +21,7 @@ void Xt211Dlms::loop() {
 //    if (!this->read_byte(&b)) break;
 //    this->handle_byte_(b);
     delay(10000);
-    ESP_LOGI(TAG, "XT211 DLMS LOOP);
+    ESP_LOGI(TAG, "XT211 DLMS LOOP");
   }
 }
 
