@@ -13,7 +13,6 @@
 #include "esphome/components/network/ip_address.h"
 #include "esphome/core/application.h"
 #include "esphome/components/time/real_time_clock.h"
-#include "esphome/components/time/sntp_component.h"
 
 namespace esphome {
 namespace xt211_dlms {
