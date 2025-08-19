@@ -10,6 +10,7 @@ int bufferIndex = 0;
 // Stavy programu
 enum State { WAITING, READING, DONE };
 State currentState = WAITING;
+byte buffer[BUFFER_SIZE];
 
 void Xt211Dlms::setup() {
   //delay(10000);
