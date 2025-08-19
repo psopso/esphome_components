@@ -30,7 +30,7 @@ void Xt211Dlms::update() {
   // Až bude parser, smažeme a budeme publikovat skutečné hodnoty z try_parse_frame_().
   for (size_t i = 0; i < this->sensors_.size(); i++) {
     float v = (millis() % 10000) / 100.0f + i;  // pseudo-hodnota
-    ESP_LOGD(TAG, "Publish demo: %s = %.2f", this->obis_codes_[i].c_str(), v);
+    ESP_LOGI(TAG, "Publish demo: %s = %.2f", this->obis_codes_[i].c_str(), v);
     this->sensors_[i]->publish_state(v);
   }
 }
