@@ -8,7 +8,7 @@
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
 
-const int SLEEP_MINUTES = 1;
+const int SLEEP_MINUTES = 5;
 
 namespace esphome {
 namespace xt211_dlms {
