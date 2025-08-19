@@ -34,7 +34,7 @@ void Xt211Dlms::loop() {
 //    uart_wait_tx_idle(CONFIG_ESP_CONSOLE_UART_NUM); // počká na vyprázdnění TX
 
     esp_sleep_enable_timer_wakeup(sleep_us);
-    esp_deep_sleep_start();
+    //esp_deep_sleep_start();
   };
 //  Serial.println("Going to deep sleep...");
 //  esp_sleep_enable_timer_wakeup(sleep_us);
