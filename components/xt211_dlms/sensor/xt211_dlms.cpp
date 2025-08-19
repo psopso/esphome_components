@@ -4,6 +4,7 @@ namespace esphome {
 namespace xt211_dlms {
 
 static const char *const TAG = "xt211_dlms.sensor";
+int LOOP_COUNTER;
 
 void Xt211Dlms::setup() {
   ESP_LOGI(TAG, "XT211 DLMS init (dir_pin=%d, sensors=%u)", this->dir_pin_, (unsigned)this->sensors_.size());
@@ -22,11 +23,13 @@ void Xt211Dlms::loop() {
 //    this->handle_byte_(b);
 //  }
 //  delay(10000);
-  ESP_LOGI(TAG, "XT211 DLMS LOOP");
+  LOOP_COUNTER = LOOP_COUNTER + 1
+  ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
   Serial.println("Going to deep sleep...");
   uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
-  esp_sleep_enable_timer_wakeup(sleep_us);
-  esp_deep_sleep_start();
+//  esp_sleep_enable_timer_wakeup(sleep_us);
+//  esp_deep_sleep_start();
+  
 }
 
 void Xt211Dlms::update() {
