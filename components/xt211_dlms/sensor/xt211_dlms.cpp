@@ -22,7 +22,11 @@ void Xt211Dlms::loop() {
 //    this->handle_byte_(b);
 //  }
 //  delay(10000);
-//  ESP_LOGI(TAG, "XT211 DLMS LOOP");
+  ESP_LOGI(TAG, "XT211 DLMS LOOP");
+  Serial.println("Going to deep sleep...");
+  uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
+  esp_sleep_enable_timer_wakeup(sleep_us);
+  esp_deep_sleep_start();
 }
 
 void Xt211Dlms::update() {
