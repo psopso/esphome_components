@@ -44,7 +44,7 @@ void Xt211Dlms::loop() {
         while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
           uint8_t b;
           if (!this->read_byte(&b)) break;    
-          buffer[bufferIndex] = &b;
+          buffer[bufferIndex] = b;
           bufferIndex++;
         }
       } else {
