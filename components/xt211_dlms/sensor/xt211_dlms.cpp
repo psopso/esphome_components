@@ -7,6 +7,10 @@ static const char *const TAG = "xt211_dlms.sensor";
 int LOOP_COUNTER = 0;
 int bufferIndex = 0;
 
+// Proměnné pro časování
+unsigned long startTime = 0;
+const unsigned long duration = 20000; // 20 sekund v milisekundách
+
 // Stavy programu
 enum State { WAITING, READING, DONE };
 State currentState = WAITING;
