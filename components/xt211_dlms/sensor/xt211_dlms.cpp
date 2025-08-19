@@ -31,7 +31,7 @@ void Xt211Dlms::update() {
   for (size_t i = 0; i < this->sensors_.size(); i++) {
     float v = (millis() % 10000) / 100.0f + i;  // pseudo-hodnota
     ESP_LOGI(TAG, "Publish demo: %s = %.2f", this->obis_codes_[i].c_str(), v);
-    this->sensors_[i]->publish_state(v);
+#    this->sensors_[i]->publish_state(v);
   }
 }
 
