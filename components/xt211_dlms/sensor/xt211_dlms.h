@@ -9,6 +9,8 @@
 #include "esphome/components/sensor/sensor.h"
 
 const int SLEEP_MINUTES = 2;
+const int BUFFER_SIZE = 500;
+const byte buffer[BUFFER_SIZE];
 
 namespace esphome {
 namespace xt211_dlms {

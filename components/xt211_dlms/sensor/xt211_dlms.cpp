@@ -5,6 +5,11 @@ namespace xt211_dlms {
 
 static const char *const TAG = "xt211_dlms.sensor";
 int LOOP_COUNTER = 0;
+int bufferIndex = 0;
+
+// Stavy programu
+enum State { WAITING, READING, DONE };
+State currentState = WAITING;
 
 void Xt211Dlms::setup() {
   //delay(10000);
@@ -17,6 +22,56 @@ void Xt211Dlms::setup() {
 }
 
 void Xt211Dlms::loop() {
+  switch (currentState) {
+    case WAITING:
+      // Čekání na první byte
+      if (this -> available() > 0) {
+        //Serial.println("První byte přijat, zahajuji 20s čtení...");
+        startTime = millis(); // Zaznamenání času startu
+        currentState = READING;
+      }
+      break;
+
+    case READING:
+      // Čtení dat po dobu 20 sekund
+      if (millis() - startTime < duration) {
+        // Dokud je čas a je co číst
+        while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
+          uint8_t b;
+          if (!this->read_byte(&b)) break;    
+          buffer[bufferIndex] = &b;
+          bufferIndex++;
+        }
+      } else {
+        // Čas vypršel
+        //Serial.println("Čtení dokončeno. Vypisuji buffer:");
+        currentState = DONE;
+      }
+      break;
+
+    case DONE:
+      // Výpis bufferu na sériovou linku
+      for (int i = 0; i < bufferIndex; i++) {
+        ESP_LOGI(TAG, "0x");
+        if (buffer[i] < 0x10) {
+          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
+        }
+        ESP_LOGI("%x", buffer[i]); // Vytiskne hodnotu v šestnáctkové soustavě
+        ESP_LOGI(TAG, ", ");
+      }
+      //Serial.println("\nVýpis dokončen. Restartuji...");
+
+      // Resetování proměnných pro další cyklus
+      bufferIndex = 0;
+      currentState = WAITING;
+      delay(1000); // Krátká pauza před dalším čekáním
+      //Serial.println("------------------------------------");
+      //Serial.println("Arduino je připraveno a čeká na první byte...");
+      break;
+  }
+}
+
+
   // Non-blocking čtení UARTu přes UARTDevice API
 //  while (this->available()) {
 //    uint8_t b;
@@ -24,11 +79,11 @@ void Xt211Dlms::loop() {
 //    this->handle_byte_(b);
 //  }
 //  delay(10000);
-  uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
-  LOOP_COUNTER = LOOP_COUNTER + 1;
-  if (LOOP_COUNTER > 5000) {
-    ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
-    LOOP_COUNTER = 0;
+//  uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
+//  LOOP_COUNTER = LOOP_COUNTER + 1;
+//  if (LOOP_COUNTER > 5000) {
+//    ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
+//    LOOP_COUNTER = 0;
 
 //    esp_log_level_set("*", ESP_LOG_NONE);   // zastaví další logy
 //    uart_wait_tx_idle(CONFIG_ESP_CONSOLE_UART_NUM); // počká na vyprázdnění TX
