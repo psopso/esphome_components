@@ -4,7 +4,7 @@ namespace esphome {
 namespace xt211_dlms {
 
 static const char *const TAG = "xt211_dlms.sensor";
-int LOOP_COUNTER;
+int LOOP_COUNTER = 0;
 
 void Xt211Dlms::setup() {
   ESP_LOGI(TAG, "XT211 DLMS init (dir_pin=%d, sensors=%u)", this->dir_pin_, (unsigned)this->sensors_.size());
