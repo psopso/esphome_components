@@ -24,7 +24,7 @@ void Xt211Dlms::loop() {
 //  }
 //  delay(10000);
   LOOP_COUNTER = LOOP_COUNTER + 1;
-  if (LOOPCOUNTER > 1000) {
+  if (LOOP_COUNTER > 1000) {
     ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
     LOOP_COUNTER = 0;
   };
