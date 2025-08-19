@@ -7,6 +7,7 @@ static const char *const TAG = "xt211_dlms.sensor";
 int LOOP_COUNTER = 0;
 
 void Xt211Dlms::setup() {
+  delay(10000);
   ESP_LOGI(TAG, "XT211 DLMS init (dir_pin=%d, sensors=%u)", this->dir_pin_, (unsigned)this->sensors_.size());
   if (this->dir_pin_ >= 0) {
     pinMode(this->dir_pin_, OUTPUT);
