@@ -75,7 +75,6 @@ void Xt211Dlms::loop() {
       //Serial.println("Arduino je připraveno a čeká na první byte...");
       break;
   }
-}
 
 
   // Non-blocking čtení UARTu přes UARTDevice API
@@ -96,12 +95,11 @@ void Xt211Dlms::loop() {
 
     //esp_sleep_enable_timer_wakeup(sleep_us);
     //esp_deep_sleep_start();
-  };
 //  Serial.println("Going to deep sleep...");
 //  esp_sleep_enable_timer_wakeup(sleep_us);
 //  esp_deep_sleep_start();
   
-}
+};
 
 void Xt211Dlms::update() {
   // ZATÍM: demo – publikuj „živé“ hodnoty, abys viděl, že senzory fungují.
