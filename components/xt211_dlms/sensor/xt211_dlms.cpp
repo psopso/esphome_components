@@ -29,8 +29,8 @@ void Xt211Dlms::loop() {
     ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
     LOOP_COUNTER = 0;
 
-    esp_log_level_set("*", ESP_LOG_NONE);   // zastaví další logy
-    uart_wait_tx_idle(CONFIG_ESP_CONSOLE_UART_NUM); // počká na vyprázdnění TX
+//    esp_log_level_set("*", ESP_LOG_NONE);   // zastaví další logy
+//    uart_wait_tx_idle(CONFIG_ESP_CONSOLE_UART_NUM); // počká na vyprázdnění TX
 
     esp_sleep_enable_timer_wakeup(sleep_us);
     esp_deep_sleep_start();
