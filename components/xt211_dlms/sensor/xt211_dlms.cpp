@@ -15,6 +15,7 @@ const unsigned long duration = 20000; // 20 sekund v milisekundách
 enum State { WAITING, READING, DONE };
 State currentState = WAITING;
 byte buffer[BUFFER_SIZE];
+char ch;
 
 void Xt211Dlms::setup() {
   //delay(10000);
@@ -61,7 +62,7 @@ void Xt211Dlms::loop() {
         if (buffer[i] < 0x10) {
           ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
         }
-        ESP_LOGI("%02x", 12); // Vytiskne hodnotu v šestnáctkové soustavě
+        ESP_LOGI("%02x", ch); // Vytiskne hodnotu v šestnáctkové soustavě
         ESP_LOGI(TAG, ", ");
       }
       //Serial.println("\nVýpis dokončen. Restartuji...");
