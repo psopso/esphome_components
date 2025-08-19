@@ -23,7 +23,7 @@ void Xt211Dlms::loop() {
 //    this->handle_byte_(b);
 //  }
 //  delay(10000);
-  LOOP_COUNTER = LOOP_COUNTER + 1
+  LOOP_COUNTER = LOOP_COUNTER + 1;
   ESP_LOGI(TAG, "XT211 DLMS LOOP: %d", LOOP_COUNTER);
   Serial.println("Going to deep sleep...");
   uint64_t sleep_us = (uint64_t)SLEEP_MINUTES * 60ULL * 1000000ULL;
