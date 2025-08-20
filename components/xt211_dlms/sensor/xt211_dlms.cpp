@@ -19,7 +19,7 @@ char ch;
 
 void Xt211Dlms::setup() {
   //delay(10000);
-  //ESP_LOGI(TAG, "XT211 DLMS init (dir_pin=%d, sensors=%u)", this->dir_pin_, (unsigned)this->sensors_.size());
+  ESP_LOGI(TAG, "XT211 DLMS init (dir_pin=%d, sensors=%u)", this->dir_pin_, (unsigned)this->sensors_.size());
   if (this->dir_pin_ >= 0) {
     pinMode(this->dir_pin_, OUTPUT);
     digitalWrite(this->dir_pin_, LOW);  // RX mód pro RS485 transceiver
@@ -32,7 +32,7 @@ void Xt211Dlms::loop() {
     case WAITING:
       // Čekání na první byte
       if (this -> available() > 0) {
-        ESP_LOGI("První byte přijat, zahajuji 20s čtení...");
+        ESP_LOGI(TAG, "První byte přijat, zahajuji 20s čtení...");
         startTime = millis(); // Zaznamenání času startu
         currentState = READING;
       }
@@ -63,7 +63,7 @@ void Xt211Dlms::loop() {
 //          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
 //        }
         ch = buffer[i];
-        ESP_LOGI("%x", &ch); // Vytiskne hodnotu v šestnáctkové soustavě
+        ESP_LOGI("%02X", &ch); // Vytiskne hodnotu v šestnáctkové soustavě
         ESP_LOGI(TAG, ", ");
       }
       //Serial.println("\nVýpis dokončen. Restartuji...");
