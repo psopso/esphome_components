@@ -71,7 +71,7 @@ void Xt211Dlms::loop() {
 //        s += String(b, HEX);
         String s2("0x");
         String s3(",");
-        s = s + s2 + s1 + s3; 
+//        s = s + s2 + s1 + s3; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
