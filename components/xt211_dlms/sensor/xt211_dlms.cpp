@@ -79,7 +79,7 @@ void Xt211Dlms::loop() {
       }
 
       uint8_t frame[] = {0x45, 0x7F, 0x2F};
-      log_hex_array("XT211", buffer, sizeof(buffer);
+      log_hex_array("XT211", buffer, sizeof(buffer));
 
 
 //      ESP_LOGI(TAG, "%s", s2); // Vytiskne hodnotu v šestnáctkové soustavě
