@@ -77,7 +77,12 @@ void Xt211Dlms::loop() {
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
-      ESP_LOGI(TAG, "%s", s2); // Vytiskne hodnotu v šestnáctkové soustavě
+
+      uint8_t frame[] = {0x45, 0x7F, 0x2F};
+      log_hex_array("XT211", buffer, sizeof(buffer);
+
+
+//      ESP_LOGI(TAG, "%s", s2); // Vytiskne hodnotu v šestnáctkové soustavě
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
