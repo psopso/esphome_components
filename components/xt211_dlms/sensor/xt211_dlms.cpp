@@ -65,7 +65,7 @@ void Xt211Dlms::loop() {
       for (int i = 0; i < bufferIndex; i++) {
         ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferIndex);
         uint8_t b = buffer[i];
-        sprintf(&buf, "%02X ", b);
+        sprintf(&buf[0], "%02X ", b);
 //        s += String(b, HEX);
         s = s + buf; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
