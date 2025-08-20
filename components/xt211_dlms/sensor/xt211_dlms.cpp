@@ -60,10 +60,10 @@ void Xt211Dlms::loop() {
       for (int i = 0; i < bufferIndex; i++) {
         ESP_LOGI(TAG, "0x");
         if (buffer[i] < 0x10) {
-//          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
+          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
         }
         ch = buffer[i];
-        ESP_LOGI("%02x", &ch); // Vytiskne hodnotu v šestnáctkové soustavě
+        ESP_LOGI("%x", &ch); // Vytiskne hodnotu v šestnáctkové soustavě
         ESP_LOGI(TAG, ", ");
       }
       //Serial.println("\nVýpis dokončen. Restartuji...");
@@ -107,7 +107,7 @@ void Xt211Dlms::update() {
   // Až bude parser, smažeme a budeme publikovat skutečné hodnoty z try_parse_frame_().
   for (size_t i = 0; i < this->sensors_.size(); i++) {
     float v = (millis() % 10000) / 100.0f + i;  // pseudo-hodnota
-    ESP_LOGI(TAG, "Publish demo: %s = %.2f", this->obis_codes_[i].c_str(), v);
+//    ESP_LOGI(TAG, "Publish demo: %s = %.2f", this->obis_codes_[i].c_str(), v);
     this->sensors_[i]->publish_state(v);
   }
 }
