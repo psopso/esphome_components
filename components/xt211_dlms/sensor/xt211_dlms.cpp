@@ -58,7 +58,7 @@ void Xt211Dlms::loop() {
     case DONE:
       // Výpis bufferu na sériovou linku
       String s = "";
-      unsigned char buf[5];
+      char buf[5];
 
       for (int i = 0; i < bufferIndex; i++) {
         ESP_LOGI(TAG, "0x");
