@@ -45,7 +45,7 @@ void Xt211Dlms::loop() {
         while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
           uint8_t b;
           if (!this->read_byte(&b)) break;  
-          ESP_LOGI(TAG, "Byte: %02X", b);  
+//          ESP_LOGI(TAG, "Byte: %02X", b);  
           buffer[bufferIndex] = b;
           bufferIndex++;
         }
@@ -58,31 +58,8 @@ void Xt211Dlms::loop() {
 
     case DONE:
       // Výpis bufferu na sériovou linku
-      String s = "";
-      String s2("0x");
-      String s3(",");
-      char buf[2];
-
-      for (int i = 0; i < bufferIndex; i++) {
-        //ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferIndex);
-        uint8_t b = buffer[i];
-        sprintf(buf, "%02x ", b);
-//        ESP_LOGI(TAG, "%s", buf);
-        String s1(buf);
-        ESP_LOGI(TAG, "%s", s1);
-//        s += String(b, HEX);
-//        s = s + s2 + s1 + s3; 
-//          s.concat(s2);
-//          s.concat(s1);
-//        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
-//        ESP_LOGI(TAG, ", ");
-      }
-
-      uint8_t frame[] = {0x45, 0x7F, 0x2F};
       log_hex_array("XT211", buffer, sizeof(buffer));
 
-
-//      ESP_LOGI(TAG, "%s", s2); // Vytiskne hodnotu v šestnáctkové soustavě
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
@@ -94,8 +71,7 @@ void Xt211Dlms::loop() {
       break;
   }
 
-
-  // Non-blocking čtení UARTu přes UARTDevice API
+// Non-blocking čtení UARTu přes UARTDevice API
 //  while (this->available()) {
 //    uint8_t b;
 //    if (!this->read_byte(&b)) break;
