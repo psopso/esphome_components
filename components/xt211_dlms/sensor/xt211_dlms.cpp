@@ -80,8 +80,8 @@ void Xt211Dlms::loop() {
       bufferIndex = 0;
       currentState = WAITING;
       delay(1000); // Krátká pauza před dalším čekáním
-      //Serial.println("------------------------------------");
-      //Serial.println("Arduino je připraveno a čeká na první byte...");
+      ESP_LOGI(TAG, "------------------------------------");
+      ESP_LOGI(TAG, "Arduino je připraveno a čeká na první byte...");
       break;
   }
 
