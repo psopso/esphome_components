@@ -61,19 +61,14 @@ void Xt211Dlms::loop() {
       char buf[5];
 
       for (int i = 0; i < bufferIndex; i++) {
-        ESP_LOGI(TAG, "0x");
-//        if (buffer[i] < 0x10) {
-//          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
-//        }
         
         uint8_t b = buffer[i];
         sprintf(&buf[0], "%02X ", b);
-        s = s + buf; 
+        s = s + "0x" + buf + ","; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
       ESP_LOGI(TAG, "%s", s); // Vytiskne hodnotu v šestnáctkové soustavě
-      ESP_LOGI(TAG, ", ");
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
