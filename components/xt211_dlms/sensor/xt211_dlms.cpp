@@ -61,7 +61,7 @@ void Xt211Dlms::loop() {
       char buf[5];
 
       for (int i = 0; i < bufferIndex; i++) {
-        ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferindex - 1);
+        ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferIndex - 1);
         uint8_t b = buffer[i];
         sprintf(&buf[0], "%02X ", b);
         s = s + buf; 
