@@ -49,3 +49,5 @@ class Xt211Dlms : public PollingComponent, public uart::UARTDevice {
 
 }  // namespace xt211_dlms
 }  // namespace esphome
+
+static void log_hex_array(const char *tag, const uint8_t *data, size_t len);
