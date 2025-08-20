@@ -72,8 +72,8 @@ void Xt211Dlms::loop() {
         ESP_LOGI(TAG, "%s", s1);
 //        s += String(b, HEX);
 //        s = s + s2 + s1 + s3; 
-          s.concat(s2);
-          s.concat(s1);
+//          s.concat(s2);
+//          s.concat(s1);
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
