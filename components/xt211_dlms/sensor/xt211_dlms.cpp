@@ -117,7 +117,7 @@ void Xt211Dlms::update() {
 }
 
 void Xt211Dlms::handle_byte_(uint8_t b) {
-  if (this->rx_len_ < BUF_SIZE) {
+/*  if (this->rx_len_ < BUF_SIZE) {
     this->rx_buf_[this->rx_len_++] = b;
     // jednoduché detekování HDLC konce rámce (0x7E)
     if (b == 0x7E && this->rx_len_ > 1) {
@@ -127,7 +127,7 @@ void Xt211Dlms::handle_byte_(uint8_t b) {
   } else {
     ESP_LOGW(TAG, "RX buffer overflow, dropping frame");
     this->rx_len_ = 0;
-  }
+  }*/
 }
 
 void Xt211Dlms::try_parse_frame_() {
