@@ -57,7 +57,7 @@ void Xt211Dlms::loop() {
 
     case DONE:
       // Výpis bufferu na sériovou linku
-      String s = '';
+      String s = "";
       unsigned char buf;
 
       for (int i = 0; i < bufferIndex; i++) {
