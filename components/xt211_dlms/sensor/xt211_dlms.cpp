@@ -59,6 +59,8 @@ void Xt211Dlms::loop() {
     case DONE:
       // Výpis bufferu na sériovou linku
       String s = "";
+      String s2("0x");
+      String s3(",");
       char buf[2];
 
       for (int i = 0; i < bufferIndex; i++) {
@@ -69,13 +71,11 @@ void Xt211Dlms::loop() {
         String s1(buf);
         ESP_LOGI(TAG, "%s", s1);
 //        s += String(b, HEX);
-        String s2("0x");
-        String s3(",");
 //        s = s + s2 + s1 + s3; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
-      ESP_LOGI(TAG, "%s", s); // Vytiskne hodnotu v šestnáctkové soustavě
+      ESP_LOGI(TAG, "%s", s2); // Vytiskne hodnotu v šestnáctkové soustavě
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
