@@ -64,7 +64,7 @@ void Xt211Dlms::loop() {
         
         uint8_t b = buffer[i];
         sprintf(&buf[0], "%02X ", b);
-        s = s + "0x" + buf + ","; 
+        s = s + buf; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
