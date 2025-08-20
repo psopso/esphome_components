@@ -58,7 +58,7 @@ void Xt211Dlms::loop() {
     case DONE:
       // Výpis bufferu na sériovou linku
       String s = "";
-      unsigned char buf;
+      unsigned char buf[5];
 
       for (int i = 0; i < bufferIndex; i++) {
         ESP_LOGI(TAG, "0x");
@@ -67,7 +67,7 @@ void Xt211Dlms::loop() {
 //        }
         
         uint8_t b = buffer[i];
-        sprintf(buf, "%02X ", b);
+        sprintf(&buf, "%02X ", b);
         s = s + buf; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
