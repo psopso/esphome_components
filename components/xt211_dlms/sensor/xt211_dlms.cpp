@@ -45,7 +45,7 @@ void Xt211Dlms::loop() {
         while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
           uint8_t b;
           if (!this->read_byte(&b)) break;  
-          ESP_LOGI(TAG, "Byte: %02X", b);  
+          //ESP_LOGI(TAG, "Byte: %02X", b);  
           buffer[bufferIndex] = b;
           bufferIndex++;
         }
@@ -64,7 +64,7 @@ void Xt211Dlms::loop() {
       for (int i = 0; i < bufferIndex; i++) {
         ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferIndex);
         uint8_t b = buffer[i];
-        sprintf(&buf[0], "%02X ", b);
+        sprintf(&buf[0], "0x%02X,", b);
         s = s + buf; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
