@@ -32,7 +32,7 @@ void Xt211Dlms::loop() {
     case WAITING:
       // Čekání na první byte
       if (this -> available() > 0) {
-        //Serial.println("První byte přijat, zahajuji 20s čtení...");
+        ESP_LOGI("První byte přijat, zahajuji 20s čtení...");
         startTime = millis(); // Zaznamenání času startu
         currentState = READING;
       }
@@ -134,7 +134,7 @@ void Xt211Dlms::try_parse_frame_() {
   for (size_t i = 0; i < n && off < (int)sizeof(line) - 4; i++) {
     off += snprintf(line + off, sizeof(line) - off, "%02X ", this->rx_buf_[i]);
   }
-  ESP_LOGV(TAG, "RX (%u B): %s", (unsigned)this->rx_len_, line);
+//  ESP_LOGV(TAG, "RX (%u B): %s", (unsigned)this->rx_len_, line);
 
   // TODO: zde později DLMS/COSEM parsování (LLC E6 E7 00, APDU 0x0F Data-Notification apod.)
 }
