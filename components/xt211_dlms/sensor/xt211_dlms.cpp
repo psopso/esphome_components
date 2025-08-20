@@ -131,6 +131,7 @@ void Xt211Dlms::handle_byte_(uint8_t b) {
 }
 
 void Xt211Dlms::try_parse_frame_() {
+/*
   // Zatím jen hex dump (prvních ~64 B), pro ověření příjmu
   char line[128];
   int off = 0;
@@ -141,6 +142,7 @@ void Xt211Dlms::try_parse_frame_() {
 //  ESP_LOGV(TAG, "RX (%u B): %s", (unsigned)this->rx_len_, line);
 
   // TODO: zde později DLMS/COSEM parsování (LLC E6 E7 00, APDU 0x0F Data-Notification apod.)
+*/
 }
 
 /*
