@@ -58,7 +58,7 @@ void Xt211Dlms::loop() {
 
     case DONE:
       // Výpis bufferu na sériovou linku
-      log_hex_array("XT211", buffer, sizeof(buffer));
+      log_hex_array("XT211", buffer, bufferIndex);
 
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
