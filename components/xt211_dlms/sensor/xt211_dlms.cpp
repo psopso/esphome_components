@@ -177,7 +177,7 @@ void XT211DlmsSensor::update() {
 }  // namespace xt211_dlms
 }  // namespace esphome
 
-zaloguje pole bajtů ve formátu 0x..,0x..,...
+//zaloguje pole bajtů ve formátu 0x..,0x..,...
 static void log_hex_array(const char *tag, const uint8_t *data, size_t len) {
     std::string out;
     out.reserve(len * 5);  // cca "0xXX," = 5 znaků na bajt
