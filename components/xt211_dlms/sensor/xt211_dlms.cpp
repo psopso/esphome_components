@@ -62,8 +62,8 @@ void Xt211Dlms::loop() {
 //        if (buffer[i] < 0x10) {
 //          ESP_LOGI(TAG, "0"); // Přidá úvodní nulu pro jednociferná hex čísla
 //        }
-        ch = buffer[i];
-        ESP_LOGI("%02X", &buffer[i]); // Vytiskne hodnotu v šestnáctkové soustavě
+        uint8_t b = buffer[i];
+        ESP_LOGI("Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
         ESP_LOGI(TAG, ", ");
       }
       //Serial.println("\nVýpis dokončen. Restartuji...");
