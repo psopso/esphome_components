@@ -65,15 +65,15 @@ void Xt211Dlms::loop() {
         //ESP_LOGI(TAG, "XT211 DLMS pocet bytů: %d", bufferIndex);
         uint8_t b = buffer[i];
         sprintf(buf, "%02x ", b);
-        ESP_LOGI(TAG, "%s", buf);
+//        ESP_LOGI(TAG, "%s", buf);
         String s1(buf);
-        ESP_LOGI(TAG, "%s", s1);
+//        ESP_LOGI(TAG, "%s", s1);
 //        s += String(b, HEX);
-//        s = s + buf[0]+buf[1]; 
+        s = s + "0x" + s1 + ","; 
 //        ESP_LOGI(TAG, "Byte: %02X", b); // Vytiskne hodnotu v šestnáctkové soustavě
 //        ESP_LOGI(TAG, ", ");
       }
-//      ESP_LOGI(TAG, "%s", s); // Vytiskne hodnotu v šestnáctkové soustavě
+      ESP_LOGI(TAG, "%s", s); // Vytiskne hodnotu v šestnáctkové soustavě
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
