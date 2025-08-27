@@ -6,6 +6,7 @@ namespace xt211_dlms {
 static const char *const TAG = "xt211_dlms.sensor";
 int LOOP_COUNTER = 0;
 int bufferIndex = 0;
+int errorCounter = 0;
 
 // Proměnné pro časování
 unsigned long startTime = 0;
@@ -44,14 +45,17 @@ void Xt211Dlms::loop() {
         // Dokud je čas a je co číst
         while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
           uint8_t b;
-          if (!this->read_byte(&b)) break;  
+          if (!this->read_byte(&b)) {
+            errorCounter ++;
+            break;  
+          }
           //ESP_LOGI(TAG, "Byte: %02X", b);  
           buffer[bufferIndex] = b;
           bufferIndex++;
         }
       } else {
         // Čas vypršel
-        //Serial.println("Čtení dokončeno. Vypisuji buffer:");
+        ESP_LOGI(TAG, "Čtení dokončeno. Vypisuji buffer: %d   %d", bufferIndex, errorCounter);
         currentState = DONE;
       }
       break;
@@ -64,6 +68,7 @@ void Xt211Dlms::loop() {
 
       // Resetování proměnných pro další cyklus
       bufferIndex = 0;
+      errorCounter = 0;
       currentState = WAITING;
       delay(1000); // Krátká pauza před dalším čekáním
       ESP_LOGI(TAG, "------------------------------------");
