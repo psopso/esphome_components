@@ -45,7 +45,7 @@ void Xt211Dlms::loop() {
         while (this -> available() > 0 && bufferIndex < BUFFER_SIZE) {
           uint8_t b;
           if (!this->read_byte(&b)) break;  
-//          ESP_LOGI(TAG, "Byte: %02X", b);  
+          ESP_LOGI(TAG, "Byte: %02X", b);  
           buffer[bufferIndex] = b;
           bufferIndex++;
         }

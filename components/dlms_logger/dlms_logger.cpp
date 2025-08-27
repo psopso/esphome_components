@@ -6,6 +6,7 @@ namespace dlms_logger {
 
 static const char *const TAG = "dlms_logger";
 
+// implementace konstruktoru
 DlmsLogger::DlmsLogger(uart::UARTComponent *parent) : uart::UARTDevice(parent) {}
 
 void DlmsLogger::setup() {

@@ -8,7 +8,7 @@ namespace dlms_logger {
 
 class DlmsLogger : public Component, public uart::UARTDevice {
  public:
-  explicit DlmsLogger(uart::UARTComponent *parent) : uart::UARTDevice(parent) {}
+  explicit DlmsLogger(uart::UARTComponent *parent);  // deklarace
 
   void setup() override;
   void loop() override;
