@@ -49,7 +49,7 @@ void Xt211Dlms::loop() {
             errorCounter ++;
             break;  
           }
-          ESP_LOGI(TAG, "Byte: %02X", b);  
+          //ESP_LOGI(TAG, "Byte: %02X", b);  
           buffer[bufferIndex] = b;
           bufferIndex++;
         }
