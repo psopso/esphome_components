@@ -14,6 +14,8 @@ const int BUFFER_SIZE = 500;
 namespace esphome {
 namespace xt211_dlms {
 
+std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
+
 // Dědíme z PollingComponent + uart::UARTDevice (správná cesta v ESPHome)
 class Xt211Dlms : public PollingComponent, public uart::UARTDevice {
  public:
