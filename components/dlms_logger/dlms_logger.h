@@ -4,6 +4,8 @@
 #include <vector>
 #include "dlms_parser.h" 
 
+std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
+
 namespace esphome {
 namespace dlms_logger {
 
