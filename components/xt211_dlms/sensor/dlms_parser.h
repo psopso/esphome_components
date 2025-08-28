@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 struct DlmsRecord {
     std::string obis;
