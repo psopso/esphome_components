@@ -166,19 +166,19 @@ void XT211DlmsSensor::update() {
 //zaloguje pole bajtů ve formátu 0x..,0x..,...
 static void log_hex_array(const char *tag, const uint8_t *data, size_t len) {
     std::string out;
-    out.reserve(len * 5);  // cca "0xXX," = 5 znaků na bajt
-
-    ESP_LOGI(tag, "Délka k převodu: %d Délka out: %d", len, len * 5);    
+    out.reserve(len * 5);
 
     for (size_t i = 0; i < len; i++) {
-        ESP_LOGI(tag, "i: %d", i);    
         char buf[6];
         sprintf(buf, "0x%02X", data[i]);
-        ESP_LOGI(tag, "Buf: %s", buf);    
         out += buf;
-        ESP_LOGI(tag, "Out: %s", out.c_str());    
         if (i < len - 1) out += ",";
     }
 
-    ESP_LOGI(tag, "Bytes: %s", out.c_str());
+    // Maximální délka zprávy, co ESP_LOGI spolkne najednou
+    const size_t chunk_size = 400;
+
+    for (size_t i = 0; i < out.size(); i += chunk_size) {
+        ESP_LOGI(tag, "%s", out.substr(i, chunk_size).c_str());
+    }
 }
