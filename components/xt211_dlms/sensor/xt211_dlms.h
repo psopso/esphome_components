@@ -7,14 +7,10 @@
 #include "esphome/core/log.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
+#include "dlms_parser.h" 
 
 const int SLEEP_MINUTES = 2;
 const int BUFFER_SIZE = 500;
-
-struct DlmsRecord {
-    std::string obis;
-    std::string value;   // všechno jako text (ANSI)
-};
 
 std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
 
