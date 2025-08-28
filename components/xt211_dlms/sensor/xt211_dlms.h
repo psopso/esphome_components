@@ -11,15 +11,15 @@
 const int SLEEP_MINUTES = 2;
 const int BUFFER_SIZE = 500;
 
-std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
-
-namespace esphome {
-namespace xt211_dlms {
-
 struct DlmsRecord {
     std::string obis;
     std::string value;   // všechno jako text (ANSI)
 };
+
+std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
+
+namespace esphome {
+namespace xt211_dlms {
 
 // Dědíme z PollingComponent + uart::UARTDevice (správná cesta v ESPHome)
 class Xt211Dlms : public PollingComponent, public uart::UARTDevice {
