@@ -38,7 +38,7 @@ class Xt211Dlms : public PollingComponent, public uart::UARTDevice {
   std::vector<std::string> obis_codes_;
 
   // jednoduchý RX buffer pro RX dump/parsování
-  static constexpr size_t BUF_SIZE = 1024;
+  static constexpr size_t BUF_SIZE = 4092;
   uint8_t rx_buf_[BUF_SIZE];
   size_t rx_len_{0};
 

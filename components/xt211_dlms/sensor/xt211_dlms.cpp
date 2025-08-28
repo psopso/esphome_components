@@ -168,7 +168,7 @@ static void log_hex_array(const char *tag, const uint8_t *data, size_t len) {
     std::string out;
     out.reserve(len * 5);  // cca "0xXX," = 5 znaků na bajt
 
-    ESP_LOGI(tag, "Délka k převodu: %d", len);    
+    ESP_LOGI(tag, "Délka k převodu: %d Délka out: %d", len, len * 5);    
 
     for (size_t i = 0; i < len; i++) {
         ESP_LOGI(tag, "i: %d", i);    
