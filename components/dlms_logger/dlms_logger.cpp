@@ -1,7 +1,6 @@
-#pragma once
-
 #include "dlms_logger.h"
 #include "esphome/core/log.h"
+#include "dlms_parser.h"
 
 namespace esphome {
 namespace dlms_logger {
