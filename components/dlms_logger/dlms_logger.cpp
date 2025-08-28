@@ -1,3 +1,5 @@
+#pragma once
+
 #include "dlms_logger.h"
 #include "esphome/core/log.h"
 
