@@ -44,7 +44,14 @@ void DlmsLogger::log_buffer() {
     out += tmp;
     if (i < buffer_.size() - 1) out += ",";
   }
-  ESP_LOGI(TAG, "Paket: %s", out.c_str());
+
+  // Maximální délka zprávy, co ESP_LOGI spolkne najednou
+  const size_t chunk_size = 400;
+
+  for (size_t i = 0; i < out.size(); i += chunk_size) {
+      ESP_LOGI(tag, "%s", out.substr(i, chunk_size).c_str());
+  }
+  //ESP_LOGI(TAG, "Paket: %s", out.c_str());
 }
 
 }  // namespace dlms_logger
