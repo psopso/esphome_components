@@ -30,6 +30,15 @@ void DlmsLogger::loop() {
 
   if (collecting_ && (millis() - start_time_ > 20000)) {
     log_buffer();
+
+    size_t frame_len = sizeof(buffer_);
+
+    auto recs = parseDlmsResponse(buffer_, frame_len);
+    for (auto &r : recs) {
+       ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
+    }
+
+
     collecting_ = false;
     buffer_.clear();
   }

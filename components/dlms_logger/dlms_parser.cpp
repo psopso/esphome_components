@@ -1,7 +1,4 @@
-struct DlmsRecord {
-    std::string obis;
-    std::string value;   // všechno jako text (ANSI)
-};
+#include "dlms_parser.h"
 
 std::string obisToString(const uint8_t* data) {
     char buf[32];

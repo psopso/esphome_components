@@ -2,6 +2,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 #include <vector>
+#include "dlms_parser.h" 
 
 namespace esphome {
 namespace dlms_logger {
