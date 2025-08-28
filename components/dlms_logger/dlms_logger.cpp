@@ -49,7 +49,7 @@ void DlmsLogger::log_buffer() {
   const size_t chunk_size = 400;
 
   for (size_t i = 0; i < out.size(); i += chunk_size) {
-      ESP_LOGI(tag, "%s", out.substr(i, chunk_size).c_str());
+      ESP_LOGI(TAG, "%s", out.substr(i, chunk_size).c_str());
   }
   //ESP_LOGI(TAG, "Paket: %s", out.c_str());
 }
