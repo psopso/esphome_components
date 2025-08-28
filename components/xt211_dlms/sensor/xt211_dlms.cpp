@@ -64,6 +64,17 @@ void Xt211Dlms::loop() {
       // Výpis bufferu na sériovou linku
       log_hex_array("XT211", buffer, bufferIndex);
 
+//    uint8_t frame[] = {
+//      0x0F,0x80,0x00,0x05,0x5F,0x00,0x02,0x02,0x16,0x01,0x01,
+//      // … zbytek rámce …
+//    };
+      size_t frame_len = sizeof(buffer);
+
+      auto recs = parseDlmsResponse(buffer, frame_len);
+      for (auto &r : recs) {
+         ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
+      }
+
       //Serial.println("\nVýpis dokončen. Restartuji...");
 
       // Resetování proměnných pro další cyklus
