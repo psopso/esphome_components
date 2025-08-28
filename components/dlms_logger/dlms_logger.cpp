@@ -33,7 +33,8 @@ void DlmsLogger::loop() {
 
     size_t frame_len = sizeof(buffer_);
 
-    auto recs = parseDlmsResponse(buffer_, frame_len);
+    uint8_t *data = buffer_.data();
+    auto recs = parseDlmsResponse(data, frame_len);
     for (auto &r : recs) {
        ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
     }
