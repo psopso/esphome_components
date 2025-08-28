@@ -176,7 +176,7 @@ static void log_hex_array(const char *tag, const uint8_t *data, size_t len) {
         sprintf(buf, "0x%02X", data[i]);
         ESP_LOGI(tag, "Buf: %s", buf);    
         out += buf;
-        ESP_LOGI(tag, "Out: %s", out);    
+        ESP_LOGI(tag, "Out: %s", out.c_str());    
         if (i < len - 1) out += ",";
     }
 
