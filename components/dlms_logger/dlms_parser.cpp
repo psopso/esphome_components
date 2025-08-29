@@ -1,5 +1,6 @@
 #include "dlms_parser.h"
 
+
 std::string obisToString(const uint8_t* data) {
     char buf[32];
     if (data[5] == 0xFF)
