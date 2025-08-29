@@ -69,6 +69,7 @@ void Xt211Dlms::loop() {
 //      0x0F,0x80,0x00,0x05,0x5F,0x00,0x02,0x02,0x16,0x01,0x01,
 //      // … zbytek rámce …
 //    };
+
       size_t frame_len = sizeof(buffer);
 
       auto parsed = parse_dlms(buffer, sizeof(buffer));
