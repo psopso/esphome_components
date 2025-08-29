@@ -34,12 +34,12 @@ void DlmsLogger::loop() {
 
     size_t frame_len = sizeof(buffer_);
 
-    auto parsed = parse_dlms(frame, sizeof(frame));
+    auto parsed = parse_dlms(buffer, sizeof(buffer));
 
     for (auto &kv : parsed) {
-        Serial.print(kv.first.c_str());
-        Serial.print(" = ");
-        Serial.println(kv.second.c_str());
+        ESP_LOGI(TAG, "%s=%s", kv.first.c_str(), kv.second.c_str());
+//        Serial.print(" = ");
+//        Serial.println(kv.second.c_str());
     }
 
     collecting_ = false;
