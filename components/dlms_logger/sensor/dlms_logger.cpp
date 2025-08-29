@@ -1,6 +1,5 @@
 #include "dlms_logger.h"
 #include "esphome/core/log.h"
-#include "dlms_parser.h"
 
 namespace esphome {
 namespace dlms_logger {
@@ -34,11 +33,11 @@ void DlmsLogger::loop() {
 
     size_t frame_len = sizeof(buffer_);
 
-    uint8_t *data = buffer_.data();
-    auto recs = parseDlmsResponse(data, frame_len);
-    for (auto &r : recs) {
-       ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
-    }
+//    uint8_t *data = buffer_.data();
+//    auto recs = parseDlmsResponse(data, frame_len);
+//    for (auto &r : recs) {
+//       ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
+//    }
 
 
     collecting_ = false;

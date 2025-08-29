@@ -3,10 +3,11 @@ import esphome.codegen as cg
 from esphome.components import uart
 import esphome.const as const
 
-DEPENDENCIES = ["uart"]
-
 dlms_logger_ns = cg.esphome_ns.namespace("dlms_logger")
+
 DlmsLogger = dlms_logger_ns.class_("DlmsLogger", cg.Component, uart.UARTDevice)
+
+DEPENDENCIES = ["uart"]
 
 CONFIG_SCHEMA = cv.Schema(
     {
