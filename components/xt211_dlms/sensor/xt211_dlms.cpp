@@ -74,9 +74,9 @@ void Xt211Dlms::loop() {
       auto parsed = parse_dlms(buffer, sizeof(buffer));
 
       for (auto &kv : parsed) {
-          Serial.print(kv.first.c_str());
-          Serial.print(" = ");
-          Serial.println(kv.second.c_str());
+          ESP_LOGI(TAG, "%s=%s", kv.first.c_str(), kv.second.c_str());
+//          Serial.print(" = ");
+//          Serial.println(kv.second.c_str());
       }
 
       //Serial.println("\nVýpis dokončen. Restartuji...");
