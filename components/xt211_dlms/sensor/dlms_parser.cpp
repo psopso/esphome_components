@@ -1,64 +1,99 @@
-#include "dlms_parser.h"
+#include <map>
+#include <string>
+#include <sstream>
+#include <iomanip>
 
-
-std::string obisToString(const uint8_t* data) {
-    char buf[32];
-    if (data[5] == 0xFF)
-        snprintf(buf, sizeof(buf), "%d.%d.%d.%d.%d",
-                 data[0], data[1], data[2], data[3], data[4]);
-    else
-        snprintf(buf, sizeof(buf), "%d.%d.%d.%d.%d.%d",
-                 data[0], data[1], data[2], data[3], data[4], data[5]);
-    return std::string(buf);
+/// Pomocná funkce: převede OBIS kód na "A-B:C.D.E.F"
+std::string format_obis(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t e, uint8_t f) {
+    std::ostringstream ss;
+    ss << (int)a << "-" << (int)b << ":" << (int)c << "." << (int)d << "." << (int)e << "." << (int)f;
+    return ss.str();
 }
 
-std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len) {
-    std::vector<DlmsRecord> records;
-    size_t i = 0;
+/// Pomocná funkce: převod byte pole na hex string
+std::string bytes_to_hex(const uint8_t *data, size_t len) {
+    std::ostringstream ss;
+    for (size_t i = 0; i < len; i++) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << (int)data[i];
+    }
+    return ss.str();
+}
 
-    // najít první "0x02 0x02"
-    while (i + 1 < len && !(buf[i] == 0x02 && buf[i+1] == 0x02)) i++;
+/// Dekodér DLMS rámce
+std::map<std::string, std::string> parse_dlms(const uint8_t *buf, size_t len) {
+    std::map<std::string, std::string> result;
 
-    while (i + 10 < len) {
-        if (buf[i] != 0x02 || buf[i+1] != 0x02) {
-            i++;
-            continue;
-        }
-        i += 2;
+    for (size_t i = 0; i + 6 < len; i++) {
+        // hledej OBIS (xx xx xx xx xx xx 0xFF)
+        if (i + 7 < len && buf[i+6] == 0xFF) {
+            std::string obis = format_obis(buf[i], buf[i+1], buf[i+2], buf[i+3], buf[i+4], buf[i+5]);
 
-        // class-id (2 byty)
-        if (i + 2 > len) break;
-        i += 2; // classId nepotřebujeme
+            size_t p = i + 7;
+            if (p + 1 >= len) continue;
 
-        // OBIS (6 bytů)
-        if (i + 6 > len) break;
-        std::string obis = obisToString(&buf[i]);
-        i += 6;
+            uint8_t dtype = buf[p+1];  // typ dat
+            size_t pos = p+2;
+            std::string value;
 
-        // type + length
-        if (i + 2 > len) break;
-        uint8_t typeTag = buf[i++];
-        uint8_t datalen = buf[i++];
-        if (i + datalen > len) break;
-
-        std::string val;
-        if (typeTag == 0x09) {
-            // visible-string (text)
-            val.assign((const char*)&buf[i], (size_t)datalen);
-            i += datalen;
-        } else {
-            // číslo (big-endian) → string ANSI
-            uint64_t num = 0;
-            for (int j = 0; j < datalen; j++) {
-                num = (num << 8) | buf[i++];
+            switch (dtype) {
+                case 0x09: { // Octet string (text)
+                    if (pos >= len) break;
+                    uint8_t slen = buf[pos++];
+                    if (pos + slen <= len) {
+                        value.assign((const char*)(buf + pos), slen);
+                        pos += slen;
+                    }
+                    break;
+                }
+                case 0x06: { // Double-long (32bit int)
+                    if (pos + 4 <= len) {
+                        int32_t v = (buf[pos]<<24) | (buf[pos+1]<<16) | (buf[pos+2]<<8) | buf[pos+3];
+                        value = std::to_string(v);
+                        pos += 4;
+                    }
+                    break;
+                }
+                case 0x12: { // Long unsigned (16bit)
+                    if (pos + 2 <= len) {
+                        uint16_t v = (buf[pos]<<8) | buf[pos+1];
+                        value = std::to_string(v);
+                        pos += 2;
+                    }
+                    break;
+                }
+                case 0x10: { // Unsigned (8bit)
+                    if (pos < len) {
+                        uint8_t v = buf[pos];
+                        value = std::to_string(v);
+                        pos++;
+                    }
+                    break;
+                }
+                case 0x0A: { // Octet string (čas/datum)
+                    if (pos >= len) break;
+                    uint8_t slen = buf[pos++];
+                    if (pos + slen <= len) {
+                        // prozatím hex string, později možno rozparsovat na datum
+                        value = bytes_to_hex(buf+pos, slen);
+                        pos += slen;
+                    }
+                    break;
+                }
+                default: {
+                    // fallback: hex string
+                    if (pos < len) {
+                        value = "0x" + bytes_to_hex(buf+pos, 1);
+                        pos++;
+                    }
+                    break;
+                }
             }
-            char tmp[32];
-            snprintf(tmp, sizeof(tmp), "%llu", (unsigned long long)num);
-            val = tmp;
-        }
 
-        records.push_back({ obis, val });
+            if (!value.empty()) {
+                result[obis] = value;
+            }
+        }
     }
 
-    return records;
+    return result;
 }
