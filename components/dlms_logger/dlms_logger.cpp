@@ -34,7 +34,7 @@ void DlmsLogger::loop() {
 
     size_t frame_len = sizeof(buffer_);
 
-    auto parsed = parse_dlms(buffer, sizeof(buffer));
+    auto parsed = parse_dlms(buffer_, sizeof(buffer_));
 
     for (auto &kv : parsed) {
         ESP_LOGI(TAG, "%s=%s", kv.first.c_str(), kv.second.c_str());
