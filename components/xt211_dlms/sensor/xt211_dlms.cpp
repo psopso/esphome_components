@@ -70,7 +70,7 @@ void Xt211Dlms::loop() {
 //    };
       size_t frame_len = sizeof(buffer);
 
-      auto parsed = parse_dlms(buffer, sizeof(frame));
+      auto parsed = parse_dlms(buffer, sizeof(buffer));
 
       for (auto &kv : parsed) {
           Serial.print(kv.first.c_str());
