@@ -70,9 +70,12 @@ void Xt211Dlms::loop() {
 //    };
       size_t frame_len = sizeof(buffer);
 
-      auto recs = parseDlmsResponse(buffer, frame_len);
-      for (auto &r : recs) {
-         ESP_LOGI("DLMS", "OBIS %s = %s", r.obis.c_str(), r.value.c_str());
+      auto parsed = parse_dlms(frame, sizeof(frame));
+
+      for (auto &kv : parsed) {
+          Serial.print(kv.first.c_str());
+          Serial.print(" = ");
+          Serial.println(kv.second.c_str());
       }
 
       //Serial.println("\nVýpis dokončen. Restartuji...");
