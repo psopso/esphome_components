@@ -1,4 +1,5 @@
 #include "xt211_dlms.h"
+#include "dlms_parser.h"
 
 namespace esphome {
 namespace xt211_dlms {
