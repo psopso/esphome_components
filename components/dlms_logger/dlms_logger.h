@@ -4,8 +4,6 @@
 #include "esphome/components/uart/uart.h"
 #include <vector>
 
-std::vector<DlmsRecord> parseDlmsResponse(const uint8_t* buf, size_t len);
-
 namespace esphome {
 namespace dlms_logger {
 
