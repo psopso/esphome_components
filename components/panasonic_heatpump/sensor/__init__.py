@@ -128,6 +128,13 @@ CONF_TOP136 = "top136"  # Bivalent Advanced Start Delay
 CONF_TOP137 = "top137"  # Bivalent Advanced Stop Delay
 CONF_TOP138 = "top138"  # Bivalent Advanced DHW Delay
 
+CONF_XTOP0 = "xtop0"  # Heat Power Consumption Extra
+CONF_XTOP1 = "xtop1"  # Cool Power Consumption Extra
+CONF_XTOP2 = "xtop2"  # DHW Power Consumption Extra
+CONF_XTOP3 = "xtop3"  # Heat Power Production Extra
+CONF_XTOP4 = "xtop4"  # Cool Power Production Extra
+CONF_XTOP5 = "xtop5"  # DHW Power Production Extra
+
 TYPES = [
   CONF_TOP1,
   CONF_TOP5,
@@ -224,13 +231,22 @@ TYPES = [
   CONF_TOP136,
   CONF_TOP137,
   CONF_TOP138,
+
+  CONF_XTOP0,
+  CONF_XTOP1,
+  CONF_XTOP2,
+  CONF_XTOP3,
+  CONF_XTOP4,
+  CONF_XTOP5,
 ]
 
 PanasonicHeatpumpSensor = panasonic_heatpump_ns.class_("PanasonicHeatpumpSensor", sensor.Sensor, cg.Component)
 
 CONFIG_SCHEMA = cv.Schema(
   {
-    cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(PanasonicHeatpumpComponent),
+    cv.GenerateID(CONF_PANASONIC_HEATPUMP_ID): cv.use_id(
+      PanasonicHeatpumpComponent
+    ),
 
     cv.Optional(CONF_TOP1): sensor.sensor_schema(
       PanasonicHeatpumpSensor,
@@ -892,14 +908,61 @@ CONFIG_SCHEMA = cv.Schema(
       state_class=STATE_CLASS_MEASUREMENT,
       unit_of_measurement = UNIT_MINUTE,
     ),
+
+    cv.Optional(CONF_XTOP0): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
+    cv.Optional(CONF_XTOP1): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
+    cv.Optional(CONF_XTOP2): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
+    cv.Optional(CONF_XTOP3): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
+    cv.Optional(CONF_XTOP4): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
+    cv.Optional(CONF_XTOP5): sensor.sensor_schema(
+      PanasonicHeatpumpSensor,
+      accuracy_decimals=0,
+      device_class=DEVICE_CLASS_POWER,
+      state_class=STATE_CLASS_MEASUREMENT,
+      unit_of_measurement = UNIT_WATT,
+    ),
   }
 ).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
-  hub = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
-  for key in TYPES:
+  parent = await cg.get_variable(config[CONF_PANASONIC_HEATPUMP_ID])
+  for index, key in enumerate(TYPES):
     if child_config := config.get(key):
       var = await sensor.new_sensor(child_config)
       await cg.register_component(var, child_config)
-      await cg.register_parented(var, config[CONF_PANASONIC_HEATPUMP_ID])
-      cg.add(getattr(hub, f"set_{key}_sensor")(var))
+      cg.add(var.set_parent(parent))
+      cg.add(var.set_id(index))
+      if key.startswith("xtop"):
+        cg.add(parent.add_extra_sensor(var))
+      else:
+        cg.add(parent.add_sensor(var))

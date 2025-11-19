@@ -1,19 +1,19 @@
-# ESPHome Panasonic Heatpump Component -
+# ESPHome Panasonic Heatpump Component
 
 ## Usage
 
 ### What you need
 
 * ESPHome compatible microcontroller (e.g. ESP8266, ESP32, ESP32-S2, ESP32-C3, ...)
-* Bi-Directional Logic Level Converter (to convert 5V UART signal from the heatpump to 3.3V UART signal of the ESP controller)
-* CN-CNT cable to Heatpump/CZ-TAW1 (see [Heishamon](https://github.com/Egyras/HeishaMon) github site for more information)
+* ADUM1201 Dual Channel Digital Magnetic Isolator  
+  (to convert 5V UART signal from the heatpump to 3.3V UART signal of the ESP controller)
+* CN-CNT cable/connectors to Heatpump/CZ-TAW1 (see [Heishamon](https://github.com/Egyras/HeishaMon) github site for more information)
+  * For example: [S05B-XASK-1 JST Connector](https://a.aliexpress.com/_EvkmGVo)
+  * For example: [XAP-05V-1 5Pin Cable with Female to Female Connector](https://a.aliexpress.com/_ExPT82E)
 
 ### Wiring
 
-![wiring.jpeg](../../prototypes/panasonic_heatpump/wiring.jpeg)
-
-You may also connect the +5V pin of the heatpump to the +5V pin of the ESP board.  
-But for me the current (mA) provided by the heatpump was quite unstable so I powered my ESP board through an USB cable.  
+![wiring_adum1201.png](../../prototypes/panasonic_heatpump/wiring_adum1201.png)
 
 ### CN-CNT Pinout (from top to bottom)
 
@@ -22,17 +22,17 @@ pin | function
 1   | +5V (250mA)
 2   | 0-5V TX (from heatpump)
 3   | 0-5V RX (to heatpump)
-4   | +12V (250mA)
+4   | NC (not connected)
 5   | GND
 
 ## ESPHome example yaml code
 
 ```yaml
 substitutions:
-  pin_rx_hp: GPIO4  # heatpump reads data (RX) on this pin
-  pin_tx_hp: GPIO3  # heatpump sends data (TX) on this pin
-  pin_tx_wm: GPIO1  # WiFi module sends data (TX) on this pin
-  pin_rx_wm: GPIO0  # WiFi module reads data (RX) on this pin
+  pin_rx_hp: GPIO37  # heatpump reads data (RX) on this pin    (yellow)
+  pin_tx_hp: GPIO39  # heatpump sends data (TX) on this pin    (green)
+  pin_tx_wm: GPIO18  # WiFi module sends data (TX) on this pin (white)
+  pin_rx_wm: GPIO16  # WiFi module reads data (RX) on this pin (blue)
 
 external_components:
   - source:
@@ -60,8 +60,8 @@ panasonic_heatpump:
   id: my_heatpump
   uart_id: uart_heatpump
   uart_client_id: uart_cz_taw1
-  log_uart_msg: false
-  update_interval: 3s
+  log_uart_msg: true
+  update_interval: 5s
 
 sensor:
   - platform: panasonic_heatpump
@@ -77,21 +77,34 @@ text_sensor:
   - platform: panasonic_heatpump
     top4:
       name: "Operating Mode State"
-    
+
 number:
   - platform: panasonic_heatpump
     set5:
       name: "Set Z1 Heat Request Temperature"
+      min_value: -5.0
+      max_value: 5.0
+      step: 1.0
 
 select:
   - platform: panasonic_heatpump
+    cool_mode: true
     set2:
       name: "Set Holiday Mode"
 
 switch:
-    - platform: panasonic_heatpump
-      set1:
-        name: "Set Heatpump"
+  - platform: panasonic_heatpump
+    set1:
+      name: "Set Heatpump"
+
+climate:
+  - platform: panasonic_heatpump
+    cool_mode: true
+    tank:
+      name: "DHW"
+      min_temperature: -5.0
+      max_temperature: 5.0
+      temperature_step: 0.5
 ```
 
 ## Configuration variables
@@ -300,6 +313,19 @@ sensor:
       name: "Bivalent Advanced Stop Delay"
     top138:
       name: "Bivalent Advanced DHW Delay"
+
+    xtop0:
+      name: "Heat Power Consumption Extra"
+    xtop1:
+      name: "Cool Power Consumption Extra"
+    xtop2:
+      name: "DHW Power Consumption Extra"
+    xtop3:
+      name: "Heat Power Production Extra"
+    xtop4:
+      name: "Cool Power Production Extra"
+    xtop5:
+      name: "DHW Power Production Extra"
 ```
 
 ### Binary Sensors
@@ -413,6 +439,8 @@ text_sensor:
 ### Numbers
 
 All numbers are optional and all default number variables can be applied.  
+Additionally the options `min_value`, `max_value` and `step` can override the default limits of each set entitiy.  
+This is usefull for example for `set5` to `set8` if `direct temperature` is configured instead of `compensation curve` (see `top76` and `top81`).  
 Here a list of all supported numbers:
 
 ```yaml
@@ -430,23 +458,23 @@ number:
       name: "Set DHW Temp"
     set15:
       name: "Set Max Pump Duty"
-    set16_1:
+    set16_01:
       name: "Set Zone1 Heat Target High"
-    set16_2:
+    set16_02:
       name: "Set Zone1 Heat Target Low"
-    set16_3:
+    set16_03:
       name: "Set Zone1 Heat Outside Low"
-    set16_4:
+    set16_04:
       name: "Set Zone1 Heat Outside High"
-    set16_5:
+    set16_05:
       name: "Set Zone2 Heat Target High"
-    set16_6:
+    set16_06:
       name: "Set Zone2 Heat Target Low"
-    set16_7:
+    set16_07:
       name: "Set Zone2 Heat Outside Low"
-    set16_8:
+    set16_08:
       name: "Set Zone2 Heat Outside High"
-    set16_9:
+    set16_09:
       name: "Set Zone1 Cool Target High"
     set16_10:
       name: "Set Zone1 Cool Target Low"
@@ -525,11 +553,14 @@ switch:
 ### Selects
 
 All selects are optional and all default select variables can be applied.  
+Additionally the option `cool_mode` can be configured.  
+If `cool_mode` is set to `true` the entity `set9` will have the additional select options `COOL`, `COOL+TANK`, `AUTO` and `AUTO+TANK`.  
 Here a list of all supported selects:
 
 ```yaml
 select:
   - platform: panasonic_heatpump
+    cool_mode: false
     set2:
       name: "Set Holiday Mode"
     set3:
@@ -544,6 +575,27 @@ select:
       name: "Set External PadHeater"
     set35:
       name: "Set Bivalent Mode"
+```
+
+### Climates
+
+All climates are optional and all default climate variables can be applied.  
+Additionally the option `cool_mode` can be configured.  
+If `cool_mode` is set to `true` the entity `zone1` and `zone2` will have the additional climate modes `COOL` and `AUTO`.  
+Additionally the options `min_temperature`, `max_temperature` and `temperature_step` can override the default limits on each climate entitiy.  
+This is usefull for example for `zone1` and `zone2` if `direct temperature` is configured instead of `compensation curve` (see `top76` and `top81`).  
+Here a list of all supported climates:
+
+```yaml
+climate:
+  - platform: panasonic_heatpump
+    cool_mode: false
+    tank:
+      name: "DHW"
+    zone1:
+      name: "Zone 1"
+    zone2:
+      name: "Zone 2"
 ```
 
 ## Custom Entities (For Advanced Users)
