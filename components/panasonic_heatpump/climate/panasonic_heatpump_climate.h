@@ -2,6 +2,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/climate/climate.h"
 #include "../panasonic_heatpump.h"
+#include <set>
 #include "../decode.h"
 #include "../commands.h"
 
