@@ -28,7 +28,13 @@ namespace esphome
         this->supported_modes_.insert(climate::CLIMATE_MODE_AUTO);
       }
 
-      traits.set_supported_modes(this->supported_modes_);
+      //traits.set_supported_modes(this->supported_modes_);
+	  climate::ClimateModeMask mask;
+      for (auto m : this->supported_modes_) {
+        mask.insert(m);
+      }
+      traits.set_supported_modes(mask);
+
       traits.set_visual_min_temperature(this->min_temperature_);
       traits.set_visual_max_temperature(this->max_temperature_);
       traits.set_visual_temperature_step(this->temperature_step_);
