@@ -238,8 +238,8 @@ namespace esphome
             request_message_.size(), byte_);
           delay(10);  // NOLINT
 		  //Added by 21.11.2025 PSO - B
-		  if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
-          delay(10);  // NOLINT
+		  //if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
+          //delay(10);  // NOLINT
 		  //Added by PSO 21.11.2025 - E
           continue;
         }
