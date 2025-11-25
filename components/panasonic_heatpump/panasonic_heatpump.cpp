@@ -213,7 +213,7 @@ namespace esphome
       while (this->uart_client_->available())
       {
         // Read each byte from client and forward it directly to the heatpump
-        this->uart_client_->read_byte(&byte_);
+        if (!this->uart_client_->read_byte(&byte_)) exit();
         this->write_byte(byte_);
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
