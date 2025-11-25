@@ -127,8 +127,7 @@ namespace esphome
       while (this->available())
       {
         // Read each byte from heatpump and forward it directly to the client (CZ-TAW1)
-        if (!this->read_byte(&byte_))
-			exit();
+        if (!this->read_byte(&byte_)) return;
 		  
         if (this->uart_client_ != nullptr)
         {
@@ -213,7 +212,7 @@ namespace esphome
       while (this->uart_client_->available())
       {
         // Read each byte from client and forward it directly to the heatpump
-        if (!this->uart_client_->read_byte(&byte_)) exit();
+        if (!this->uart_client_->read_byte(&byte_)) return;
         this->write_byte(byte_);
 
         // Message shall start with 0x31, 0x71 or 0xF1, if not skip this byte
