@@ -127,7 +127,9 @@ namespace esphome
       while (this->available())
       {
         // Read each byte from heatpump and forward it directly to the client (CZ-TAW1)
-        this->read_byte(&byte_);
+        if (!this->read_byte(&byte_))
+			exit();
+		  
         if (this->uart_client_ != nullptr)
         {
           this->uart_client_->write_byte(byte_);
