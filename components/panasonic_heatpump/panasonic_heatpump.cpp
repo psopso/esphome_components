@@ -53,10 +53,13 @@ namespace esphome
           };
           break;
         case LoopState::PUBLISH_SENSOR:
+		  int counter = 0;
           for (auto *entity : this->sensors_)
           {
             entity->publish_new_state(this->heatpump_default_message_);
+			counter++;
           }
+		  ESP_LOGW(TAG, "Pocet sensoru: %d.", counter);
           this->loop_state_ = LoopState::PUBLISH_BINARY_SENSOR;
           break;
         case LoopState::PUBLISH_BINARY_SENSOR:
