@@ -174,7 +174,7 @@ namespace esphome
           this->current_response_count_++;
           if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_RX, this->response_message_, ',');
         } else
-			ESP_LOGW(TAG, "Invalid response message.");
+			ESP_LOGW(TAG, "Invalid response message %d", this->response_message_.size());
       }
     }
 
