@@ -215,7 +215,7 @@ namespace esphome
 		
       while (this->uart_client_->available() and b)
       {
-		b = false;
+		b = true;
         // Read each byte from client and forward it directly to the heatpump
         if (!this->uart_client_->read_byte(&byte_)) return;
         this->write_byte(byte_);
@@ -257,7 +257,7 @@ namespace esphome
           this->request_receiving_ = false;
           if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
         } else
-			ESP_LOGW(TAG, "Invalid request message.");
+			ESP_LOGW(TAG, "Invalid request message %d", request_message_.size());
       }
     }
 
