@@ -26,6 +26,11 @@ namespace esphome
       CONF_SET33,
       CONF_SET34,
     };
+    enum SwitchCommandIds : uint8_t
+    {
+      COMM_INIT,
+      CONN_POOL,
+    };
 
     class PanasonicHeatpumpSwitch : public switch_::Switch, public Component,
           public Parented<PanasonicHeatpumpComponent>, public PanasonicHeatpumpEntity
