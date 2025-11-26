@@ -177,6 +177,7 @@ namespace esphome
 			//ESP_LOGW(TAG, "Invalid response message %d", this->response_message_.size());
 		}
       }
+	  ESP_LOGW(TAG, "Current response count: %d", this->current_response_count_);
     }
 
     void PanasonicHeatpumpComponent::send_request(RequestType requestType)
@@ -261,6 +262,7 @@ namespace esphome
 			//ESP_LOGW(TAG, "Invalid request message %d", request_message_.size());
 		}
       }
+	  ESP_LOGW(TAG, "Request message size: %d", request_message_.size());
     }
 
     int PanasonicHeatpumpComponent::getResponseByte(const int index)
