@@ -153,15 +153,15 @@ namespace esphome
         }
         // Discard message if format is wrong
         if ((this->response_message_.size() == 3 && byte_ != 0x01 && byte_ != 0x10) ||
-            (this->response_message_.size() == 4 && byte_ != 0x10 && byte_ != 0x21))
+            (this->response_message_.size() == 4 && byte_ != 0x01 && byte_ != 0x10 && byte_ != 0x21))
         {
           this->response_receiving_ = false;
           ESP_LOGW(TAG, "Invalid response message: %d. byte is 0x%02X but expexted is 0x01, 0x10 or 0x21",
             response_message_.size(), byte_);
           delay(10);  // NOLINT
 		  //Added by PSO 21.11.2025 - B
-          if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_RX, this->response_message_, ',');
-          delay(10);  // NOLINT
+          //if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_RX, this->response_message_, ',');
+          //delay(10);  // NOLINT
 		  //Added by PSO 21.11.2025 - E
           continue;
         }
@@ -173,7 +173,8 @@ namespace esphome
           this->response_receiving_ = false;
           this->current_response_count_++;
           if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_RX, this->response_message_, ',');
-        }
+        } else
+			ESP_LOGW(TAG, "Invalid response message.);
       }
     }
 
@@ -255,7 +256,8 @@ namespace esphome
         {
           this->request_receiving_ = false;
           if (this->log_uart_msg_) PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
-        }
+        } else
+			ESP_LOGW(TAG, "Invalid request message.);
       }
     }
 
