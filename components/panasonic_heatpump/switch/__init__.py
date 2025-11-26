@@ -37,6 +37,7 @@ TYPES = [
   CONF_SET32,
   CONF_SET33,
   CONF_SET34,
+  COMM_INIT,
 ]
 
 PanasonicHeatpumpSwitch = panasonic_heatpump_ns.class_("PanasonicHeatpumpSwitch", switch.Switch, cg.Component)
@@ -84,6 +85,9 @@ CONFIG_SCHEMA = cv.Schema(
       PanasonicHeatpumpSwitch,
     ),
     cv.Optional(CONF_SET34): switch.switch_schema(
+      PanasonicHeatpumpSwitch,
+    ),
+    cv.Optional(COMM_INIT): switch.switch_schema(
       PanasonicHeatpumpSwitch,
     ),
   }
