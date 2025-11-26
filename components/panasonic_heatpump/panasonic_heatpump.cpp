@@ -124,7 +124,7 @@ namespace esphome
 
     void PanasonicHeatpumpComponent::read_response()
     {
-      while (this->available())
+      if (this->available())
       {
         // Read each byte from heatpump and forward it directly to the client (CZ-TAW1)
         if (!this->read_byte(&byte_)) return;
@@ -209,7 +209,7 @@ namespace esphome
     {
       if (this->uart_client_ == nullptr) return;
 
-      while (this->uart_client_->available())
+      if (this->uart_client_->available())
       {
         // Read each byte from client and forward it directly to the heatpump
         if (!this->uart_client_->read_byte(&byte_)) return;
