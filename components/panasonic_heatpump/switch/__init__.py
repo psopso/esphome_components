@@ -20,8 +20,8 @@ CONF_SET32 = "set32"  # Set External Compressor Control
 CONF_SET33 = "set33"  # Set External Heat Cool Control
 CONF_SET34 = "set34"  # Set Bivalent Control
 
-COMM_INIT = "init"
-COMM_POOL = "pool"
+COMM_INIT = "comminit"
+COMM_POOL = "commpool"
 
 TYPES = [
   CONF_SET1,
