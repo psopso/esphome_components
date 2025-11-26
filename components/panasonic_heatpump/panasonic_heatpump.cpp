@@ -53,7 +53,8 @@ namespace esphome
           };
           break;
         case LoopState::PUBLISH_SENSOR:
-		  int counter = 0;
+		  int counter;
+		  counter = 0;
           for (auto *entity : this->sensors_)
           {
             entity->publish_new_state(this->heatpump_default_message_);
