@@ -215,7 +215,7 @@ namespace esphome
 		
       while (this->uart_client_->available() and b)
       {
-		b = true;
+		b = false;
         // Read each byte from client and forward it directly to the heatpump
         if (!this->uart_client_->read_byte(&byte_)) return;
         this->write_byte(byte_);
