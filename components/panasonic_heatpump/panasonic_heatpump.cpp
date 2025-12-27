@@ -231,7 +231,7 @@ void PanasonicHeatpumpComponent::read_request() {
       continue;
     }
     // 4. byte shall be 0x10 or 0x21
-    if (this->request_message_.size() == 4 && byte_ != 0x10 && byte_ != 0x21) {
+    if (this->request_message_.size() == 4 && byte_ != 0x01 && byte_ != 0x10 && byte_ != 0x21) {
       this->request_receiving_ = false;
       ESP_LOGW(TAG, "Invalid request message(4): 0x%s. Expected last byte to be 0x10 or 0x21",
                PanasonicHelpers::byte_array_to_hex_string(this->request_message_, ',').c_str());
