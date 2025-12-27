@@ -1,128 +1,50 @@
-# ESPHome Panasonic Heatpump Component
+---
+# Test configuration for panasonic_heatpump component
+# This file validates all component features and configurations
 
-## Usage
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
 
-### What you need
+esphome:
+  name: test-panasonic-heatpump-full
+  friendly_name: "Test Panasonic Heatpump Full"
 
-* ESPHome compatible microcontroller (e.g. ESP8266, ESP32, ESP32-S2, ESP32-C3, ...)
-* ADUM1201 Dual Channel Digital Magnetic Isolator  
-  (to convert 5V UART signal from the heatpump to 3.3V UART signal of the ESP controller)
-* CN-CNT cable/connectors to Heatpump/CZ-TAW1 (see [Heishamon](https://github.com/Egyras/HeishaMon) github site for more information)
-  * For example: [S05B-XASK-1 JST Connector](https://a.aliexpress.com/_EvkmGVo)
-  * For example: [XAP-05V-1 5Pin Cable with Female to Female Connector](https://a.aliexpress.com/_ExPT82E)
-
-### Wiring
-
-![wiring_adum1201.png](../../prototypes/panasonic_heatpump/wiring_adum1201.png)
-
-### CN-CNT Pinout (from top to bottom)
-
-pin | function
-----|---------
-1   | +5V (250mA)
-2   | 0-5V TX (from heatpump)
-3   | 0-5V RX (to heatpump)
-4   | NC (not connected)
-5   | GND
-
-## ESPHome example yaml code
-
-```yaml
-substitutions:
-  pin_rx_hp: GPIO37  # heatpump reads data (RX) on this pin    (yellow)
-  pin_tx_hp: GPIO39  # heatpump sends data (TX) on this pin    (green)
-  pin_tx_wm: GPIO18  # WiFi module sends data (TX) on this pin (white)
-  pin_rx_wm: GPIO16  # WiFi module reads data (RX) on this pin (blue)
+logger:
+  level: DEBUG
 
 external_components:
   - source:
-      type: git
-      url: https://github.com/ElVit/esphome_components/
-    components: [ panasonic_heatpump ]
+      type: local
+      path: ../../components
+    components: [panasonic_heatpump]
 
 uart:
   - id: uart_heatpump
-    tx_pin: $pin_rx_hp
-    rx_pin: $pin_tx_hp
+    tx_pin: GPIO16
+    rx_pin: GPIO17
     baud_rate: 9600
     data_bits: 8
     parity: EVEN
     stop_bits: 1
   - id: uart_cz_taw1
-    tx_pin: $pin_rx_wm
-    rx_pin: $pin_tx_wm
+    tx_pin: GPIO19
+    rx_pin: GPIO18
     baud_rate: 9600
     data_bits: 8
     parity: EVEN
     stop_bits: 1
 
+# Test basic configuration
 panasonic_heatpump:
   id: my_heatpump
   uart_id: uart_heatpump
   uart_client_id: uart_cz_taw1
   log_uart_msg: true
-  update_interval: 5s
-  uart_client_timeout: 10s
+  update_interval: 3s
 
-sensor:
-  - platform: panasonic_heatpump
-    top1:
-      name: "Pump Flow"
-
-binary_sensor:
-  - platform: panasonic_heatpump
-    top0:
-      name: "Heatpump State"
-
-text_sensor:
-  - platform: panasonic_heatpump
-    top4:
-      name: "Operating Mode State"
-
-number:
-  - platform: panasonic_heatpump
-    set5:
-      name: "Set Z1 Heat Request Temperature"
-      min_value: -5.0
-      max_value: 5.0
-      step: 1.0
-
-select:
-  - platform: panasonic_heatpump
-    cool_mode: true
-    set2:
-      name: "Set Holiday Mode"
-
-switch:
-  - platform: panasonic_heatpump
-    set1:
-      name: "Set Heatpump"
-
-climate:
-  - platform: panasonic_heatpump
-    cool_mode: true
-    tank:
-      name: "DHW"
-      min_temperature: -5.0
-      max_temperature: 5.0
-      temperature_step: 0.5
-```
-
-## Configuration variables
-
-* **id** (*Optional*, ID): Manually specify the ID used for actions.
-* **update_interval** (*Optional*, [Time](https://esphome.io/guides/configuration-types/#time)): The interval of the polling request message to get the heatpump values. This time applies only if no `uart_client_id` is set. Defaults to `3s`.
-* **uart_id** (Optional, [ID](https://esphome.io/guides/configuration-types/#id)): Manually specify the UART ID of the Heatpump. Required if multiple UART buses are defined.
-* **uart_client_id** (*Optional*, [ID](https://esphome.io/guides/configuration-types/#id)): Manually specify the UART ID of an additonal UART client like the Panasonic CZ-TAW1. If this ID is not set then your ESP controller will send the polling request messages.
-* **log_uart_msg** (*Optional*, boolean): Shows the raw UART messages in the logs, if set to `true`. The messages will be written to the log level `INFO`. Defaults to false.
-* **uart_client_timeout** (*Optional*, [Time](https://esphome.io/guides/configuration-types/#time)): Maximum idle time for the `uart_client_id` connection. If no request is sent from the UART client for this duration, the component will send a POLLING request to the heatpump. This will (hopefully) prevent the heatpump from becoming unresponsive. This feature can also be disabled by setting this option to `100ms` or lower. Defaults to `10s`.
-
-### Sensors
-
-All sensors are optional and all options from [sensor component](https://esphome.io/components/sensor/) can be applied.  
-Here a list of all supported sensors:
-
-```yaml
+# Test all sensor types
 sensor:
   - platform: panasonic_heatpump
     top1:
@@ -149,6 +71,7 @@ sensor:
       name: "Heat Power Production"
     top16:
       name: "Heat Power Consumption"
+      id: heat_power_cons
     top21:
       name: "Outside Pipe Temp"
     top22:
@@ -185,10 +108,12 @@ sensor:
       name: "Cool Power Production"
     top39:
       name: "Cool Power Consumption"
+      id: cool_power_cons
     top40:
       name: "DHW Power Production"
     top41:
       name: "DHW Power Consumption"
+      id: dhw_power_cons
     top42:
       name: "Z1 Water Target Temp"
     top43:
@@ -315,7 +240,6 @@ sensor:
       name: "Bivalent Advanced Stop Delay"
     top138:
       name: "Bivalent Advanced DHW Delay"
-
     xtop0:
       name: "Heat Power Consumption Extra"
     xtop1:
@@ -328,18 +252,10 @@ sensor:
       name: "Cool Power Production Extra"
     xtop5:
       name: "DHW Power Production Extra"
-```
 
-### Binary Sensors
-
-All binary sensors are optional and all options from [binary sensor component](https://esphome.io/components/binary_sensor/) can be applied.  
-Here a list of all supported binary sensors:
-
-```yaml
+# Test all binary sensors
 binary_sensor:
   - platform: panasonic_heatpump
-    uart_client_timed_out:
-      name: "UART Client Timed Out"
     top0:
       name: "Heatpump State"
     top2:
@@ -386,14 +302,8 @@ binary_sensor:
       name: "Bivalent Advanced Heat"
     top133:
       name: "Bivalent Advanced DHW"
-```
 
-### Text Sensors
-
-All text sensors are optional and all options from [text sensor component](https://esphome.io/components/text_sensor/) can be applied.  
-Here a list of all supported text sensors:
-
-```yaml
+# Test all text sensors
 text_sensor:
   - platform: panasonic_heatpump
     top4:
@@ -438,16 +348,8 @@ text_sensor:
       name: "ThreeWay Valve State2"
     top130:
       name: "Bivalent Mode"
-```
 
-### Numbers
-
-All numbers are optional and all options from [number component](https://esphome.io/components/number/) can be applied.  
-Additionally the options `min_value`, `max_value` and `step` can override the default limits of each set entitiy.  
-This is usefull for example for `set5` to `set8` if `direct temperature` is configured instead of `compensation curve` (see `top76` and `top81`).  
-Here a list of all supported numbers:
-
-```yaml
+# Test all number controls
 number:
   - platform: panasonic_heatpump
     set5:
@@ -459,7 +361,7 @@ number:
     set8:
       name: "Set Z2 Cool Request Temperature"
     set11:
-      name: "Set DHW Temp"
+      name: "Set DHW Temperature"
     set15:
       name: "Set Max Pump Duty"
     set16_01:
@@ -516,55 +418,11 @@ number:
       name: "Set Bivalent AP Start Temp"
     set38:
       name: "Set Bivalent AP Stop Temp"
-```
 
-### Switches
-
-All switches are optional and all options from [switch component](https://esphome.io/components/switch/) can be applied.  
-Here a list of all supported switches:
-
-```yaml
-switch:
-  - platform: panasonic_heatpump
-    set1:
-      name: "Set Heatpump"
-    set10:
-      name: "Set Force DHW"
-    set12:
-      name: "Set Force Defrost"
-    set13:
-      name: "Set Force Sterilization"
-    set14:
-      name: "Set Pump"
-    set24:
-      name: "Set Main Schedule"
-    set25:
-      name: "Set Alt External Sensor"
-    set28:
-      name: "Set Buffer"
-    set30:
-      name: "Set External Control"
-    set31:
-      name: "Set External Error"
-    set32:
-      name: "Set External Compressor Control"
-    set33:
-      name: "Set External Heat Cool Control"
-    set34:
-      name: "Set Bivalent Control"
-```
-
-### Selects
-
-All selects are optional and all options from [select component](https://esphome.io/components/select/) can be applied.  
-Additionally the option `cool_mode` can be configured.  
-If `cool_mode` is set to `true` the entity `set9` will have the additional select options `COOL`, `COOL+TANK`, `AUTO` and `AUTO+TANK`.  
-Here a list of all supported selects:
-
-```yaml
+# Test all select controls
 select:
   - platform: panasonic_heatpump
-    cool_mode: false
+    cool_mode: true
     set2:
       name: "Set Holiday Mode"
     set3:
@@ -579,89 +437,44 @@ select:
       name: "Set External PadHeater"
     set35:
       name: "Set Bivalent Mode"
-```
 
-### Climates
+# Test all switch controls
+switch:
+  - platform: panasonic_heatpump
+    set1:
+      name: "Set Heatpump"
+    set10:
+      name: "Set Force DHW"
+    set12:
+      name: "Set Force Defrost"
+    set13:
+      name: "Set Force Sterilization"
+    set14:
+      name: "Set Pump Max Speed"
+    set24:
+      name: "Set Main Schedule"
+    set25:
+      name: "Set Alt External Sensor"
+    set28:
+      name: "Set Buffer Installed"
+    set30:
+      name: "Set External Control"
+    set31:
+      name: "Set External Error"
+    set32:
+      name: "Set External Compressor Control"
+    set33:
+      name: "Set External Heat Cool Control"
+    set34:
+      name: "Set Bivalent Control"
 
-All climates are optional and all options from [climate component](https://esphome.io/components/climate/) can be applied.  
-Additionally the option `cool_mode` can be configured.  
-If `cool_mode` is set to `true` the entity `zone1` and `zone2` will have the additional climate modes `COOL` and `AUTO`.  
-Additionally the options `min_temperature`, `max_temperature` and `temperature_step` can override the default limits on each climate entitiy.  
-This is usefull for example for `zone1` and `zone2` if `direct temperature` is configured instead of `compensation curve` (see `top76` and `top81`).  
-Here a list of all supported climates:
-
-```yaml
+# Test climate platform
 climate:
   - platform: panasonic_heatpump
-    cool_mode: false
+    cool_mode: true
     tank:
       name: "DHW"
     zone1:
-      name: "Zone 1"
+      name: "Zone1"
     zone2:
-      name: "Zone 2"
-```
-
-## Custom Entities (For Advanced Users)
-
-If you review the [ProtocolByteDecrypt.md](https://github.com/Egyras/HeishaMon/blob/master/ProtocolByteDecrypt.md) file you will find also some TOPs and SETs which are not implemented yet in heishamon.  
-They are usually marked as TOP (without a number).  
-The nice part of ESPHome is that it is so highly customizeable.  
-So if you want some additional TOP or SET entities you can easily create your own.  
-Under the hood the received uart message from the heatpump is stored in a vector,  
-so you can decode each byte by yourself.  
-Here an example how to create a sensor and a text_sensor:
-
-```yaml
-panasonic_heatpump:
-  id: my_heatpump
-
-sensor:
-  - platform: template
-    name: "Dry concrete target temperature for actual stage"
-    update_interval: 3s
-    device_class: temperature
-    unit_of_measurement: °C
-    lambda: |-
-      // get the requried byte
-      int byte = my_heatpump->getResponseByte(46);
-      // a valid byte range is 0x00-0xFF
-      // do not update if the byte is invalid
-      if (byte < 0) return {};
-      // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
-      // in this case -128
-      return byte - 128;
-
-text_sensor:
-  - platform: template
-    name: "DHW capacity (J-series only)"
-    update_interval: 3s
-    lambda: |-
-      // get the requried byte
-      int byte = my_heatpump->getResponseByte(9);
-      // a valid byte range is 0x00-0xFF
-      // do not update if the byte is invalid
-      if (byte < 0) return {};
-      // convert the byte (see HeishaMon/ProtocolByteDecrypt.md)
-      // in this case 3rd and 4th bit (--> b0011 0000)
-      int state = ((byte >> 4) & 0b11) - 1;
-      // set text
-      if (state == 0) return { "Standard" };
-      if (state == 1) return { "DHW" };
-      // if state is unkown do not update
-      return {};
-```
-
-## Known Issues
-
-When the ESP controller is connected initially to the heatpump (and the heatpump is powered),  
-the heatpump may not respond to any request messages.  
-If the CZ-TAW1 is also connected to the ESP controller you will probably see some requests like 0x31 05 10 01 ...  
-These are initial request messages.  
-If the heatpump is not responding, it may help to turn off and on the power of the heatpump (switching the heatpump off is not enough).  
-After a power on the heatpump should respond to the requests.
-
-## Sources
-
-:heart: A big THANKS to [Egyras](https://github.com/Egyras) and the work done on the repository [HeishaMon](https://github.com/Egyras/HeishaMon) for decoding the panasonic uart protocol and providing information to build hardware based on an ESP Chip.  
-:heart: Thanks to the whole home assistant community for sharing their knowlege and helping me to create this ESPHome component!  
+      name: "Zone2"
