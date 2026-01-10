@@ -194,7 +194,7 @@ void PanasonicHeatpumpComponent::send_request(RequestType requestType) {
   };
 
   // Update last request time when request was sent
-  this->last_request_time_ = millis();
+  //this->last_request_time_ = millis();
 
   this->next_request_ = RequestType::NONE;
 }
