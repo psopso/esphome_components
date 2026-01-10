@@ -30,7 +30,7 @@ void PanasonicHeatpumpComponent::update() {
 void PanasonicHeatpumpComponent::loop() {
   //My timer application
   if ((esp_timer_get_time() / 1000 - timer1) > 30000){
-    ESP_LOGW(TAG, "My test timer.");
+    ESP_LOGW(TAG, "My test timer -%u", this->uart_client_timeout_);
     timer1 = esp_timer_get_time() / 1000;
   }
   
