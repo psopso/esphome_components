@@ -204,9 +204,11 @@ void PanasonicHeatpumpComponent::send_request(RequestType requestType) {
     break;
   };
 
-  ESP_LOGW(TAG, "My send request %i", requestType);
-  // Update last request time when request was sent
-  this->last_request_time_ = esp_timer_get_time() / 1000;   //millis();
+  if(requestType != RequestType::NONE){
+    ESP_LOGW(TAG, "My send request %i", requestType);
+    // Update last request time when request was sent
+    this->last_request_time_ = esp_timer_get_time() / 1000;   //millis();
+  }
 
   this->next_request_ = RequestType::NONE;
 }
