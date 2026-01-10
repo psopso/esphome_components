@@ -1,5 +1,6 @@
 #include "panasonic_heatpump.h"
 #include "esphome/core/application.h"
+#include <esp_timer.h>
 
 namespace esphome {
 namespace panasonic_heatpump {
