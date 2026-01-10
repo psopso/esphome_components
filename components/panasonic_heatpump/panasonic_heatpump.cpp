@@ -6,6 +6,8 @@ namespace esphome {
 namespace panasonic_heatpump {
 static const char* const TAG = "panasonic_heatpump";
 
+uint32_t timer1 = 0;
+
 void PanasonicHeatpumpComponent::dump_config() {
   ESP_LOGW(TAG, "*** Panasonic Heatpump Component v%s ***", PANASONIC_HEATPUMP_VERSION);
   delay(10);  // NOLINT
@@ -26,6 +28,13 @@ void PanasonicHeatpumpComponent::update() {
 }
 
 void PanasonicHeatpumpComponent::loop() {
+  //My timer application
+  if ((esp_timer_get_time() / 1000 - timer1) > 30000){
+    ESP_LOGW(TAG, "My test timer.");
+    timer1 = esp_timer_get_time() / 1000;
+  }
+  
+  //
   // Check if no request was sent for uart_client_timeout when uart_client is configured
   if (this->uart_client_ != nullptr && this->uart_client_timeout_ > 100) {
     uint32_t current_time = esp_timer_get_time() / 1000;   //millis();
