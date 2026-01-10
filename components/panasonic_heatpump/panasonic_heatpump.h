@@ -121,7 +121,7 @@ class PanasonicHeatpumpComponent : public PollingComponent, public uart::UARTDev
   // options variables
   uart::UARTComponent* uart_client_{nullptr};
   bool log_uart_msg_{false};
-  uint64_t last_request_time_{0};
+  uint32_t last_request_time_{0};
   uint32_t uart_client_timeout_{10000};
   // uart message variables
   std::vector<uint8_t> heatpump_default_message_;

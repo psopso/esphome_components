@@ -1,12 +1,9 @@
 #include "panasonic_heatpump.h"
 #include "esphome/core/application.h"
-#include <esp_timer.h>
 
 namespace esphome {
 namespace panasonic_heatpump {
 static const char* const TAG = "panasonic_heatpump";
-
-uint64_t timer1 = 0;
 
 void PanasonicHeatpumpComponent::dump_config() {
   ESP_LOGW(TAG, "*** Panasonic Heatpump Component v%s ***", PANASONIC_HEATPUMP_VERSION);
@@ -28,18 +25,10 @@ void PanasonicHeatpumpComponent::update() {
 }
 
 void PanasonicHeatpumpComponent::loop() {
-  //My timer application
-  if ((esp_timer_get_time() / 1000 - timer1) > 30000){
-    ESP_LOGW(TAG, "My test timer - %d  %d %d %lld  %lld", this->uart_client_ != nullptr, this->uart_client_timeout_exceeded_,this->uart_client_timeout_, this->last_request_time_, esp_timer_get_time() / 1000);
-    timer1 = esp_timer_get_time() / 1000;
-  }
-  
-  //
   // Check if no request was sent for uart_client_timeout when uart_client is configured
   if (this->uart_client_ != nullptr && this->uart_client_timeout_ > 100) {
-    uint64_t current_time = esp_timer_get_time() / 1000;   //millis();
+    uint32_t current_time = millis();
     if (current_time - this->last_request_time_ >= this->uart_client_timeout_) {
-      ESP_LOGW(TAG, "Set next request to POOLING");
       this->next_request_ = RequestType::POLLING;
       this->uart_client_timeout_exceeded_ = true;
     }
@@ -205,9 +194,8 @@ void PanasonicHeatpumpComponent::send_request(RequestType requestType) {
   };
 
   if(requestType != RequestType::NONE){
-    ESP_LOGW(TAG, "My send request %i", requestType);
-    // Update last request time when request was sent
-    this->last_request_time_ = esp_timer_get_time() / 1000;   //millis();
+  // Update last request time when request was sent
+    this->last_request_time_ = millis();
   }
 
   this->next_request_ = RequestType::NONE;
@@ -260,7 +248,7 @@ void PanasonicHeatpumpComponent::read_request() {
         PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
 
       // Update last request time when request is complete
-      this->last_request_time_ = esp_timer_get_time() / 1000;  //millis();
+      this->last_request_time_ = millis();
       this->uart_client_timeout_exceeded_ = false;
     }
   }
