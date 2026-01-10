@@ -37,7 +37,7 @@ void PanasonicHeatpumpComponent::loop() {
   //
   // Check if no request was sent for uart_client_timeout when uart_client is configured
   if (this->uart_client_ != nullptr && this->uart_client_timeout_ > 100) {
-    uint32_t current_time = esp_timer_get_time() / 1000;   //millis();
+    uint64_t current_time = esp_timer_get_time() / 1000;   //millis();
     if (current_time - this->last_request_time_ >= this->uart_client_timeout_) {
       ESP_LOGW(TAG, "Set next request to POOLING");
       this->next_request_ = RequestType::POLLING;
