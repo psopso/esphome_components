@@ -129,6 +129,7 @@ void PanasonicHeatpumpComponent::read_response() {
         continue;
       this->response_message_.clear();
       this->response_receiving_ = true;
+      ESP_LOGW(TAG, "Start message receiving.");
     }
     // Add current byte to message buffer
     this->response_message_.push_back(byte_);
