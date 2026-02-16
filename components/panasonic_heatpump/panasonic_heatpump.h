@@ -125,6 +125,7 @@ namespace esphome
         extra_sensors_.push_back(sensor);
       }
       bool get_uart_client_timeout_exceeded() {
+        ESP_LOGW(TAG, "get_uart_client_timeout_exceeded: ");
         return this->uart_client_timeout_exceeded_;
       }
 
