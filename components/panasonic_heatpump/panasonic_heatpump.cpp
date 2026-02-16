@@ -92,7 +92,7 @@ namespace esphome
         else
           return;
       }
-
+      ESP_LOGI(TAG, "Timeout: %s", this->uart_client_timeout_exceeded_ ? "true" : "false");
       //this->queue_request_({std::begin(PanasonicCommand::PollingMessage), std::end(PanasonicCommand::PollingMessage)});
       this->queue_request_(message_build(PanasonicCommand::PollingMessage));
     }
