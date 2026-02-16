@@ -145,6 +145,7 @@ void PanasonicHeatpumpComponent::loop()
         break;
       case LoopState::PUBLISH_BINARY_SENSOR:
         for (auto* entity : this->binary_sensors_) {
+          ESP_LOGI(TAG, "publish binary sensor: ");
           entity->publish_new_state(this->heatpump_default_message_);
         }
         this->loop_state_ = LoopState::PUBLISH_TEXT_SENSOR;

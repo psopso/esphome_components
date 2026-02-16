@@ -64,6 +64,9 @@ namespace esphome
         id_ = id;
       }
       virtual void publish_new_state(const std::vector<uint8_t>& data) = 0;
+      int get_id() {
+        return id_;
+      }
 
     protected:
       int id_{-1};
