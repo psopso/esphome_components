@@ -10,6 +10,7 @@
 #include "helpers.h"
 #include "decode.h"
 #include "commands.h"
+#include "esphome/core/application.h"
 
 #ifndef PANASONIC_HEATPUMP_VERSION
 #define PANASONIC_HEATPUMP_VERSION "0.1-beta"
