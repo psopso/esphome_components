@@ -92,7 +92,7 @@ namespace esphome
         else
           return;
       }
-      ESP_LOGI(TAG, "Timeout1: %s", this->uart_client_timeout_exceeded_ ? "true" : "false");
+
       //this->queue_request_({std::begin(PanasonicCommand::PollingMessage), std::end(PanasonicCommand::PollingMessage)});
       this->queue_request_(message_build(PanasonicCommand::PollingMessage));
     }
@@ -131,7 +131,6 @@ void PanasonicHeatpumpComponent::loop()
           }
           else
           {
-            //ESP_LOGI(TAG, "Timeout2: %s", this->uart_client_timeout_exceeded_ ? "true" : "false");
             // no response to process, try to send next request
             this->loop_state_ = LoopState::SEND_REQUEST;
           }
@@ -145,7 +144,6 @@ void PanasonicHeatpumpComponent::loop()
         break;
       case LoopState::PUBLISH_BINARY_SENSOR:
         for (auto* entity : this->binary_sensors_) {
-          ESP_LOGI(TAG, "publish binary sensor: ");
           entity->publish_new_state(this->heatpump_default_message_);
         }
         this->loop_state_ = LoopState::PUBLISH_TEXT_SENSOR;

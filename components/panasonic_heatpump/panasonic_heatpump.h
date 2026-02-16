@@ -10,7 +10,6 @@
 #include "helpers.h"
 #include "decode.h"
 #include "commands.h"
-#include "esphome/core/application.h"
 
 #ifndef PANASONIC_HEATPUMP_VERSION
 #define PANASONIC_HEATPUMP_VERSION "0.1-beta"
@@ -64,9 +63,6 @@ namespace esphome
         id_ = id;
       }
       virtual void publish_new_state(const std::vector<uint8_t>& data) = 0;
-      int get_id() {
-        return id_;
-      }
 
     protected:
       int id_{-1};
@@ -129,7 +125,6 @@ namespace esphome
         extra_sensors_.push_back(sensor);
       }
       bool get_uart_client_timeout_exceeded() {
-        ESP_LOGW("panasonic_heatpump", "get_uart_client_timeout_exceeded: ");
         return this->uart_client_timeout_exceeded_;
       }
 
