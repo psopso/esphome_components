@@ -94,7 +94,7 @@ namespace esphome
       }
 
       //this->queue_request_({std::begin(PanasonicCommand::PollingMessage), std::end(PanasonicCommand::PollingMessage)});
-      this->queue_request_(message_build(PanasonicCommand::PollingMessage));
+//      this->queue_request_(message_build(PanasonicCommand::PollingMessage));
     }
 
 
