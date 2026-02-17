@@ -248,7 +248,7 @@ void PanasonicHeatpumpComponent::read_request() {
       this->request_receiving_ = false;
       if (this->log_uart_msg_)
         PanasonicHelpers::log_uart_hex(UART_LOG_TX, this->request_message_, ',');
-	  if (this->request_message_[0] != 0x31) {
+      if (this->request_message_[0] != 0x31) {
         // Update last request time when request is complete
         this->last_request_time_ = millis();
         this->uart_client_timeout_exceeded_ = false;
